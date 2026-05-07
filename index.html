@@ -662,10 +662,10 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       </div>
     </div>
     <div class="proj-hero-right">
-      <div class="media-placeholder tall">
-        <div class="media-placeholder-icon">🎬</div>
-        <div class="media-placeholder-label">Hero GIF / Trailer Thumbnail</div>
-        <div class="media-placeholder-sub">Dark atmospheric screenshot, 1920×1080</div>
+        <div class="media-placeholder tall" style="cursor:zoom-in;padding:0;overflow:hidden;position:relative;" onclick="openLightbox('Images/Kidnapped_Thumbnail.png')">
+          <img src="Images/Kidnapped_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s;" class="expand-hint">⤢ CLICK TO EXPAND</div>
+        </div>
       </div>
     </div>
   </div>
@@ -696,7 +696,17 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <li>Child classes override only unique behaviors</li>
           <li>Doors, keys, chests, food, weapons — one unified system</li>
         </ul>
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📋</div><div class="media-placeholder-label">Blueprint Graph Screenshot / GIF</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Videos/KidnappedPuzzle.mp4')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <!-- <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay"> -->
+            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="Videos/KidnappedPuzzle.mp4" type="video/mp4">
+            </video>
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
       </div>
       <div class="feat-block fade">
         <div class="feat-tag">// Survival</div>
@@ -707,7 +717,17 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <li>Stamina depletes faster when starved — layered pressure</li>
           <li>Find and consume food/water to stay above critical</li>
         </ul>
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📊</div><div class="media-placeholder-label">HUD Screenshot — Survival Stats</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Videos/Kidnappedsurvival.mp4')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <!-- <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay"> -->
+            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="Videos/Kidnappedsurvival.mp4" type="video/mp4">
+            </video>
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
       </div>
       <div class="feat-block fade">
         <div class="feat-tag">// Enemy AI</div>
@@ -723,7 +743,17 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <span>Sound events</span> (running, doors) → Investigate<br>
           <span>Line-of-sight</span> → Chase → Attack
         </div>
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌳</div><div class="media-placeholder-label">Behavior Tree Screenshot</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Videos/KidnappedAI.mp4')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <!-- <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay"> -->
+            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="Videos/KidnappedAI.mp4" type="video/mp4">
+            </video>
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
       </div>
       <div class="feat-block fade">
         <div class="feat-tag">// Narrative</div>
@@ -734,7 +764,17 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <li>Character dialogue &amp; environmental storytelling</li>
           <li>Structured pacing across all 8 sequences</li>
         </ul>
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🎬</div><div class="media-placeholder-label">Cutscene GIF — Level Sequencer</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Videos/KidnappedCutscene.mp4')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <!-- <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay"> -->
+            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="Videos/KidnappedCutscene.mp4" type="video/mp4">
+            </video>
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -742,10 +782,19 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
   <div class="screenshots-strip fade">
     <div class="strip-label">// Screenshots</div>
     <div class="strip-grid">
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">House Area</div></div></div>
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Dark Maze</div></div></div>
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Tower Area</div></div></div>
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">AI Chase</div></div></div>
+      <div class="strip-thumb" onclick="openLightbox('Images/Kidnapped_Image1.png')" style="cursor:zoom-in;">
+        <img src="Images/Kidnapped_Image1.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/Kidnapped_Image5.png')" style="cursor:zoom-in;">
+        <img src="Images/Kidnapped_Image5.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/Kidnapped_Image3.png')" style="cursor:zoom-in;">
+        <img src="Images/Kidnapped_Image3.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/Kidnapped_Image4.png')" style="cursor:zoom-in;">
+        <img src="Images/Kidnapped_Image4.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      
     </div>
   </div>
   <div style="height:2rem;"></div>
