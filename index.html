@@ -1030,11 +1030,9 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       </div>
     </div>
     <div class="proj-hero-right">
-      <div class="media-placeholder tall">
-        <img src="Images/WrongWay_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;">
-        <!-- <div class="media-placeholder-icon">🏍️</div>
-        <div class="media-placeholder-label">Gameplay GIF — Traffic Dodging</div>
-        <div class="media-placeholder-sub">Fast-paced traffic dodging scene</div> -->
+      <div class="media-placeholder tall" style="cursor:zoom-in;padding:0;overflow:hidden;position:relative;" onclick="openLightbox('Images/WrongWay_Thumbnail.png')">
+        <img src="Images/WrongWay_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s;" class="expand-hint">⤢ CLICK TO EXPAND</div>
       </div>
     </div>
   </div>
@@ -1135,10 +1133,19 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
   <div class="screenshots-strip fade">
     <div class="strip-label">// Screenshots</div>
     <div class="strip-grid">
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Traffic Scene</div></div></div>
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Cop Chase</div></div></div>
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Magnet Power-up</div></div></div>
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Highscore UI</div></div></div>
+      <div class="strip-thumb" onclick="openLightbox('Images/WrongWay_Image1.png')" style="cursor:zoom-in;">
+        <img src="Images/WrongWay_Image1.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/WrongWay_Image2.png')" style="cursor:zoom-in;">
+        <img src="Images/WrongWay_Image2.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/WrongWay_Image3.png')" style="cursor:zoom-in;">
+        <img src="Images/WrongWay_Image3.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/WrongWay_Image4.png')" style="cursor:zoom-in;">
+        <img src="Images/WrongWay_Image4.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      
     </div>
   </div>
   <div style="height:2rem;"></div>
@@ -1172,6 +1179,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <img src="Images/JetPackMan_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;display:block;">
         <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s;" class="expand-hint">⤢ CLICK TO EXPAND</div>
       </div>
+      
     </div>
   </div>
 
