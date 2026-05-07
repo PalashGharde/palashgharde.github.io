@@ -909,10 +909,10 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       </div>
     </div>
     <div class="proj-hero-right">
-      <div class="media-placeholder tall">
-        <div class="media-placeholder-icon">🦌</div>
-        <div class="media-placeholder-label">Hero GIF — Forest Hunting Scene</div>
-        <div class="media-placeholder-sub">Aiming/shooting in forest environment</div>
+      <div class="media-placeholder tall" style="cursor:zoom-in;padding:0;overflow:hidden;position:relative;" onclick="openLightbox('Images/HuntingSim_Thumbnail.png')">
+        <img src="Images/HuntingSim_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s;" class="expand-hint">⤢ CLICK TO EXPAND</div>
+      </div>
       </div>
     </div>
   </div>
@@ -950,7 +950,17 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <span>NavMesh</span> for natural movement
         </div>
         
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌳</div><div class="media-placeholder-label">Behavior Tree Screenshot — Deer</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Videos/HuntingDeer.mp4')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <!-- <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay"> -->
+            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="Videos/HuntingDeer.mp4" type="video/mp4">
+            </video>
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
       </div>
       <div class="feat-block fade">
         <div class="feat-tag">// Animal AI — Tiger</div>
@@ -967,19 +977,90 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <span>AI Perception</span> (sight + hearing)<br>
           Escalating aggression by player distance
         </div>
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌳</div><div class="media-placeholder-label">Behavior Tree Screenshot — Tiger</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Videos/HuntingTiger.mp4')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <!-- <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay"> -->
+            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="Videos/HuntingTiger.mp4" type="video/mp4">
+            </video>
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
       </div>
-      <div class="feat-block fade">
-        <div class="feat-tag">// Player</div>
-        <div class="feat-title">FP Animation System</div>
-        <div class="feat-body">Full first-person animation suite with smooth transitions using blend spaces and a camera socket system.</div>
+      
+      <div class="feat-block fade" style="grid-column: span 2;">
+        <div class="feat-tag">// Economy System</div>
+        <div class="feat-title">Shop &amp; Skin Economy</div>
+        <div class="feat-body">A full persistent economy loop drives long-term player engagement — hunt animals, collect skins, sell for cash, then spend on ammo and weapon upgrades. Each animal type yields a different skin value, creating strategic hunting decisions.</div>
+ 
+        <!-- Skin value table -->
+        <div style="margin:1rem 0;overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:0.75rem;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border-md);">
+                <th style="text-align:left;padding:0.5rem 0.75rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;font-weight:700;">Animal</th>
+                <th style="text-align:left;padding:0.5rem 0.75rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;font-weight:700;">Skin</th>
+                <th style="text-align:right;padding:0.5rem 0.75rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;font-weight:700;">Sell Value</th>
+                <th style="text-align:left;padding:0.5rem 0.75rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;font-weight:700;">Difficulty</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:0.5rem 0.75rem;color:var(--muted);">Female Deer</td>
+                <td style="padding:0.5rem 0.75rem;color:var(--muted);">Doe Hide</td>
+                <td style="padding:0.5rem 0.75rem;color:#7aefb0;text-align:right;font-weight:700;">$</td>
+                <td style="padding:0.5rem 0.75rem;"><span style="color:#7aefb0;font-size:0.65rem;letter-spacing:0.1em;border:1px solid rgba(122,239,176,0.3);padding:0.15rem 0.5rem;">EASY</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:0.5rem 0.75rem;color:var(--muted);">Male Deer</td>
+                <td style="padding:0.5rem 0.75rem;color:var(--muted);">Buck Hide</td>
+                <td style="padding:0.5rem 0.75rem;color:var(--yellow);text-align:right;font-weight:700;">$$</td>
+                <td style="padding:0.5rem 0.75rem;"><span style="color:var(--yellow);font-size:0.65rem;letter-spacing:0.1em;border:1px solid rgba(255,217,74,0.3);padding:0.15rem 0.5rem;">MEDIUM</span></td>
+              </tr>
+              <tr>
+                <td style="padding:0.5rem 0.75rem;color:var(--muted);">Tiger</td>
+                <td style="padding:0.5rem 0.75rem;color:var(--muted);">Tiger Pelt</td>
+                <td style="padding:0.5rem 0.75rem;color:var(--accent2);text-align:right;font-weight:700;">$$$</td>
+                <td style="padding:0.5rem 0.75rem;"><span style="color:var(--accent2);font-size:0.65rem;letter-spacing:0.1em;border:1px solid rgba(255,107,53,0.3);padding:0.15rem 0.5rem;">HIGH RISK</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+ 
+        <!-- Economy loop pills -->
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem;">
+          <span style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.7rem;background:rgba(212,245,60,0.07);border:1px solid rgba(212,245,60,0.2);color:var(--accent);">Hunt Animal</span>
+          <span style="font-family:var(--mono);font-size:0.65rem;color:var(--dim);">→</span>
+          <span style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.7rem;background:rgba(71,184,255,0.07);border:1px solid rgba(71,184,255,0.2);color:var(--accent3);">Collect Skin</span>
+          <span style="font-family:var(--mono);font-size:0.65rem;color:var(--dim);">→</span>
+          <span style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.7rem;background:rgba(255,217,74,0.07);border:1px solid rgba(255,217,74,0.2);color:var(--yellow);">Sell at Shop</span>
+          <span style="font-family:var(--mono);font-size:0.65rem;color:var(--dim);">→</span>
+          <span style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.7rem;background:rgba(255,107,53,0.07);border:1px solid rgba(255,107,53,0.2);color:var(--accent2);">Buy Upgrades</span>
+        </div>
+ 
         <ul class="feat-points">
-          <li>Reload &amp; ADS (aim-down-sights) animations</li>
-          <li>Camera socket for smooth ADS ↔ hip-fire transition</li>
-          <li>Unique skinning animation on successful kill</li>
+          <li>Tiger pelt yields highest cash — but tiger actively hunts you back</li>
+          <li>Shop sells ammo refills and weapon upgrades gated behind economy</li>
+          <li>Persistent save system preserves cash &amp; upgrades across sessions</li>
+          <li>Risk/reward loop: high-value targets require better gear to hunt safely</li>
         </ul>
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🔫</div><div class="media-placeholder-label">GIF — ADS / Reload Animation</div></div></div>
+ 
+        <!-- Shop video -->
+        <div style="margin-top:1.25rem;position:relative;overflow:hidden;cursor:pointer;" onclick="openLightbox('Videos/HuntingShop.mp4')">
+          <video autoplay loop muted playsinline
+                 style="width:100%;max-height:260px;object-fit:cover;display:block;">
+            <source src="Videos/HuntingShop.mp4" type="video/mp4">
+          </video>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);
+                      font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;
+                      color:var(--accent);text-align:center;padding:0.35rem;">
+            ▶ SHOP &amp; ECONOMY SYSTEM — CLICK TO EXPAND
+          </div>
+        </div>
       </div>
+      
       <div class="feat-block fade">
         <div class="feat-tag">// World</div>
         <div class="feat-title">Procedural Environment</div>
@@ -989,7 +1070,18 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <li>Environmental props: rivers, birds, ambient sounds</li>
           <li>Dynamic lighting for immersive atmosphere</li>
         </ul>
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌲</div><div class="media-placeholder-label">Screenshot — Forest Environment</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Videos/HuntingEnv.mp4')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <!-- <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay"> -->
+            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="Videos/HuntingEnv.mp4" type="video/mp4">
+            </video>
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
+        <!-- <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌲</div><div class="media-placeholder-label">Screenshot — Forest Environment</div></div></div> -->
       </div>
     </div>
   </div>
@@ -997,10 +1089,18 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
   <div class="screenshots-strip fade">
     <div class="strip-label">// Screenshots</div>
     <div class="strip-grid">
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Forest Overview</div></div></div>
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Tiger Chase</div></div></div>
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Store / Economy UI</div></div></div>
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Weapon Upgrade</div></div></div>
+      <div class="strip-thumb" onclick="openLightbox('Images/HuntingSim_image1.png')" style="cursor:zoom-in;">
+        <img src="Images/HuntingSim_image1.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/HuntingSim_image2.png')" style="cursor:zoom-in;">
+        <img src="Images/HuntingSim_image2.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/HuntingSim_image3.png')" style="cursor:zoom-in;">
+        <img src="Images/HuntingSim_image3.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/HuntingSim_image4.png')" style="cursor:zoom-in;">
+        <img src="Images/HuntingSim_image4.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
     </div>
   </div>
   <div style="height:2rem;"></div>
