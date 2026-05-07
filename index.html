@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palash Gharde — Game Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #08080b;
+  --surface: #0f0f15;
+  --surface2: #161620;
+  --surface3: #1c1c28;
+  --border: rgba(255,255,255,0.09);
+  --border-md: rgba(255,255,255,0.16);
+  --text: #ffffff;
+  --muted: #c8c6d4;
+  --dim: #8a88a0;
+  --accent: #d4f53c;
+  --accent-dim: rgba(212,245,60,0.12);
+  --accent2: #ff6b35;
+  --accent3: #47b8ff;
+  --accent3-dim: rgba(71,184,255,0.1);
+  --yellow: #ffd94a;
+  --mono: 'DM Mono', monospace;
+  --sans: 'Syne', sans-serif;
+  --display: 'Bebas Neue', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 20px; line-height: 1.65; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+
+/* ── ABOUT ME PANEL ── */
+.about-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  display: flex; justify-content: flex-end;
+  pointer-events: none;
+}
+.about-overlay.open { pointer-events: all; }
+.about-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0);
+  transition: background 0.35s;
+}
+.about-overlay.open .about-backdrop { background: rgba(0,0,0,0.6); }
+.about-panel {
+  position: relative; z-index: 1;
+  width: min(520px, 95vw);
+  background: #0f0f18;
+  border-left: 1px solid var(--border-md);
+  height: 100vh; overflow-y: auto;
+  padding: 3rem 2.5rem;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.about-overlay.open .about-panel { transform: translateX(0); }
+.about-close {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  width: 36px; height: 36px;
+  background: var(--surface2); border: 1px solid var(--border-md);
+  color: var(--muted); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.about-close:hover { color: var(--text); border-color: var(--accent); }
+.about-img-placeholder {
+  width: 100%; aspect-ratio: 4/3;
+  background: var(--surface2); border: 1px dashed var(--border-md);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.5rem; margin-bottom: 2rem; position: relative; overflow: hidden;
+}
+.about-img-placeholder::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,0.015) 20px,rgba(255,255,255,0.015) 21px);
+}
+.about-img-placeholder span { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; color: var(--dim); text-transform: uppercase; position: relative; }
+.about-panel-name { font-family: var(--display); font-size: 2.5rem; letter-spacing: 0.03em; margin-bottom: 0.25rem; }
+.about-panel-role { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; }
+.about-panel p { font-size: 0.9rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.25rem; }
+.about-panel p em { color: var(--text); font-style: normal; font-weight: 600; }
+.about-placeholder-note {
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--dim); border: 1px dashed rgba(255,255,255,0.1); padding: 0.75rem 1rem;
+  margin-top: 1rem;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 3rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,8,11,0.92);
+  backdrop-filter: blur(16px);
+}
+.nav-logo { font-family: var(--display); font-size: 1.3rem; letter-spacing: 0.06em; color: var(--accent); cursor: pointer; }
+.nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
+.nav-links a, .nav-links button {
+  color: var(--muted); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-weight: 600; transition: color 0.2s; background: none; border: none; cursor: pointer;
+  font-family: var(--sans);
+}
+.nav-links a:hover, .nav-links button:hover { color: var(--text); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding: 5.5rem 4rem 4rem;
+  position: relative; overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.hero::before {
+  content: 'GAME DESIGNER';
+  position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%);
+  font-family: var(--display); font-size: 17vw; line-height: 1;
+  color: rgba(255,255,255,0.022); pointer-events: none; letter-spacing: 0.02em;
+  white-space: nowrap; z-index: 0; width: max-content;
+}
+.hero > * { position: relative; z-index: 1; }
+.hero-top {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 3rem;
+  row-gap: 2.75rem;
+  align-items: center;
+  padding-top: 1.5rem;
+}
+.hero-bottom { margin-top: 2rem; border-top: 1px solid var(--border); }
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); border: 1px solid rgba(212,245,60,0.3); padding: 0.4rem 1rem;
+  margin-bottom: 1rem;
+}
+.hero-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: block; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+h1 { font-family: var(--display); font-size: clamp(4.5rem, 8.5vw, 9rem); line-height: 0.86; letter-spacing: 0.015em; margin-bottom: 1rem; color: #ffffff; }
+h1 em { color: var(--accent); font-style: normal; }
+.hero-bio { font-size: 1.02rem; color: var(--muted); max-width: 520px; line-height: 1.8; margin-bottom: 1.5rem; font-weight: 400; }
+.hero-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.btn { display: inline-block; padding: 0.9rem 2rem; font-family: var(--sans); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.2s; cursor: pointer; border: none; }
+.btn-primary { background: var(--accent); color: #08080b; }
+.btn-primary:hover { background: #e8ff6a; }
+.btn-ghost { border: 1px solid var(--border-md); color: var(--muted); background: transparent; }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hero right */
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.stat { background: var(--surface); padding: 1.75rem 1.5rem; }
+.stat-n { font-family: var(--display); font-size: 3.8rem; color: var(--accent); line-height: 1; }
+.stat-l { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-top: 0.3rem; font-weight: 700; }
+.tech-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.chip {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.07em; padding: 0.25rem 0.65rem;
+  border: 1px solid var(--border-md); color: var(--dim); text-transform: uppercase; font-weight: 500;
+}
+.chip.ue5  { border-color: rgba(71,184,255,0.45);  color: var(--accent3); }
+.chip.yellow { border-color: rgba(255,217,74,0.4);  color: var(--yellow); }
+.chip.white  { border-color: rgba(255,255,255,0.25); color: #ffffff; }
+.chip.green  { border-color: rgba(212,245,60,0.35);  color: var(--accent); }
+.line-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+/* Role tags */
+.role-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+.role-tag {
+  font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.2rem 0.6rem; background: rgba(212,245,60,0.07); border: 1px solid rgba(212,245,60,0.2);
+  color: var(--accent);
+}
+
+/* ── PROJECT CARDS OVERVIEW ── */
+.projects-overview { padding: 4rem 3rem 3rem; border-top: 1px solid var(--border); }
+.hero .projects-overview {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 2.75rem 0 0;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+.sec-label { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; font-weight: 700; }
+h2 { font-family: var(--display); font-size: clamp(3rem, 6vw, 5rem); line-height: 0.95; letter-spacing: 0.03em; color: #ffffff; }
+.proj-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+.hero .proj-cards-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.proj-card-thumb {
+  background: var(--surface); border: 1px solid var(--border);
+  cursor: pointer; transition: border-color 0.22s, transform 0.22s;
+  overflow: hidden;
+}
+.proj-card-thumb:hover { border-color: var(--accent); transform: translateY(-3px); }
+.proj-card-img {
+  aspect-ratio: 16/9; background: var(--surface2);
+  display: flex; align-items: center; justify-content: center;
+  border-bottom: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.proj-card-img-placeholder {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  width: 100%; height: 100%; position: relative;
+}
+.proj-card-img-placeholder::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg,transparent,transparent 15px,rgba(255,255,255,0.02) 15px,rgba(255,255,255,0.02) 16px);
+}
+.proj-card-img-icon { font-size: 2.2rem; position: relative; }
+.proj-card-img-label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--dim); text-transform: uppercase; position: relative; }
+.proj-card-info { padding: 1.1rem; }
+.proj-card-name { font-family: var(--display); font-size: 1.25rem; letter-spacing: 0.04em; color: #ffffff; line-height: 1.1; margin-bottom: 0.45rem; }
+.proj-card-meta { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; color: var(--dim); text-transform: uppercase; margin-bottom: 0.35rem; }
+.proj-card-role { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.06em; }
+
+/* ── PROJECT NAV BAR ── */
+.proj-nav {
+  position: sticky; top: 57px; z-index: 100;
+  background: rgba(8,8,11,0.97); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; overflow-x: auto; scrollbar-width: none;
+}
+.proj-nav::-webkit-scrollbar { display: none; }
+.proj-nav-item {
+  flex-shrink: 0;
+  padding: 0.9rem 1.4rem;
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--dim); border-right: 1px solid var(--border); cursor: pointer;
+  transition: all 0.2s; white-space: nowrap; font-weight: 700;
+}
+.proj-nav-item:hover { color: var(--text); background: var(--surface); }
+.proj-nav-item.active { color: var(--accent); border-bottom: 2px solid var(--accent); background: var(--surface); }
+
+/* ── PROJECT SECTION ── */
+section { padding: 6rem 3rem; }
+.project-section { border-top: 1px solid var(--border); padding: 0; }
+.proj-hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; }
+.proj-hero-left {
+  padding: 4rem 3rem;
+  display: flex; flex-direction: column; justify-content: center;
+  border-right: 1px solid var(--border);
+}
+.proj-num { font-family: var(--display); font-size: 6rem; color: rgba(255,255,255,0.04); line-height: 1; margin-bottom: -1.5rem; }
+.proj-title { font-family: var(--display); font-size: clamp(2.2rem, 3.8vw, 3.5rem); letter-spacing: 0.03em; line-height: 1; margin-bottom: 0.4rem; color: #ffffff; }
+.proj-genre { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent3); margin-bottom: 1.25rem; font-weight: 700; }
+.proj-desc { font-size: 1rem; color: var(--muted); line-height: 1.8; max-width: 440px; margin-bottom: 1.75rem; font-weight: 400; }
+.proj-meta { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 1.75rem; }
+.proj-meta-row { display: flex; align-items: center; gap: 0.75rem; }
+.proj-meta-key { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); width: 68px; flex-shrink: 0; font-weight: 700; }
+.proj-meta-val { font-size: 0.92rem; color: var(--muted); }
+.proj-role-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.75rem; }
+.proj-role-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; background: rgba(212,245,60,0.07); border: 1px solid rgba(212,245,60,0.22); color: var(--accent); }
+.proj-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.proj-link { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.55rem 1.1rem; border: 1px solid var(--border-md); color: var(--muted); transition: all 0.2s; font-weight: 700; }
+.proj-link:hover { border-color: var(--accent); color: var(--accent); }
+.proj-link.primary { background: var(--accent); color: #08080b; border-color: var(--accent); }
+.proj-link.primary:hover { background: #e8ff6a; }
+.proj-hero-right { position: relative; overflow: hidden; background: var(--surface); }
+
+/* ── MEDIA PLACEHOLDER ── */
+.media-placeholder {
+  width: 100%; height: 100%; min-height: 320px;
+  background: var(--surface2); border: 1px dashed rgba(255,255,255,0.12);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.6rem; padding: 2rem; text-align: center; position: relative; overflow: hidden;
+}
+.media-placeholder::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,0.015) 20px,rgba(255,255,255,0.015) 21px);
+}
+.media-placeholder-icon { font-size: 2.2rem; opacity: 0.3; position: relative; }
+.media-placeholder-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); position: relative; font-weight: 700; }
+.media-placeholder-sub { font-size: 0.72rem; color: var(--dim); opacity: 0.55; position: relative; }
+.media-placeholder.tall { min-height: 400px; }
+.media-placeholder.short { min-height: 200px; }
+
+/* ── BREAKDOWN ── */
+.proj-breakdown { padding: 3.5rem 3rem; border-top: 1px solid var(--border); }
+.breakdown-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 2.5rem; }
+.breakdown-header h3 { font-family: var(--display); font-size: 2rem; letter-spacing: 0.04em; color: #ffffff; }
+.breakdown-divider { flex: 1; height: 1px; background: var(--border); }
+.breakdown-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+
+/* ── FEATURE BLOCK ── */
+.feat-block { background: var(--surface); border: 1px solid var(--border); padding: 1.6rem; transition: border-color 0.2s; }
+.feat-block:hover { border-color: var(--border-md); }
+.feat-tag { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; font-weight: 700; }
+.feat-title { font-family: var(--sans); font-size: 0.98rem; font-weight: 700; margin-bottom: 0.65rem; color: #ffffff; }
+.feat-body { font-size: 0.94rem; color: var(--muted); line-height: 1.7; font-weight: 400; }
+.feat-points { list-style: none; margin-top: 0.65rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.feat-points li { font-size: 0.92rem; color: var(--muted); padding-left: 1rem; position: relative; line-height: 1.55; }
+.feat-points li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.feat-media { margin-top: 1.1rem; }
+
+/* ── FLOW ── */
+.mechanics-flow { background: var(--surface); border: 1px solid var(--border); padding: 1.75rem; margin-bottom: 2.5rem; }
+.flow-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent3); margin-bottom: 1.25rem; font-weight: 700; }
+.flow-steps { display: flex; align-items: stretch; flex-wrap: wrap; gap: 0; }
+.flow-step { flex: 1; min-width: 130px; padding: 1.1rem; background: var(--surface2); border: 1px solid var(--border); position: relative; }
+.flow-step+.flow-step::before { content: '→'; position: absolute; left: -0.7rem; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 0.9rem; z-index: 1; background: var(--surface2); padding: 0 2px; }
+.flow-step-n { font-family: var(--display); font-size: 1.6rem; color: rgba(212,245,60,0.14); line-height: 1; }
+.flow-step-label { font-size: 0.8rem; font-weight: 700; color: #ffffff; margin-top: 0.2rem; }
+.flow-step-desc { font-size: 0.7rem; color: var(--dim); margin-top: 0.2rem; line-height: 1.45; }
+
+/* ── LEVEL DESIGN ── */
+.level-design { padding: 0 3rem 3.5rem; border-top: 1px solid var(--border); }
+.level-design-header { display: flex; align-items: baseline; gap: 1.5rem; padding: 2rem 0; }
+.level-design-header h3 { font-family: var(--display); font-size: 2rem; letter-spacing: 0.04em; color: #ffffff; }
+.level-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.level-step-num { font-family: var(--display); font-size: 3.5rem; color: rgba(212,245,60,0.1); line-height: 1; margin-bottom: -0.4rem; }
+.level-step-title { font-size: 0.93rem; font-weight: 700; color: #ffffff; margin-bottom: 0.45rem; }
+.level-step-body { font-size: 0.92rem; color: var(--muted); line-height: 1.7; font-weight: 400; }
+.level-step-media { margin-top: 0.9rem; }
+
+/* ── SCREENSHOTS ── */
+.screenshots-strip { padding: 0 3rem 3.5rem; }
+.strip-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); margin-bottom: 0.9rem; font-weight: 700; }
+.strip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.65rem; }
+.strip-thumb { aspect-ratio: 16/9; overflow: hidden; position: relative; background: var(--surface2); border: 1px solid var(--border); }
+
+/* ── AI STATES ── */
+.ai-states { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.ai-state { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.65rem; }
+.ai-state.idle { background: rgba(90,88,112,0.2); color: #b0aec8; border: 1px solid rgba(90,88,112,0.35); }
+.ai-state.alert { background: rgba(212,245,60,0.1); color: var(--accent); border: 1px solid rgba(212,245,60,0.28); }
+.ai-state.chase { background: rgba(255,107,53,0.12); color: var(--accent2); border: 1px solid rgba(255,107,53,0.32); }
+.ai-state.attack { background: rgba(220,38,38,0.12); color: #ff8080; border: 1px solid rgba(220,38,38,0.28); }
+.ai-transitions { font-family: var(--mono); font-size: 0.7rem; color: var(--dim); margin-top: 0.65rem; line-height: 1.8; }
+.ai-transitions span { color: var(--accent); }
+
+/* ── SKILLS + EXPERIENCE ── */
+.skills-exp-section { background: var(--surface); }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+.skill-group { margin-bottom: 1.75rem; }
+.skill-group-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; margin-bottom: 0.65rem; border-bottom: 1px solid var(--border); padding-bottom: 0.45rem; font-weight: 700; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.skill-tag { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em; padding: 0.3rem 0.7rem; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+
+/* Experience */
+.exp-item { margin-bottom: 2.25rem; padding-left: 1.5rem; border-left: 2px solid var(--accent); }
+.exp-role { font-weight: 700; font-size: 0.98rem; color: #ffffff; margin-bottom: 0.2rem; }
+.exp-company { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--accent3); text-transform: uppercase; font-weight: 700; }
+.exp-dates { font-family: var(--mono); font-size: 0.62rem; color: var(--dim); margin-bottom: 0.75rem; }
+.exp-points { list-style: none; }
+.exp-points li { font-size: 0.92rem; color: var(--muted); padding-left: 1rem; position: relative; margin-bottom: 0.4rem; line-height: 1.6; }
+.exp-points li::before { content: '→'; position: absolute; left: 0; color: var(--accent2); font-size: 0.7rem; }
+.edu-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+.edu-card { background: var(--surface2); border: 1px solid var(--border); padding: 1.2rem; }
+.edu-deg { font-weight: 700; font-size: 0.87rem; margin-bottom: 0.25rem; color: #ffffff; }
+.edu-school { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--accent3); text-transform: uppercase; font-weight: 700; }
+.edu-gpa { display: inline-block; font-family: var(--mono); font-size: 0.65rem; color: var(--accent); border: 1px solid rgba(212,245,60,0.28); padding: 0.15rem 0.5rem; margin-top: 0.55rem; font-weight: 700; }
+
+/* ── CONTACT ── */
+.contact-section { text-align: center; border-top: 1px solid var(--border); }
+.contact-sub { color: var(--muted); font-size: 1rem; margin-bottom: 2.5rem; }
+.contact-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.65rem; }
+.contact-item { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.25rem; border: 1px solid var(--border-md); color: var(--muted); transition: all 0.2s; font-weight: 700; }
+.contact-item:hover { border-color: var(--accent); color: var(--accent); }
+.contact-item.cta { background: var(--accent); color: #08080b; border-color: var(--accent); }
+.contact-item.cta:hover { background: #e8ff6a; }
+
+/* ── FOOTER ── */
+footer { padding: 1.75rem 3rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); letter-spacing: 0.08em; }
+
+/* ── FADE IN ── */
+.fade { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.fade.in { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1rem; }
+  .nav-links a, .nav-links button { font-size: 0.7rem; }
+  .hero { padding: 7rem 1.5rem 3rem; align-items: flex-start; }
+  .hero-top { grid-template-columns: 1fr; gap: 2rem; }
+  .hero .projects-overview { grid-column: 1; padding-top: 2.25rem; }
+  .hero .proj-cards-grid { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .proj-hero { grid-template-columns: 1fr; }
+  .proj-hero-left { padding: 2.5rem 1.5rem; border-right: none; border-bottom: 1px solid var(--border); }
+  .proj-breakdown, .level-design, .screenshots-strip { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .two-col { grid-template-columns: 1fr; gap: 2rem; }
+  .edu-row { grid-template-columns: 1fr; }
+  section { padding: 4rem 1.5rem; }
+  .projects-overview { padding: 3rem 1.5rem 2rem; }
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ ABOUT ME SLIDE PANEL ══ -->
+<div class="about-overlay" id="aboutOverlay">
+  <div class="about-backdrop" onclick="closeAbout()"></div>
+  <div class="about-panel">
+    <button class="about-close" onclick="closeAbout()">✕</button>
+    <div class="about-img-placeholder">
+      <!-- Replace with: <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;"> -->
+      <span>📷</span>
+      <span>Your Photo Here</span>
+    </div>
+    <div class="about-panel-name">PALASH GHARDE</div>
+    <div class="about-panel-role">// Technical Game Designer · Software Engineer</div>
+    <p>
+      <em>Add your story here.</em> Tell recruiters who you are, what drives you to make games, 
+      and what makes your background unique. A few paragraphs work great.
+    </p>
+    <p>
+      For example — your journey from software engineering at Veritas to pursuing game design 
+      full-time, what kinds of games inspire you, what you're looking to build next.
+    </p>
+    <p>
+      Feel free to write in your own voice. This is the human side of your portfolio.
+    </p>
+    <div class="about-placeholder-note">✏️ This section is yours to fill in — edit the HTML to add your story &amp; photo</div>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-logo" onclick="goHome()">PG</div>
+  <ul class="nav-links">
+    <li><a href="#top">Home</a></li>
+    <li><button onclick="openAbout()">About Me</button></li>
+    <li><a href="#projects-overview">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div id="top"></div>
+<section class="hero">
+  <div class="hero-top">
+      <div class="hero-left">
+        <div class="hero-pill">Technical Game Designer</div>
+        <h1>PALASH<br><em>GHARDE</em></h1>
+        <p class="hero-bio">
+          5 shipped titles across UE5 and Unity. Specializes in modular gameplay systems,
+          AI behavior design, and full-cycle prototyping — backed by 4+ years of 
+          professional software engineering experience.
+        </p>
+        <div class="hero-ctas">
+          <a href="#projects-overview" class="btn btn-primary">View Projects</a>
+          <button class="btn btn-ghost" onclick="openAbout()">About Me</button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-stats">
+          <div class="stat"><div class="stat-n">5</div><div class="stat-l">Shipped Titles</div></div>
+          <div class="stat"><div class="stat-n">3</div><div class="stat-l">Engines</div></div>
+          <div class="stat"><div class="stat-n">3.9</div><div class="stat-l">MS GPA / 4.0</div></div>
+          <div class="stat"><div class="stat-n">4+</div><div class="stat-l">Yrs as Software Engineer</div></div>
+        </div>
+        <div class="tech-row">
+          <span class="chip ue5">Unreal Engine 5</span>
+          <span class="chip yellow">Unity</span>
+          <span class="chip white">Godot</span>
+          <span class="line-break"></span>
+          <span class="chip ue5">Blueprint</span>
+          <span class="chip ue5">C++</span>
+          <span class="chip yellow">C#</span>
+          <span class="chip white">Python</span>
+          <span class="line-break"></span>
+          <span class="chip white">Blender</span>
+          <span class="chip white">Behavior Trees</span>
+          <span class="chip white">AI Perception</span>
+        </div>
+        <div class="role-row" style="margin-top:0.75rem;">
+          <span class="role-tag">Systems Designer</span>
+          <span class="role-tag">Level Designer</span>
+          <span class="role-tag">Mechanics Designer</span>
+          <span class="role-tag">AI Designer</span>
+          <span class="role-tag">Solo Developer</span>
+        </div>
+      </div>
+  
+      <!-- ══ PROJECT OVERVIEW CARDS ══ -->
+<div id="projects-overview" class="projects-overview">
+  <div class="sec-label">// Selected Work</div>
+  <h2 style="margin-bottom:0.5rem;">PROJECTS</h2>
+  <p style="font-size:0.95rem;color:var(--muted);margin-bottom:0rem;">Click any project to jump straight to its full breakdown.</p>
+  <div class="proj-cards-grid">
+
+    <div class="proj-card-thumb" onclick="jumpTo('kidnapped')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <!-- Replace: <img src="kidnapped-thumb.jpg" style="width:100%;height:100%;object-fit:cover;"> -->
+          <div class="proj-card-img-icon">🔦</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">KIDNAPPED</div>
+        <div class="proj-card-meta">Unreal Engine 5 · 2024</div>
+        <div class="proj-card-role">Systems + AI + Level Design</div>
+      </div>
+    </div>
+
+    <div class="proj-card-thumb" onclick="jumpTo('elemental')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <div class="proj-card-img-icon">🌊</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">THE ELEMENTAL ASCENT</div>
+        <div class="proj-card-meta">Unreal Engine 5 · 2026</div>
+        <div class="proj-card-role">Mechanics + Level Design</div>
+      </div>
+    </div>
+
+    <div class="proj-card-thumb" onclick="jumpTo('hunting')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <div class="proj-card-img-icon">🦌</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">HUNTING SIMULATOR</div>
+        <div class="proj-card-meta">Unreal Engine 5 · 2024</div>
+        <div class="proj-card-role">AI + Economy + Systems Design</div>
+      </div>
+    </div>
+
+    <div class="proj-card-thumb" onclick="jumpTo('wrongway')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <div class="proj-card-img-icon">🏍️</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">WRONG WAY</div>
+        <div class="proj-card-meta">Unreal Engine 5 · 2024</div>
+        <div class="proj-card-role">Procedural + Loop Design</div>
+      </div>
+    </div>
+
+    <div class="proj-card-thumb" onclick="jumpTo('jetpack')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <div class="proj-card-img-icon">🚀</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">JETPACKMAN</div>
+        <div class="proj-card-meta">Unity · Cross-Platform</div>
+        <div class="proj-card-role">Mechanics + Procedural Design</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+  
+  </div>
+</section>
+
+
+
+<!-- ══ PROJECT OVERVIEW CARDS ══ -->
+<!-- <div id="projects-overview" class="projects-overview">
+  <div class="sec-label">// Selected Work</div>
+  <h2 style="margin-bottom:0.5rem;">PROJECTS</h2>
+  <p style="font-size:0.95rem;color:var(--muted);margin-bottom:0rem;">Click any project to jump straight to its full breakdown.</p>
+  <div class="proj-cards-grid">
+
+    <div class="proj-card-thumb" onclick="jumpTo('kidnapped')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <!-- Replace: <img src="kidnapped-thumb.jpg" style="width:100%;height:100%;object-fit:cover;"> 
+          <div class="proj-card-img-icon">🔦</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">KIDNAPPED</div>
+        <div class="proj-card-meta">Unreal Engine 5 · 2024</div>
+        <div class="proj-card-role">Systems + AI + Level Design</div>
+      </div>
+    </div>
+
+    <div class="proj-card-thumb" onclick="jumpTo('elemental')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <div class="proj-card-img-icon">🌊</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">THE ELEMENTAL ASCENT</div>
+        <div class="proj-card-meta">Unreal Engine 5 · 2026</div>
+        <div class="proj-card-role">Mechanics + Level Design</div>
+      </div>
+    </div>
+
+    <div class="proj-card-thumb" onclick="jumpTo('hunting')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <div class="proj-card-img-icon">🦌</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">HUNTING SIMULATOR</div>
+        <div class="proj-card-meta">Unreal Engine 5 · 2024</div>
+        <div class="proj-card-role">AI + Economy + Systems Design</div>
+      </div>
+    </div>
+
+    <div class="proj-card-thumb" onclick="jumpTo('wrongway')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <div class="proj-card-img-icon">🏍️</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">WRONG WAY</div>
+        <div class="proj-card-meta">Unreal Engine 5 · 2024</div>
+        <div class="proj-card-role">Procedural + Loop Design</div>
+      </div>
+    </div>
+
+    <div class="proj-card-thumb" onclick="jumpTo('jetpack')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <div class="proj-card-img-icon">🚀</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">JETPACKMAN</div>
+        <div class="proj-card-meta">Unity · Cross-Platform</div>
+        <div class="proj-card-role">Mechanics + Procedural Design</div>
+      </div>
+    </div>
+
+  </div>
+</div> -->
+
+<!-- ══ STICKY PROJECT NAV ══ -->
+<div class="proj-nav" id="projNav">
+  <div class="proj-nav-item active" onclick="jumpTo('kidnapped')">01 — Kidnapped</div>
+  <div class="proj-nav-item" onclick="jumpTo('elemental')">02 — Elemental Ascent</div>
+  <div class="proj-nav-item" onclick="jumpTo('hunting')">03 — Hunting Simulator</div>
+  <div class="proj-nav-item" onclick="jumpTo('wrongway')">04 — Wrong Way</div>
+  <div class="proj-nav-item" onclick="jumpTo('jetpack')">05 — Jetpackman</div>
+</div>
+
+<!-- ═══════════════════════════ PROJECT 01 — KIDNAPPED ═══════════════════════════ -->
+<div class="project-section" id="kidnapped">
+  <div class="proj-hero">
+    <div class="proj-hero-left fade">
+      <div class="proj-num">01</div>
+      <div class="proj-title">KIDNAPPED</div>
+      <div class="proj-genre">Horror · Escape · Puzzle · Survival</div>
+      <p class="proj-desc">First-person survival horror set across a house, dark maze, and eerie tower. Escape before the kidnapper catches you — solve puzzles, manage survival stats, and outsmart adaptive AI. Structured 20–30 min play across 8 sequences.</p>
+      <div class="proj-meta">
+        <div class="proj-meta-row"><span class="proj-meta-key">Engine</span><span class="proj-meta-val">Unreal Engine 5</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Tools</span><span class="proj-meta-val">Blueprint, C++, Blender</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Year</span><span class="proj-meta-val">2024</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Platform</span><span class="proj-meta-val">PC</span></div>
+      </div>
+      <div class="proj-role-tags">
+        <span class="proj-role-tag">Systems Designer</span>
+        <span class="proj-role-tag">Level Designer</span>
+        <span class="proj-role-tag">AI Designer</span>
+        <span class="proj-role-tag">Solo Developer</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://newbgamedev.itch.io/kidnapped" target="_blank" class="proj-link primary">Play on Itch.io ↗</a>
+        <a href="https://www.youtube.com/watch?v=q2WNdxZ6YEA" target="_blank" class="proj-link">Trailer ↗</a>
+      </div>
+    </div>
+    <div class="proj-hero-right">
+      <div class="media-placeholder tall">
+        <div class="media-placeholder-icon">🎬</div>
+        <div class="media-placeholder-label">Hero GIF / Trailer Thumbnail</div>
+        <div class="media-placeholder-sub">Dark atmospheric screenshot, 1920×1080</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-breakdown">
+    <div class="breakdown-header fade">
+      <div class="sec-label">// Mechanics</div>
+      <h3>GAME SYSTEMS</h3>
+      <div class="breakdown-divider"></div>
+    </div>
+    <div class="mechanics-flow fade">
+      <div class="flow-title">// Core Gameplay Loop</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div><div class="flow-step-label">Explore</div><div class="flow-step-desc">Navigate house, maze &amp; tower</div></div>
+        <div class="flow-step"><div class="flow-step-n">2</div><div class="flow-step-label">Find Items</div><div class="flow-step-desc">Collect 20+ interactables</div></div>
+        <div class="flow-step"><div class="flow-step-n">3</div><div class="flow-step-label">Solve</div><div class="flow-step-desc">8 puzzle sequences</div></div>
+        <div class="flow-step"><div class="flow-step-n">4</div><div class="flow-step-label">Survive</div><div class="flow-step-desc">Manage health, stamina, hunger</div></div>
+        <div class="flow-step"><div class="flow-step-n">5</div><div class="flow-step-label">Escape</div><div class="flow-step-desc">Outsmart the AI</div></div>
+      </div>
+    </div>
+    <div class="breakdown-grid">
+      <div class="feat-block fade">
+        <div class="feat-tag">// Core System</div>
+        <div class="feat-title">Modular Interaction System</div>
+        <div class="feat-body">Blueprint parent/child hierarchy with Blueprint Interfaces — scales to 20+ interactable types with zero code duplication.</div>
+        <ul class="feat-points">
+          <li>Single parent class handles pickup, inspect &amp; use logic</li>
+          <li>Child classes override only unique behaviors</li>
+          <li>Doors, keys, chests, food, weapons — one unified system</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📋</div><div class="media-placeholder-label">Blueprint Graph Screenshot / GIF</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Survival</div>
+        <div class="feat-title">Survival Systems Suite</div>
+        <div class="feat-body">Hunger, thirst, stamina, and health — all driven by Data Tables, enabling rapid iteration without code changes.</div>
+        <ul class="feat-points">
+          <li>Data Table-driven decay rates and thresholds</li>
+          <li>Stamina depletes faster when starved — layered pressure</li>
+          <li>Find and consume food/water to stay above critical</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📊</div><div class="media-placeholder-label">HUD Screenshot — Survival Stats</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Enemy AI</div>
+        <div class="feat-title">Kidnapper AI — Behavior Trees</div>
+        <div class="feat-body">Relentless enemy using Behavior Trees + Blackboards + AI Perception (sight &amp; hearing). Reacts dynamically to all player actions.</div>
+        <div class="ai-states">
+          <span class="ai-state idle">Patrol</span>
+          <span class="ai-state alert">Investigate</span>
+          <span class="ai-state chase">Chase</span>
+          <span class="ai-state attack">Attack</span>
+        </div>
+        <div class="ai-transitions">
+          <span>Sound events</span> (running, doors) → Investigate<br>
+          <span>Line-of-sight</span> → Chase → Attack
+        </div>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌳</div><div class="media-placeholder-label">Behavior Tree Screenshot</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Narrative</div>
+        <div class="feat-title">Story-Driven Cutscenes</div>
+        <div class="feat-body">Cinematic cutscenes via UE5 Level Sequencer, triggered at puzzle completion checkpoints — delivers narrative without breaking flow.</div>
+        <ul class="feat-points">
+          <li>Trigger-based activation on puzzle completion</li>
+          <li>Character dialogue &amp; environmental storytelling</li>
+          <li>Structured pacing across all 8 sequences</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🎬</div><div class="media-placeholder-label">Cutscene GIF — Level Sequencer</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screenshots-strip fade">
+    <div class="strip-label">// Screenshots</div>
+    <div class="strip-grid">
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">House Area</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Dark Maze</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Tower Area</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">AI Chase</div></div></div>
+    </div>
+  </div>
+  <div style="height:2rem;"></div>
+</div>
+
+<!-- ═══════════════════════════ PROJECT 02 — THE ELEMENTAL ASCENT ═══════════════════════════ -->
+<div class="project-section" id="elemental">
+  <div class="proj-hero">
+    <div class="proj-hero-left fade">
+      <div class="proj-num">02</div>
+      <div class="proj-title">THE ELEMENTAL ASCENT</div>
+      <div class="proj-genre">Puzzle · Platformer · Physics · Adventure</div>
+      <p class="proj-desc">Third-person puzzle-platformer where players harness fire, ice, water, and steam to navigate a mysterious machine-driven environment. Physics-based chain reactions power every puzzle — all built from a full GDD before a single line of code.</p>
+      <div class="proj-meta">
+        <div class="proj-meta-row"><span class="proj-meta-key">Engine</span><span class="proj-meta-val">Unreal Engine 5</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Tools</span><span class="proj-meta-val">Blueprint, Enhanced Input, HacknPlan</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Year</span><span class="proj-meta-val">2026</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Platform</span><span class="proj-meta-val">PC / Controller</span></div>
+      </div>
+      <div class="proj-role-tags">
+        <span class="proj-role-tag">Level Designer</span>
+        <span class="proj-role-tag">Mechanics Designer</span>
+        <span class="proj-role-tag">Systems Designer</span>
+        <span class="proj-role-tag">Solo Developer</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://www.youtube.com/watch?v=zOFIBSTcZdE" target="_blank" class="proj-link primary">Walkthrough ↗</a>
+      </div>
+    </div>
+    <div class="proj-hero-right">
+      <div class="media-placeholder tall">
+        <div class="media-placeholder-icon">🌊</div>
+        <div class="media-placeholder-label">Gameplay GIF — Steam Lift or Freeze</div>
+        <div class="media-placeholder-sub">framerusercontent.com/images/GT6qrJmFUZ7fHiPvWmupAQfn8.gif</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-breakdown">
+    <div class="breakdown-header fade">
+      <div class="sec-label">// Mechanics</div>
+      <h3>ELEMENTAL SYSTEMS</h3>
+      <div class="breakdown-divider"></div>
+    </div>
+    <div class="mechanics-flow fade">
+      <div class="flow-title">// Chain Reaction — Steam Lift Puzzle</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div><div class="flow-step-label">Fire</div><div class="flow-step-desc">Ignites wood below container</div></div>
+        <div class="flow-step"><div class="flow-step-n">2</div><div class="flow-step-label">Ice Block</div><div class="flow-step-desc">Player places ice above</div></div>
+        <div class="flow-step"><div class="flow-step-n">3</div><div class="flow-step-label">Melt</div><div class="flow-step-desc">Heat melts ice → water fills</div></div>
+        <div class="flow-step"><div class="flow-step-n">4</div><div class="flow-step-label">Steam</div><div class="flow-step-desc">Boiling generates lift</div></div>
+        <div class="flow-step"><div class="flow-step-n">5</div><div class="flow-step-label">Deactivates</div><div class="flow-step-desc">Lift drops when water evaporates</div></div>
+      </div>
+    </div>
+    <div class="breakdown-grid">
+      <div class="feat-block fade">
+        <div class="feat-tag">// Element: Ice</div>
+        <div class="feat-title">Freeze Water → Ice Blocks</div>
+        <div class="feat-body">Time-based cooling with visual state progression. Spawns placeable ice blocks the player picks up for traversal and puzzle solving.</div>
+        <ul class="feat-points">
+          <li>Visual feedback shows freeze progression</li>
+          <li>Integrated into interaction system — pick &amp; place</li>
+          <li>Block shrinks visually as it melts</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">❄️</div><div class="media-placeholder-label">GIF — Freeze Mechanic</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Element: Fire</div>
+        <div class="feat-title">Fire — Burn &amp; Heat Chain</div>
+        <div class="feat-body">Projectiles trigger Blueprint Interface responses on impact. Burning objects propagate heat via proximity scan, enabling system-driven chain-reaction puzzle solutions.</div>
+        <ul class="feat-points">
+          <li>Fire projectile → burning state → heat propagation</li>
+          <li>Heatable Interface detected by proximity</li>
+          <li>Chain: burn wood → heat container → melt ice → steam</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🔥</div><div class="media-placeholder-label">GIF — Fire Chain Reaction</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Input</div>
+        <div class="feat-title">Enhanced Input — Dual Scheme</div>
+        <div class="feat-body">Consistent feel across keyboard &amp; mouse and gamepad using UE5's Enhanced Input System. Remappable context-sensitive bindings.</div>
+        <ul class="feat-points">
+          <li>Action mappings for elemental ability switching</li>
+          <li>Analog stick support for platformer precision</li>
+        </ul>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Production</div>
+        <div class="feat-title">Sprint-Based Pipeline</div>
+        <div class="feat-body">Full GDD authored pre-production. Full pipeline managed in HacknPlan with sprint-based task prioritization and structured playtesting.</div>
+        <ul class="feat-points">
+          <li>GDD: elemental rules, puzzle progression, system interactions</li>
+          <li>Feature backlog → sprint → playtest → iterate</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="level-design fade">
+    <div class="level-design-header">
+      <div class="sec-label">// Process</div>
+      <h3>LEVEL DESIGN PROCESS</h3>
+      <div class="breakdown-divider"></div>
+    </div>
+    <div class="level-steps">
+      <div class="level-step">
+        <div class="level-step-num">01</div>
+        <div class="level-step-title">Concept &amp; GDD</div>
+        <div class="level-step-body">Defined core puzzle concepts and all required gameplay elements — water systems, lifts, levers, containers — in the GDD before any level work began.</div>
+        <div class="level-step-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📄</div><div class="media-placeholder-label">GDD Screenshot</div></div></div>
+      </div>
+      <div class="level-step">
+        <div class="level-step-num">02</div>
+        <div class="level-step-title">2D Layout Planning</div>
+        <div class="level-step-body">Designed 4-floor vertical structure in 2D. Mapped player flow, puzzle sequencing, interaction placement, and readability checkpoints per floor before any 3D work.</div>
+        <div class="level-step-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📐</div><div class="media-placeholder-label">2D Level Map</div><div class="media-placeholder-sub">framerusercontent.com/images/pP1YK2avtlswwTVGBZLYaRN4II.png</div></div></div>
+      </div>
+      <div class="level-step">
+        <div class="level-step-num">03</div>
+        <div class="level-step-title">3D Blockout in UE5</div>
+        <div class="level-step-body">Translated 2D layouts into playable 3D blockout. Iterated on spatial feel, adding ladders, shortcuts, and alternate paths based on playtesting feedback.</div>
+        <div class="level-step-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🧱</div><div class="media-placeholder-label">3D Blockout Screenshot</div><div class="media-placeholder-sub">framerusercontent.com/images/rlUylaOo5HCN8zw4JEgH9j0WuE.png</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screenshots-strip fade">
+    <div class="strip-label">// Screenshots</div>
+    <div class="strip-grid">
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Floor Overview</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Steam Lift Puzzle</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Ice Freeze Puzzle</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Fire Chain</div></div></div>
+    </div>
+  </div>
+  <div style="height:2rem;"></div>
+</div>
+
+<!-- ═══════════════════════════ PROJECT 03 — HUNTING SIMULATOR ═══════════════════════════ -->
+<div class="project-section" id="hunting">
+  <div class="proj-hero">
+    <div class="proj-hero-left fade">
+      <div class="proj-num">03</div>
+      <div class="proj-title">HUNTING SIMULATOR</div>
+      <div class="proj-genre">Forest · Hunting · Shooter · Strategy · Survival</div>
+      <p class="proj-desc">First-person hunting sim with 2 distinct animal AIs (5+ behavioral states each), a full persistent economy loop, and randomized animal placement for replayability — built across a dense forest environment.</p>
+      <div class="proj-meta">
+        <div class="proj-meta-row"><span class="proj-meta-key">Engine</span><span class="proj-meta-val">Unreal Engine 5</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Tools</span><span class="proj-meta-val">Blueprint, C++, Blender</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Year</span><span class="proj-meta-val">2024</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Platform</span><span class="proj-meta-val">PC / Android</span></div>
+      </div>
+      <div class="proj-role-tags">
+        <span class="proj-role-tag">AI Designer</span>
+        <span class="proj-role-tag">Systems Designer</span>
+        <span class="proj-role-tag">Solo Developer</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://newbgamedev.itch.io/hunting-simulation" target="_blank" class="proj-link primary">Play on Itch.io ↗</a>
+        <a href="https://www.youtube.com/watch?v=ef-qjOt4EYQ" target="_blank" class="proj-link">Trailer ↗</a>
+      </div>
+    </div>
+    <div class="proj-hero-right">
+      <div class="media-placeholder tall">
+        <div class="media-placeholder-icon">🦌</div>
+        <div class="media-placeholder-label">Hero GIF — Forest Hunting Scene</div>
+        <div class="media-placeholder-sub">Aiming/shooting in forest environment</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-breakdown">
+    <div class="breakdown-header fade">
+      <div class="sec-label">// Mechanics</div>
+      <h3>GAME SYSTEMS</h3>
+      <div class="breakdown-divider"></div>
+    </div>
+    <div class="mechanics-flow fade">
+      <div class="flow-title">// Economy Loop</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div><div class="flow-step-label">Hunt</div><div class="flow-step-desc">Track &amp; shoot deer or tiger</div></div>
+        <div class="flow-step"><div class="flow-step-n">2</div><div class="flow-step-label">Skin</div><div class="flow-step-desc">Collect hides via animation</div></div>
+        <div class="flow-step"><div class="flow-step-n">3</div><div class="flow-step-label">Sell</div><div class="flow-step-desc">Trade skins at store</div></div>
+        <div class="flow-step"><div class="flow-step-n">4</div><div class="flow-step-label">Upgrade</div><div class="flow-step-desc">Buy better weapons</div></div>
+        <div class="flow-step"><div class="flow-step-n">5</div><div class="flow-step-label">Save</div><div class="flow-step-desc">Persistent progress</div></div>
+      </div>
+    </div>
+    <div class="breakdown-grid">
+      <div class="feat-block fade">
+        <div class="feat-tag">// Animal AI — Deer</div>
+        <div class="feat-title">Deer Behavior Tree</div>
+        <div class="feat-body">Peaceful grazing animal that becomes highly responsive to player presence — sight and sound detection triggers realistic flight behavior.</div>
+        <div class="ai-states">
+          <span class="ai-state idle">Graze</span>
+          <span class="ai-state idle">Wander</span>
+          <span class="ai-state alert">Alert</span>
+          <span class="ai-state chase">Flee</span>
+        </div>
+        <div class="ai-transitions">
+          <span>Sound</span> (footsteps) → Alert<br>
+          <span>Sight</span> (player visible) → Flee to random location<br>
+          <span>NavMesh</span> for natural movement
+        </div>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌳</div><div class="media-placeholder-label">Behavior Tree Screenshot — Deer</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Animal AI — Tiger</div>
+        <div class="feat-title">Tiger Behavior Tree</div>
+        <div class="feat-body">Apex predator that actively stalks, chases, and attacks the player when spotted — creating a two-directional threat in the environment.</div>
+        <div class="ai-states">
+          <span class="ai-state idle">Sleep</span>
+          <span class="ai-state idle">Prowl</span>
+          <span class="ai-state alert">Stalk</span>
+          <span class="ai-state chase">Chase</span>
+          <span class="ai-state attack">Attack</span>
+        </div>
+        <div class="ai-transitions">
+          <span>AI Perception</span> (sight + hearing)<br>
+          Escalating aggression by player distance
+        </div>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌳</div><div class="media-placeholder-label">Behavior Tree Screenshot — Tiger</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Player</div>
+        <div class="feat-title">FP Animation System</div>
+        <div class="feat-body">Full first-person animation suite with smooth transitions using blend spaces and a camera socket system.</div>
+        <ul class="feat-points">
+          <li>Reload &amp; ADS (aim-down-sights) animations</li>
+          <li>Camera socket for smooth ADS ↔ hip-fire transition</li>
+          <li>Unique skinning animation on successful kill</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🔫</div><div class="media-placeholder-label">GIF — ADS / Reload Animation</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// World</div>
+        <div class="feat-title">Procedural Environment</div>
+        <div class="feat-body">Randomized placement for animals, items, and spawn points ensures each session feels unique. Dynamic lighting for time-of-day atmosphere.</div>
+        <ul class="feat-points">
+          <li>Randomized animal spawn locations per session</li>
+          <li>Environmental props: rivers, birds, ambient sounds</li>
+          <li>Dynamic lighting for immersive atmosphere</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌲</div><div class="media-placeholder-label">Screenshot — Forest Environment</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screenshots-strip fade">
+    <div class="strip-label">// Screenshots</div>
+    <div class="strip-grid">
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Forest Overview</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Tiger Chase</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Store / Economy UI</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Weapon Upgrade</div></div></div>
+    </div>
+  </div>
+  <div style="height:2rem;"></div>
+</div>
+
+<!-- ═══════════════════════════ PROJECT 04 — WRONG WAY ═══════════════════════════ -->
+<div class="project-section" id="wrongway">
+  <div class="proj-hero">
+    <div class="proj-hero-left fade">
+      <div class="proj-num">04</div>
+      <div class="proj-title">WRONG WAY</div>
+      <div class="proj-genre">Casual · Mobile · Endless Runner · Driving</div>
+      <p class="proj-desc">Mobile endless runner — ride against traffic, dodge oncoming vehicles, collect coins, and outrun cops. Fully procedural track generation optimized for short-session mobile engagement and escalating difficulty.</p>
+      <div class="proj-meta">
+        <div class="proj-meta-row"><span class="proj-meta-key">Engine</span><span class="proj-meta-val">Unreal Engine 5</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Tools</span><span class="proj-meta-val">Blueprint, C++, Blender</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Year</span><span class="proj-meta-val">2024</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Platform</span><span class="proj-meta-val">Mobile / PC</span></div>
+      </div>
+      <div class="proj-role-tags">
+        <span class="proj-role-tag">Systems Designer</span>
+        <span class="proj-role-tag">Procedural Design</span>
+        <span class="proj-role-tag">Solo Developer</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://newbgamedev.itch.io/wrong-way" target="_blank" class="proj-link primary">Play on Itch.io ↗</a>
+      </div>
+    </div>
+    <div class="proj-hero-right">
+      <div class="media-placeholder tall">
+        <div class="media-placeholder-icon">🏍️</div>
+        <div class="media-placeholder-label">Gameplay GIF — Traffic Dodging</div>
+        <div class="media-placeholder-sub">Fast-paced traffic dodging scene</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-breakdown">
+    <div class="breakdown-header fade">
+      <div class="sec-label">// Mechanics</div>
+      <h3>GAME SYSTEMS</h3>
+      <div class="breakdown-divider"></div>
+    </div>
+    <div class="breakdown-grid">
+      <div class="feat-block fade">
+        <div class="feat-tag">// Core</div>
+        <div class="feat-title">Procedural Track Generation</div>
+        <div class="feat-body">Fully procedural track with dynamic obstacle spawning and efficient off-screen cleanup — consistent performance across extended play.</div>
+        <ul class="feat-points">
+          <li>Traffic vehicles spawn with randomized lane &amp; spacing</li>
+          <li>Off-screen chunks despawned for memory performance</li>
+          <li>Coin &amp; power-up placement randomized each run</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🛣️</div><div class="media-placeholder-label">GIF — Track Generation</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// AI</div>
+        <div class="feat-title">Cop Car AI &amp; Chase</div>
+        <div class="feat-body">Police vehicles detect and pursue the player with escalating aggression the longer you survive.</div>
+        <div class="ai-states">
+          <span class="ai-state idle">Patrol</span>
+          <span class="ai-state alert">Spotted</span>
+          <span class="ai-state chase">Pursue</span>
+          <span class="ai-state attack">Ram</span>
+        </div>
+        <div class="ai-transitions">
+          <span>Proximity</span> trigger → pursuit begins<br>
+          <span>Time alive</span> → aggression multiplier increases
+        </div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Power-ups</div>
+        <div class="feat-title">Power-Up System</div>
+        <div class="feat-body">Two power-ups that change moment-to-moment strategy during high-speed play.</div>
+        <ul class="feat-points">
+          <li>Magnet — attracts nearby coins automatically</li>
+          <li>Ramp — briefly jump over obstacles</li>
+          <li>Coin collection gated behind power-up strategy</li>
+        </ul>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Design</div>
+        <div class="feat-title">Mobile-First Loop Design</div>
+        <div class="feat-body">Every system designed for short-session engagement — instant start, escalating difficulty, satisfying feedback loops, persistent highscore motivation.</div>
+        <ul class="feat-points">
+          <li>Speed progression ramps challenge over time</li>
+          <li>Persistent highscore across sessions</li>
+          <li>Satisfying SFX for coins, dodges &amp; sirens</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="screenshots-strip fade">
+    <div class="strip-label">// Screenshots</div>
+    <div class="strip-grid">
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Traffic Scene</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Cop Chase</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Magnet Power-up</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Highscore UI</div></div></div>
+    </div>
+  </div>
+  <div style="height:2rem;"></div>
+</div>
+
+<!-- ═══════════════════════════ PROJECT 05 — JETPACKMAN ═══════════════════════════ -->
+<div class="project-section" id="jetpack">
+  <div class="proj-hero">
+    <div class="proj-hero-left fade">
+      <div class="proj-num">05</div>
+      <div class="proj-title">JETPACKMAN ADVENTURES</div>
+      <div class="proj-genre">2D · Flying · Procedural · Cross-Platform</div>
+      <p class="proj-desc">2D flying game with procedural obstacle generation, a dual-projectile weapon system, and interactive door hacking minigames — shipped cross-platform on Android and PC/WebGL.</p>
+      <div class="proj-meta">
+        <div class="proj-meta-row"><span class="proj-meta-key">Engine</span><span class="proj-meta-val">Unity</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Language</span><span class="proj-meta-val">C#</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Platform</span><span class="proj-meta-val">Android · PC · WebGL</span></div>
+      </div>
+      <div class="proj-role-tags">
+        <span class="proj-role-tag">Mechanics Designer</span>
+        <span class="proj-role-tag">Procedural Design</span>
+        <span class="proj-role-tag">Solo Developer</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://newbgamedev.itch.io" target="_blank" class="proj-link primary">Play on Itch.io ↗</a>
+      </div>
+    </div>
+    <div class="proj-hero-right">
+      <div class="media-placeholder tall">
+        <div class="media-placeholder-icon">🚀</div>
+        <div class="media-placeholder-label">Gameplay GIF — Flying / Shooting</div>
+        <div class="media-placeholder-sub">Jetpack flight with obstacle dodging scene</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-breakdown">
+    <div class="breakdown-header fade">
+      <div class="sec-label">// Mechanics</div>
+      <h3>GAME SYSTEMS</h3>
+      <div class="breakdown-divider"></div>
+    </div>
+    <div class="breakdown-grid">
+      <div class="feat-block fade">
+        <div class="feat-tag">// Weapons</div>
+        <div class="feat-title">Dual-Projectile System</div>
+        <div class="feat-body">Two distinct projectile types with unique environmental interactions — creates strategic ammo management throughout each run.</div>
+        <ul class="feat-points">
+          <li>Impact Bomb — destroys wooden doors on contact</li>
+          <li>Hacking Laser — triggers door hacking minigame</li>
+          <li>Context-appropriate ammo choice required to progress</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">💣</div><div class="media-placeholder-label">GIF — Impact Bomb / Hacking Laser</div><div class="media-placeholder-sub">Show both projectile types in action</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Procedural</div>
+        <div class="feat-title">Obstacle Generation</div>
+        <div class="feat-body">Dynamic height variance ensures no two runs feel the same. Obstacle density scales with progression.</div>
+        <ul class="feat-points">
+          <li>Random height variance creates unpredictable paths</li>
+          <li>Density scales with progression depth</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🚧</div><div class="media-placeholder-label">GIF — Procedural Obstacles</div><div class="media-placeholder-sub">Show height variance and obstacle patterns</div></div></div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Platform</div>
+        <div class="feat-title">Cross-Platform Input</div>
+        <div class="feat-body">Full cross-platform support with unified input abstraction — touch on Android and keyboard on PC/WebGL feel consistent.</div>
+        <ul class="feat-points">
+          <li>Touch controls optimized for mobile screen sizes</li>
+          <li>Keyboard bindings for PC &amp; WebGL</li>
+          <li>Consistent feel across both platforms</li>
+        </ul>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📱</div><div class="media-placeholder-label">Screenshot — Mobile &amp; PC Controls</div><div class="media-placeholder-sub">Side-by-side or single gameplay shot</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screenshots-strip fade">
+    <div class="strip-label">// Screenshots</div>
+    <div class="strip-grid">
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Gameplay Overview</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Hacking Minigame</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Obstacle Patterns</div></div></div>
+      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Mobile UI</div></div></div>
+    </div>
+  </div>
+  <div style="height:2rem;"></div>
+</div>
+
+<!-- ══ SKILLS + EXPERIENCE ══ -->
+<section id="skills" class="skills-exp-section">
+  <div class="two-col">
+    <div>
+      <div class="sec-label">// Capabilities</div>
+      <h2 style="margin-bottom:2.5rem;">SKILLS</h2>
+      <div class="skill-group">
+        <div class="skill-group-title">Game Engines</div>
+        <div class="skill-tags"><span class="skill-tag chip ue5">Unreal Engine 5</span><span class="skill-tag chip yellow">Unity</span><span class="skill-tag chip white">Godot</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Programming</div>
+        <div class="skill-tags"><span class="skill-tag chip ue5">Blueprint (UE5)</span><span class="skill-tag chip ue5">C++</span><span class="skill-tag chip yellow">C#</span><span class="skill-tag chip white">Python</span><span class="skill-tag chip white">GDScript</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">AI Systems</div>
+        <div class="skill-tags"><span class="skill-tag chip white">Behavior Trees</span><span class="skill-tag chip white">Blackboards</span><span class="skill-tag chip white">AI Perception</span><span class="skill-tag chip white">NavMesh</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Game Design</div>
+        <div class="skill-tags"><span class="skill-tag">Core Loop Design</span><span class="skill-tag">Level Design</span><span class="skill-tag">GDD Writing</span><span class="skill-tag">Prototyping</span><span class="skill-tag">Playtesting</span><span class="skill-tag">Procedural Systems</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Tools</div>
+        <div class="skill-tags"><span class="skill-tag chip white">Blender</span><span class="skill-tag">Git</span><span class="skill-tag">HacknPlan</span><span class="skill-tag">Figma</span><span class="skill-tag">Miro</span><span class="skill-tag">Photoshop</span></div>
+      </div>
+    </div>
+
+    <div id="experience">
+      <div class="sec-label">// Work History</div>
+      <h2 style="margin-bottom:2.5rem;">EXPERIENCE</h2>
+
+      <div class="exp-item fade">
+        <div class="exp-role">Software Development Engineer</div>
+        <div class="exp-company">ServiceNow · Tempe, AZ</div>
+        <div class="exp-dates">June 2025 – Present</div>
+        <ul class="exp-points">
+          <li>Designed scalable backend services for ML inference using FastAPI &amp; AWS — reduced response latency by 32% via async processing</li>
+          <li>Built production-grade ML pipelines: feature engineering, cross-validation, automated retraining — improved model accuracy by 18%</li>
+          <li>Architected distributed data processing with PySpark + AWS, reducing batch execution time by 40%</li>
+          <li>Containerized services via Docker/Kubernetes; infrastructure automation with Terraform</li>
+        </ul>
+      </div>
+
+      <div class="exp-item fade">
+        <div class="exp-role">Software Development Engineer</div>
+        <div class="exp-company">Infinite Infolab · India</div>
+        <div class="exp-dates">May 2022 – Jul 2023</div>
+        <ul class="exp-points">
+          <li>Built RESTful microservices with Flask &amp; FastAPI, supporting secure high-traffic enterprise applications</li>
+          <li>Engineered ETL pipelines with Python &amp; Kafka for real-time data ingestion — improved data availability by 35%</li>
+          <li>Implemented ML model deployment on AWS SageMaker with model monitoring &amp; A/B testing</li>
+          <li>Designed event-driven architecture with Kafka for fault-tolerant distributed systems</li>
+        </ul>
+      </div>
+
+      <div class="exp-item fade">
+        <div class="exp-role">Software Engineer</div>
+        <div class="exp-company">Veritas Technologies · India</div>
+        <div class="exp-dates">Jan 2020 – Apr 2022</div>
+        <ul class="exp-points">
+          <li>Automated Linux-based file-system testing pipelines (Django/Flask), cutting manual QA effort by 70%</li>
+          <li>Designed and deployed 60+ RESTful APIs handling 100K+ requests/day</li>
+          <li>Optimized AWS EC2 &amp; DynamoDB utilization, achieving 15% infrastructure cost reduction</li>
+          <li>Built React.js dashboard for test reports, reducing debugging time by 20%</li>
+          <li>Implemented CI/CD with Jenkins &amp; Git, reducing production bugs by 30%</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <div class="sec-label">// Education</div>
+        <div class="edu-row">
+          <div class="edu-card fade">
+            <div class="edu-deg">MS Computer Science</div>
+            <div class="edu-school">Arizona State University · Tempe, AZ</div>
+            <div style="font-family:var(--mono);font-size:0.6rem;color:var(--dim);margin-top:0.2rem;">Aug 2023 – May 2025</div>
+            <div class="edu-gpa">GPA 3.9 / 4.0</div>
+          </div>
+          <div class="edu-card fade">
+            <div class="edu-deg">BTech Computer Engineering</div>
+            <div class="edu-school">Vishwakarma Institute of Technology · Pune</div>
+            <div style="font-family:var(--mono);font-size:0.6rem;color:var(--dim);margin-top:0.2rem;">Aug 2016 – May 2020</div>
+            <div class="edu-gpa">GPA 8.62 / 10</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact" class="contact-section">
+  <div class="sec-label">// Available for opportunities</div>
+  <h2 style="margin-bottom:0.75rem;">LET'S BUILD SOMETHING</h2>
+  <p class="contact-sub">Open to game design roles, collaborations &amp; contract work · Tempe, AZ</p>
+  <div class="contact-grid">
+    <a href="mailto:palash.gharde047@gmail.com" class="contact-item cta">palash.gharde047@gmail.com</a>
+    <a href="https://linkedin.com/in/palashgharde/" target="_blank" class="contact-item">LinkedIn ↗</a>
+    <a href="https://newbgamedev.itch.io/" target="_blank" class="contact-item">Itch.io ↗</a>
+    <a href="https://github.com/PalashGharde" target="_blank" class="contact-item">GitHub ↗</a>
+    <a href="https://www.youtube.com/@NotPGGamer" target="_blank" class="contact-item">YouTube ↗</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Palash Gharde · Technical Game Designer</p>
+  <p>Tempe, AZ · palash.gharde047@gmail.com</p>
+</footer>
+
+<script>
+// ── Fade in on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+
+// ── About panel
+function openAbout() { document.getElementById('aboutOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeAbout() { document.getElementById('aboutOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+// ── Home
+function goHome() { window.scrollTo({top:0,behavior:'smooth'}); }
+
+// ── Jump to project (offset for sticky navbars)
+function jumpTo(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const navH = document.querySelector('nav').offsetHeight;
+  const projNavH = document.getElementById('projNav').offsetHeight;
+  const top = el.getBoundingClientRect().top + window.scrollY - navH - projNavH - 8;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
+// ── Active project nav highlight on scroll
+const sections = ['kidnapped','elemental','hunting','wrongway','jetpack'];
+const navItems = document.querySelectorAll('.proj-nav-item');
+const scrollObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const idx = sections.indexOf(e.target.id);
+      if (idx >= 0) navItems.forEach((n,i) => n.classList.toggle('active', i === idx));
+    }
+  });
+}, { rootMargin: '-35% 0px -55% 0px' });
+sections.forEach(id => { const el = document.getElementById(id); if (el) scrollObs.observe(el); });
+</script>
+</body>
+</html>
