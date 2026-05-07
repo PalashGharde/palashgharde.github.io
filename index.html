@@ -371,6 +371,54 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
 .fade.in { opacity: 1; transform: none; }
 
 /* ── RESPONSIVE ── */
+/* ── LIGHTBOX ── */
+.lightbox-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.92);
+  align-items: center; justify-content: center;
+  cursor: zoom-out;
+}
+.lightbox-overlay.open { display: flex; }
+.lightbox-overlay img {
+  max-width: 90vw; max-height: 88vh;
+  object-fit: contain;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: zoom-out;
+}
+.lightbox-close {
+  position: absolute; top: 1.25rem; right: 1.5rem;
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em;
+  color: var(--muted); background: var(--surface2);
+  border: 1px solid var(--border-md);
+  padding: 0.4rem 0.9rem; cursor: pointer; text-transform: uppercase;
+  transition: all 0.2s;
+}
+.lightbox-close:hover { color: var(--text); border-color: var(--accent); }
+
+/* ── CLICKABLE MEDIA ── */
+.media-clickable {
+  cursor: zoom-in;
+  position: relative; overflow: hidden;
+  display: block; width: 100%;
+  background: var(--surface2);
+}
+.media-clickable::after {
+  content: '⤢ CLICK TO EXPAND';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.6);
+  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em;
+  color: var(--accent); text-align: center; padding: 0.4rem;
+  opacity: 0; transition: opacity 0.2s;
+}
+.media-clickable:hover::after { opacity: 1; }
+.media-clickable img {
+  width: 100%; display: block;
+  max-height: 280px; object-fit: cover;
+  transition: transform 0.3s;
+}
+.media-clickable:hover img { transform: scale(1.03); }
+
 @media (max-width: 900px) {
   nav { padding: 1rem 1.5rem; }
   .nav-links { gap: 1rem; }
@@ -1069,11 +1117,10 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       </div>
     </div>
     <div class="proj-hero-right">
-      <div class="media-placeholder tall">
-        <img src="Images/JetPackMan_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;">
-        <div class="media-placeholder-icon">🚀</div>
-        <div class="media-placeholder-label">Gameplay GIF — Flying / Shooting</div>
-        <div class="media-placeholder-sub">Jetpack flight with obstacle dodging scene</div>
+      <!-- Hero thumbnail — click to expand -->
+      <div class="media-placeholder tall" style="cursor:zoom-in;padding:0;overflow:hidden;position:relative;" onclick="openLightbox('Images/JetPackMan_Thumbnail.png')">
+        <img src="Images/JetPackMan_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s;" class="expand-hint">⤢ CLICK TO EXPAND</div>
       </div>
     </div>
   </div>
@@ -1085,6 +1132,8 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       <div class="breakdown-divider"></div>
     </div>
     <div class="breakdown-grid">
+
+      <!-- Weapons block -->
       <div class="feat-block fade">
         <div class="feat-tag">// Weapons</div>
         <div class="feat-title">Dual-Projectile System</div>
@@ -1094,9 +1143,17 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <li>Hacking Laser — triggers door hacking minigame</li>
           <li>Context-appropriate ammo choice required to progress</li>
         </ul>
-        <img src="Videos/Jetpack1.gif" style="width:100%;height:100%;object-fit:cover;">
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">💣</div><div class="media-placeholder-label">GIF — Impact Bomb / Hacking Laser</div><div class="media-placeholder-sub">Show both projectile types in action</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Videos/Jetpack1.gif')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <img src="Videos/Jetpack1.gif" alt="Dual projectile system">
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
       </div>
+
+      <!-- Procedural block -->
       <div class="feat-block fade">
         <div class="feat-tag">// Procedural</div>
         <div class="feat-title">Obstacle Generation</div>
@@ -1105,9 +1162,17 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <li>Random height variance creates unpredictable paths</li>
           <li>Density scales with progression depth</li>
         </ul>
-        <img src="Videos/Jetpack3.gif" style="width:100%;height:100%;object-fit:cover;">
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🚧</div><div class="media-placeholder-label">GIF — Procedural Obstacles</div><div class="media-placeholder-sub">Show height variance and obstacle patterns</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Videos/Jetpack3.gif')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <img src="Videos/Jetpack3.gif" alt="Procedural obstacles">
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
       </div>
+
+      <!-- Platform block -->
       <div class="feat-block fade">
         <div class="feat-tag">// Platform</div>
         <div class="feat-title">Cross-Platform Input</div>
@@ -1117,20 +1182,34 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <li>Keyboard bindings for PC &amp; WebGL</li>
           <li>Consistent feel across both platforms</li>
         </ul>
-        <img src="Images/JetpackMan_Image3.png" style="width:100%;height:100%;object-fit:cover;">
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📱</div><div class="media-placeholder-label">Screenshot — Mobile &amp; PC Controls</div><div class="media-placeholder-sub">Side-by-side or single gameplay shot</div></div></div>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Images/JetpackMan_Image3.png')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <img src="Images/JetpackMan_Image3.png" alt="Cross-platform controls">
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 
   <div class="screenshots-strip fade">
-    <div class="strip-label">// Screenshots</div>
+    <div class="strip-label">// Screenshots — click any to expand</div>
     <div class="strip-grid">
-      <img src="Images/JetpackMan_Image1.png" style="width:100%;height:100%;object-fit:cover;">
-      <img src="Images/JetpackMan_Image5.png" style="width:100%;height:100%;object-fit:cover;">
-      <img src="Images/JetpackMan_Image4.png" style="width:100%;height:100%;object-fit:cover;">
-      <img src="Images/JetpackMan_Image6.png" style="width:100%;height:100%;object-fit:cover;">
-      <div class="strip-thumb"><div class="media-placeholder" style="min-height:0;height:100%;border:none;"><div class="media-placeholder-icon" style="font-size:1.1rem;">🖼</div><div class="media-placeholder-label" style="font-size:0.55rem;">Hacking Minigame</div></div></div>
+      <div class="strip-thumb" onclick="openLightbox('Images/JetpackMan_Image1.png')" style="cursor:zoom-in;">
+        <img src="Images/JetpackMan_Image1.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/JetpackMan_Image5.png')" style="cursor:zoom-in;">
+        <img src="Images/JetpackMan_Image5.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/JetpackMan_Image4.png')" style="cursor:zoom-in;">
+        <img src="Images/JetpackMan_Image4.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/JetpackMan_Image6.png')" style="cursor:zoom-in;">
+        <img src="Images/JetpackMan_Image6.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
     </div>
   </div>
   <div style="height:2rem;"></div>
@@ -1282,5 +1361,25 @@ const scrollObs = new IntersectionObserver(entries => {
 }, { rootMargin: '-35% 0px -55% 0px' });
 sections.forEach(id => { const el = document.getElementById(id); if (el) scrollObs.observe(el); });
 </script>
+<!-- ── LIGHTBOX ── -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-close" onclick="closeLightbox()">✕ Close</div>
+  <img id="lightbox-img" src="" alt="Expanded view">
+</div>
+
+<script>
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-img').src = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
 </body>
 </html>
