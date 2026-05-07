@@ -86,6 +86,7 @@ a { color: inherit; text-decoration: none; }
   margin-top: 1rem;
 }
 
+
 /* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
@@ -381,10 +382,20 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
 }
 .lightbox-overlay.open { display: flex; }
 .lightbox-overlay img {
-  max-width: 90vw; max-height: 88vh;
+  display: none;
+  max-width: 90vw;
+  max-height: 88vh;
   object-fit: contain;
   border: 1px solid rgba(255,255,255,0.12);
   cursor: zoom-out;
+}
+.lightbox-overlay video {
+  display: none;
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: default;
 }
 .lightbox-close {
   position: absolute; top: 1.25rem; right: 1.5rem;
@@ -967,9 +978,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <li>Camera socket for smooth ADS ↔ hip-fire transition</li>
           <li>Unique skinning animation on successful kill</li>
         </ul>
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon"><video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
-                <source src="Videos/WrongWayGameplay.mp4" type="video/webm">
-        </video>🔫</div><div class="media-placeholder-label">GIF — ADS / Reload Animation</div></div></div>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🔫</div><div class="media-placeholder-label">GIF — ADS / Reload Animation</div></div></div>
       </div>
       <div class="feat-block fade">
         <div class="feat-tag">// World</div>
@@ -1051,13 +1060,12 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
                onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
             <!-- <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay"> -->
             <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
-                <source src="Videos/WrongWayGameplay.mp4" type="video/webm">
+                <source src="Videos/WrongWayGameplay.mp4" type="video/mp4">
             </video>
             <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
           </div>
         </div>
-        
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🛣️</div><div class="media-placeholder-label">GIF — Track Generation</div></div></div>
+      
       </div>
       <div class="feat-block fade">
         <div class="feat-tag">// AI</div>
@@ -1387,18 +1395,69 @@ sections.forEach(id => { const el = document.getElementById(id); if (el) scrollO
 <!-- ── LIGHTBOX ── -->
 <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
   <div class="lightbox-close" onclick="closeLightbox()">✕ Close</div>
+
   <img id="lightbox-img" src="" alt="Expanded view">
+
+  <video id="lightbox-video" controls autoplay loop playsinline>
+    <source id="lightbox-video-source" src="" type="">
+  </video>
 </div>
 
 <script>
 function openLightbox(src) {
-  document.getElementById('lightbox-img').src = src;
-  document.getElementById('lightbox').classList.add('open');
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  const video = document.getElementById('lightbox-video');
+  const videoSource = document.getElementById('lightbox-video-source');
+
+  const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
+
+  img.style.display = 'none';
+  video.style.display = 'none';
+  img.src = '';
+  video.pause();
+  videoSource.src = '';
+  videoSource.type = '';
+
+  if (isVideo) {
+    videoSource.src = src;
+
+    if (src.toLowerCase().endsWith('.mp4')) {
+      videoSource.type = 'video/mp4';
+    } else if (src.toLowerCase().endsWith('.webm')) {
+      videoSource.type = 'video/webm';
+    } else if (src.toLowerCase().endsWith('.ogg')) {
+      videoSource.type = 'video/ogg';
+    }
+
+    video.load();
+    video.style.display = 'block';
+    video.play();
+  } else {
+    img.src = src;
+    img.style.display = 'block';
+  }
+
+  lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+
 function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.getElementById('lightbox-img').src = '';
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  const video = document.getElementById('lightbox-video');
+  const videoSource = document.getElementById('lightbox-video-source');
+
+  lightbox.classList.remove('open');
+  img.src = '';
+  img.style.display = 'none';
+
+  video.pause();
+  videoSource.src = '';
+  videoSource.type = '';
+  video.load();
+  video.style.display = 'none';
+
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
