@@ -938,6 +938,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <span>Sight</span> (player visible) → Flee to random location<br>
           <span>NavMesh</span> for natural movement
         </div>
+        
         <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🌳</div><div class="media-placeholder-label">Behavior Tree Screenshot — Deer</div></div></div>
       </div>
       <div class="feat-block fade">
@@ -966,7 +967,9 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <li>Camera socket for smooth ADS ↔ hip-fire transition</li>
           <li>Unique skinning animation on successful kill</li>
         </ul>
-        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🔫</div><div class="media-placeholder-label">GIF — ADS / Reload Animation</div></div></div>
+        <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon"><video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="Videos/WrongWayGameplay.mp4" type="video/webm">
+        </video>🔫</div><div class="media-placeholder-label">GIF — ADS / Reload Animation</div></div></div>
       </div>
       <div class="feat-block fade">
         <div class="feat-tag">// World</div>
@@ -1046,10 +1049,14 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <div class="media-clickable" onclick="openLightbox('Videos/WrongWayGameplay.mp4')"
                onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
                onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
-            <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay">
+            <!-- <img src="Videos/WrongWayGameplay.mp4" alt="WrongWay Gameplay"> -->
+            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="Videos/WrongWayGameplay.mp4" type="video/webm">
+            </video>
             <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
           </div>
         </div>
+        
         <div class="feat-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🛣️</div><div class="media-placeholder-label">GIF — Track Generation</div></div></div>
       </div>
       <div class="feat-block fade">
@@ -1127,7 +1134,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
     <div class="proj-hero-right">
       <!-- Hero thumbnail — click to expand -->
       <div class="media-placeholder tall" style="cursor:zoom-in;padding:0;overflow:hidden;position:relative;" onclick="openLightbox('Images/JetPackMan_Thumbnail.png')">
-        <img src="Images/JetPackMan_Thumbnail.png" style="width:50%;height:50%;object-fit:cover;display:block;">
+        <img src="Images/JetPackMan_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;display:block;">
         <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s;" class="expand-hint">⤢ CLICK TO EXPAND</div>
       </div>
     </div>
