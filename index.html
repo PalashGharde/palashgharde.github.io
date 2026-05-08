@@ -371,176 +371,139 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
 .fade { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .fade.in { opacity: 1; transform: none; }
 
-/* ── RESPONSIVE ── */
+/* ══ CARD FAN ══ */
+.card-fan-section { margin-top: 1.1rem; }
+.card-fan-label {
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--accent); font-weight: 700;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+.cf-count {
+  font-size: 0.58rem; color: var(--dim);
+  border: 1px solid var(--border); padding: 0.1rem 0.5rem; font-weight: 400;
+}
+.card-fan-trigger {
+  position: relative; height: 200px; cursor: pointer;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.card-fan-trigger:hover .cf-hint { color: var(--accent); }
+.cf-card {
+  position: absolute; bottom: 28px; left: 50%;
+  width: 80%; max-width: 340px; aspect-ratio: 16/10;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 2px;
+  overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.7);
+  transform-origin: bottom center;
+  transition: transform 0.35s cubic-bezier(0.34,1.3,0.64,1);
+  pointer-events: none;
+}
+.cf-card img { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; }
+.cf-card:nth-child(3){ transform: translateX(-50%) rotate(-9deg)  translateY(10px); z-index:1; }
+.cf-card:nth-child(2){ transform: translateX(-50%) rotate(-3deg)  translateY(4px);  z-index:2; }
+.cf-card:nth-child(1){ transform: translateX(-50%) rotate(0deg);                    z-index:3; }
+.card-fan-trigger:hover .cf-card:nth-child(3){ transform: translateX(-50%) rotate(-15deg) translateY(14px); }
+.card-fan-trigger:hover .cf-card:nth-child(2){ transform: translateX(-50%) rotate(-5deg)  translateY(6px);  }
+.card-fan-trigger:hover .cf-card:nth-child(1){ transform: translateX(-50%) rotate(5deg); }
+.cf-hint {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dim); text-align: center;
+  transition: color 0.2s; pointer-events: none;
+}
+
 /* ══ GALLERY LIGHTBOX ══ */
-.lightbox-overlay {
+.gallery-overlay {
   display: none; position: fixed; inset: 0; z-index: 99999;
   background: rgba(0,0,0,0.96); flex-direction: column;
 }
-.lightbox-overlay.open { display: flex; }
-.lb-topbar {
-  flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
-  padding: 0.75rem 1.5rem;
+.gallery-overlay.open { display: flex; }
+.gl-topbar {
+  flex-shrink: 0; display: flex; align-items: center;
+  justify-content: space-between; padding: 0.75rem 1.5rem;
   background: rgba(0,0,0,0.7); border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.lb-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
-.lb-count { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); }
-.lb-close {
+.gl-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.gl-count { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); }
+.gl-close {
   font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--muted); background: var(--surface2); border: 1px solid var(--border-md);
   padding: 0.35rem 0.85rem; cursor: pointer; transition: all 0.2s;
 }
-.lb-close:hover { color: #fff; border-color: var(--accent); }
-.lb-body {
-  flex: 1; position: relative; display: flex; align-items: center; justify-content: center;
-  overflow: hidden; padding: 1.5rem 4.5rem;
+.gl-close:hover { color: #fff; border-color: var(--accent); }
+.gl-body {
+  flex: 1; position: relative; display: flex;
+  align-items: center; justify-content: center;
+  overflow: hidden; padding: 1.5rem 5rem;
 }
-.lb-body img, .lb-body video {
-  max-width: 100%; max-height: 100%; object-fit: contain; display: block;
-  border: 1px solid rgba(255,255,255,0.08); transition: opacity 0.18s;
+.gl-body img {
+  max-width: 100%; max-height: 100%;
+  object-fit: contain; display: block;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: opacity 0.15s;
 }
-.lb-arr {
+.gl-arr {
   position: absolute; top: 50%; transform: translateY(-50%);
-  width: 44px; height: 44px;
-  background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15);
-  color: #fff; font-size: 1.2rem; cursor: pointer;
+  width: 48px; height: 48px;
+  background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; font-size: 1.3rem; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   z-index: 2; transition: all 0.2s; user-select: none;
 }
-.lb-arr:hover { background: rgba(212,245,60,0.18); border-color: var(--accent); color: var(--accent); }
-.lb-arr.prev { left: 0.6rem; }
-.lb-arr.next { right: 0.6rem; }
-.lb-strip {
-  flex-shrink: 0; display: flex; gap: 3px; padding: 6px 8px 8px;
-  background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.08);
+.gl-arr:hover { background: rgba(212,245,60,0.18); border-color: var(--accent); color: var(--accent); }
+.gl-arr.prev { left: 0.6rem; }
+.gl-arr.next { right: 0.6rem; }
+.gl-strip {
+  flex-shrink: 0; display: flex; gap: 4px; padding: 7px 10px 10px;
+  background: rgba(0,0,0,0.85); border-top: 1px solid rgba(255,255,255,0.08);
   overflow-x: auto; justify-content: center;
   scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent;
 }
-.lb-strip::-webkit-scrollbar { height: 3px; }
-.lb-strip::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
-.lb-thumb {
-  flex-shrink: 0; width: 80px; height: 54px; object-fit: cover; cursor: pointer;
-  opacity: 0.35; outline: 2px solid transparent; transition: opacity 0.2s, outline 0.15s;
+.gl-strip::-webkit-scrollbar { height: 3px; }
+.gl-strip::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+.gl-thumb {
+  flex-shrink: 0; width: 88px; height: 58px; object-fit: cover;
+  cursor: pointer; opacity: 0.35;
+  outline: 2px solid transparent;
+  transition: opacity 0.2s, outline 0.15s;
 }
-.lb-thumb.active { opacity: 1; outline: 2px solid var(--accent); }
-.lb-thumb:hover  { opacity: 0.75; }
+.gl-thumb.active { opacity: 1; outline: 2px solid var(--accent); }
+.gl-thumb:hover  { opacity: 0.75; }
 
-/* ══ CARD FAN ══ */
-.card-fan-section {
-  margin-top: 1.25rem;
+/* ── RESPONSIVE ── */
+/* ── LIGHTBOX ── */
+.lightbox-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.92);
+  align-items: center; justify-content: center;
+  cursor: zoom-out;
 }
-
-.card-fan-label {
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+.lightbox-overlay.open { display: flex; }
+.lightbox-overlay img {
+  display: none;
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: zoom-out;
 }
-
-.cf-count {
-  font-size: 0.58rem;
-  color: var(--dim);
-  border: 1px solid var(--border);
-  padding: 0.1rem 0.5rem;
-  font-weight: 400;
+.lightbox-overlay video {
+  display: none;
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: default;
 }
-
-.card-fan-trigger {
-  position: relative;
-  height: 230px;
-  cursor: pointer;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+.lightbox-close {
+  position: absolute; top: 1.25rem; right: 1.5rem;
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em;
+  color: var(--muted); background: var(--surface2);
+  border: 1px solid var(--border-md);
+  padding: 0.4rem 0.9rem; cursor: pointer; text-transform: uppercase;
+  transition: all 0.2s;
 }
-
-.cf-card {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  width: 78%;
-  max-width: 360px;
-  aspect-ratio: 16 / 10;
-  border: 1px solid rgba(255,255,255,0.18);
-  overflow: hidden;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.65);
-  transition: transform 0.35s cubic-bezier(0.34,1.3,0.64,1),
-              box-shadow 0.25s ease;
-  pointer-events: none;
-}
-
-.cf-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-}
-
-/* collapsed view */
-.cf-card.back-left {
-  transform: translateX(-62%) rotate(-10deg) translateY(10px);
-  z-index: 1;
-}
-
-.cf-card.back-right {
-  transform: translateX(-38%) rotate(10deg) translateY(10px);
-  z-index: 2;
-}
-
-.cf-card.front {
-  transform: translateX(-50%) rotate(0deg) translateY(0);
-  z-index: 3;
-}
-
-/* hover fan-out */
-.card-fan-trigger:hover .cf-card.back-left,
-.card-fan-trigger:focus-visible .cf-card.back-left {
-  transform: translateX(-78%) rotate(-18deg) translateY(2px);
-}
-
-.card-fan-trigger:hover .cf-card.back-right,
-.card-fan-trigger:focus-visible .cf-card.back-right {
-  transform: translateX(-22%) rotate(18deg) translateY(2px);
-}
-
-.card-fan-trigger:hover .cf-card.front,
-.card-fan-trigger:focus-visible .cf-card.front {
-  transform: translateX(-50%) rotate(0deg) translateY(-6px) scale(1.02);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.78);
-}
-
-.card-fan-trigger:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
-}
-
-.cf-hint {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--dim);
-  text-align: center;
-  transition: color 0.2s ease;
-  pointer-events: none;
-}
-
-.card-fan-trigger:hover .cf-hint,
-.card-fan-trigger:focus-visible .cf-hint {
-  color: var(--accent);
-}
-
+.lightbox-close:hover { color: var(--text); border-color: var(--accent); }
 
 /* ── CLICKABLE MEDIA ── */
 .media-clickable {
@@ -1046,21 +1009,11 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <div class="level-step-body">Designed 4-floor vertical structure in 2D. Mapped player flow, puzzle sequencing, interaction placement, and readability checkpoints per floor before any 3D work.</div>
         <div class="card-fan-section">
           <div class="card-fan-label">// 2D Floor Maps <span class="cf-count">5 images</span></div>
-
-          <div class="card-fan-trigger" onclick="openGalleryLightbox('gallery-2dmap')" tabindex="0" role="button" aria-label="Open 2D Floor Maps gallery">
-            <div class="cf-card back-left">
-              <img src="Images/2DMap_Floor1.png" alt="2D Map Floor 1">
-            </div>
-
-            <div class="cf-card back-right">
-              <img src="Images/2DMap_Floor4.png" alt="2D Map Floor 4">
-            </div>
-
-            <div class="cf-card front">
-              <img src="Images/2DMapLegend.png" alt="2D Map Legend">
-            </div>
-
-            <div class="cf-hint">click to browse all 5 maps ↗</div>
+          <div class="card-fan-trigger" onclick="openGallery()">
+            <div class="cf-card"><img src="Images/2DMap_Floor4.png" alt="Floor 4"></div>
+            <div class="cf-card"><img src="Images/2DMap_Floor1.png" alt="Floor 1"></div>
+            <div class="cf-card"><img src="Images/2DMapLegend.png"  alt="Legend"></div>
+            <div class="cf-hint">click to browse all 5 maps &nbsp;&#8599;</div>
           </div>
         </div>
       </div>
@@ -1068,25 +1021,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <div class="level-step-num">03</div>
         <div class="level-step-title">3D Blockout in UE5</div>
         <div class="level-step-body">Translated 2D layouts into playable 3D blockout. Iterated on spatial feel, adding ladders, shortcuts, and alternate paths based on playtesting feedback.</div>
-        <!-- <div class="card-fan-section">
-          <div class="card-fan-label">// 3D Blockouts &amp; Final Level <span class="cf-count">7 images</span></div>
-
-          <div class="card-fan-trigger" onclick="openGalleryLightbox('gallery-3d')" tabindex="0" role="button" aria-label="Open 3D Blockout gallery">
-            <div class="cf-card back-left">
-              <img src="Images/3DBlockout_1.png" alt="3D Blockout 1">
-            </div>
-
-            <div class="cf-card back-right">
-              <img src="Images/3DBlockout_2.png" alt="3D Blockout 2">
-            </div>
-
-            <div class="cf-card front">
-              <img src="Images/3DBlockout_3.png" alt="3D Blockout 3">
-            </div>
-
-            <div class="cf-hint">click to browse all 7 screenshots ↗</div>
-          </div>
-        </div> -->
+        <div class="level-step-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🧱</div><div class="media-placeholder-label">3D Blockout Screenshot</div><div class="media-placeholder-sub">framerusercontent.com/images/rlUylaOo5HCN8zw4JEgH9j0WuE.png</div></div></div>
       </div>
     </div>
   </div>
@@ -1753,307 +1688,155 @@ const scrollObs = new IntersectionObserver(entries => {
 }, { rootMargin: '-35% 0px -55% 0px' });
 sections.forEach(id => { const el = document.getElementById(id); if (el) scrollObs.observe(el); });
 </script>
-<!-- ══ GALLERY LIGHTBOX ══ -->
-<div class="lightbox-overlay" id="lightbox">
-  <div class="lb-topbar">
-    <div class="lb-title" id="lb-title"></div>
-    <div class="lb-count" id="lb-count"></div>
-    <button class="lb-close" onclick="closeLightbox()">&#10005; CLOSE</button>
-  </div>
+<!-- ── LIGHTBOX ── -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-close" onclick="closeLightbox()">✕ Close</div>
 
-  <div class="lb-body">
-    <button class="lb-arr prev" id="lb-prev" onclick="lbNav(-1)">&#8592;</button>
+  <img id="lightbox-img" src="" alt="Expanded view">
 
-    <img id="lb-img" src="" alt="Gallery image" style="display:none;" onclick="event.stopPropagation()">
-
-    <video id="lb-vid" autoplay loop playsinline controls style="display:none;" onclick="event.stopPropagation()">
-      <source id="lb-vsrc" src="" type="video/mp4">
-    </video>
-
-    <button class="lb-arr next" id="lb-next" onclick="lbNav(1)">&#8594;</button>
-  </div>
-
-  <div class="lb-strip" id="lb-strip"></div>
+  <video id="lightbox-video" controls autoplay loop playsinline>
+    <source id="lightbox-video-source" src="" type="">
+  </video>
 </div>
 
 <script>
-/* Gallery + regular media lightbox */
-const galleries = {
-  "gallery-2dmap": {
-    title: "// 2D FLOOR MAPS",
-    images: [
-      "Images/2DMapLegend.png",
-      "Images/2DMap_Floor1.png",
-      "Images/2DMap_Floor2.png",
-      "Images/2DMap_Floor3.png",
-      "Images/2DMap_Floor4.png"
-    ],
-    index: 0
-  },
+function openLightbox(src) {
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  const video = document.getElementById('lightbox-video');
+  const videoSource = document.getElementById('lightbox-video-source');
 
-  // "gallery-3d": {
-  //   title: "// 3D BLOCKOUTS & FINAL LEVEL",
-  //   images: [
-  //     "Images/3DBlockout_1.png",
-  //     "Images/3DBlockout_2.png",
-  //     "Images/3DBlockout_3.png",
-  //     "Images/3DBlockout_4.png",
-  //     "Images/3DBlockout_5.png",
-  //     "Images/3DBlockout_6.png",
-  //     "Images/3DBlockout_7.png"
-  //   ],
-  //   index: 0
-  // }
-};
+  const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
 
-let currentGallery = null;
-
-function isVideoFile(src) {
-  return /\.(mp4|webm|ogg|gif)$/i.test(src);
-}
-
-function setLightboxMedia(src) {
-  const img = document.getElementById("lb-img");
-  const video = document.getElementById("lb-vid");
-  const videoSource = document.getElementById("lb-vsrc");
-
-  img.style.display = "none";
-  video.style.display = "none";
-
-  img.src = "";
+  img.style.display = 'none';
+  video.style.display = 'none';
+  img.src = '';
   video.pause();
-  videoSource.src = "";
-  videoSource.type = "";
-  video.load();
+  videoSource.src = '';
+  videoSource.type = '';
 
-  if (isVideoFile(src) && !src.toLowerCase().endsWith(".gif")) {
+  if (isVideo) {
     videoSource.src = src;
 
-    if (src.toLowerCase().endsWith(".mp4")) {
-      videoSource.type = "video/mp4";
-    } else if (src.toLowerCase().endsWith(".webm")) {
-      videoSource.type = "video/webm";
-    } else if (src.toLowerCase().endsWith(".ogg")) {
-      videoSource.type = "video/ogg";
+    if (src.toLowerCase().endsWith('.mp4')) {
+      videoSource.type = 'video/mp4';
+    } else if (src.toLowerCase().endsWith('.webm')) {
+      videoSource.type = 'video/webm';
+    } else if (src.toLowerCase().endsWith('.ogg')) {
+      videoSource.type = 'video/ogg';
     }
 
-    video.muted = false;
-    video.volume = 1;
     video.load();
-    video.style.display = "block";
-    video.play().catch(() => {});
+    video.style.display = 'block';
+    video.play();
   } else {
     img.src = src;
-    img.style.display = "block";
-  }
-}
-
-function openLightbox(src) {
-  currentGallery = null;
-
-  document.getElementById("lightbox").classList.add("open");
-  document.body.style.overflow = "hidden";
-
-  document.getElementById("lb-title").textContent = "";
-  document.getElementById("lb-count").textContent = "";
-  document.getElementById("lb-prev").style.display = "none";
-  document.getElementById("lb-next").style.display = "none";
-  document.getElementById("lb-strip").style.display = "none";
-  document.getElementById("lb-strip").innerHTML = "";
-
-  setLightboxMedia(src);
-}
-
-function openGalleryLightbox(galleryId) {
-  const gallery = galleries[galleryId];
-
-  if (!gallery) {
-    console.error("Gallery not found:", galleryId);
-    return;
+    img.style.display = 'block';
   }
 
-  currentGallery = galleryId;
-  gallery.index = 0;
-
-  document.getElementById("lightbox").classList.add("open");
-  document.body.style.overflow = "hidden";
-
-  document.getElementById("lb-prev").style.display = "flex";
-  document.getElementById("lb-next").style.display = "flex";
-  document.getElementById("lb-strip").style.display = "flex";
-
-  renderGallery();
-}
-
-function renderGallery() {
-  if (!currentGallery) return;
-
-  const gallery = galleries[currentGallery];
-  const currentImage = gallery.images[gallery.index];
-  const strip = document.getElementById("lb-strip");
-
-  setLightboxMedia(currentImage);
-
-  document.getElementById("lb-title").textContent = gallery.title;
-  document.getElementById("lb-count").textContent =
-    `${gallery.index + 1} / ${gallery.images.length}`;
-
-  strip.innerHTML = "";
-
-  gallery.images.forEach((src, i) => {
-    const thumb = document.createElement("img");
-    thumb.src = src;
-    thumb.className = "lb-thumb" + (i === gallery.index ? " active" : "");
-    thumb.alt = `Thumbnail ${i + 1}`;
-    thumb.onclick = () => {
-      gallery.index = i;
-      renderGallery();
-    };
-    strip.appendChild(thumb);
-  });
-
-  const activeThumb = strip.querySelector(".lb-thumb.active");
-  if (activeThumb) {
-    setTimeout(() => {
-      activeThumb.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center"
-      });
-    }, 40);
-  }
-}
-
-function lbNav(direction) {
-  if (!currentGallery) return;
-
-  const gallery = galleries[currentGallery];
-  gallery.index =
-    (gallery.index + direction + gallery.images.length) % gallery.images.length;
-
-  renderGallery();
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
-  const lightbox = document.getElementById("lightbox");
-  const img = document.getElementById("lb-img");
-  const video = document.getElementById("lb-vid");
-  const videoSource = document.getElementById("lb-vsrc");
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  const video = document.getElementById('lightbox-video');
+  const videoSource = document.getElementById('lightbox-video-source');
 
-  lightbox.classList.remove("open");
-  document.body.style.overflow = "";
-
-  img.src = "";
-  img.style.display = "none";
+  lightbox.classList.remove('open');
+  img.src = '';
+  img.style.display = 'none';
 
   video.pause();
-  video.muted = true;
-  videoSource.src = "";
-  videoSource.type = "";
+  videoSource.src = '';
+  videoSource.type = '';
   video.load();
-  video.style.display = "none";
+  video.style.display = 'none';
 
-  document.getElementById("lb-strip").innerHTML = "";
-  currentGallery = null;
+  document.body.style.overflow = '';
 }
-
-document.addEventListener("keydown", function(e) {
-  const lightbox = document.getElementById("lightbox");
-  if (!lightbox || !lightbox.classList.contains("open")) return;
-
-  if (e.key === "Escape") {
-    closeLightbox();
-  }
-
-  if (e.key === "ArrowLeft") {
-    lbNav(-1);
-  }
-
-  if (e.key === "ArrowRight") {
-    lbNav(1);
-  }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".card-fan-trigger").forEach(el => {
-    el.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        el.click();
-      }
-    });
-  });
-});
-
-/* Make functions available to inline onclick handlers */
-window.openLightbox = openLightbox;
-window.openGalleryLightbox = openGalleryLightbox;
-window.lbNav = lbNav;
-window.closeLightbox = closeLightbox;
-
-/* Page JS */
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add("in");
-      obs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.08 });
-
-document.querySelectorAll(".fade").forEach(el => obs.observe(el));
-
-function openAbout() {
-  document.getElementById("aboutOverlay").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-
-function closeAbout() {
-  document.getElementById("aboutOverlay").classList.remove("open");
-  document.body.style.overflow = "";
-}
-
-function goHome() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function jumpTo(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  const navH = document.querySelector("nav").offsetHeight;
-  const pn = document.getElementById("projNav");
-  const pnH = pn ? pn.offsetHeight : 0;
-
-  window.scrollTo({
-    top: el.getBoundingClientRect().top + window.scrollY - navH - pnH - 8,
-    behavior: "smooth"
-  });
-}
-
-window.openAbout = openAbout;
-window.closeAbout = closeAbout;
-window.goHome = goHome;
-window.jumpTo = jumpTo;
-
-const sections = ["kidnapped", "elemental", "hunting", "wrongway", "jetpack"];
-const navItems = document.querySelectorAll(".proj-nav-item");
-
-const scrollObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const i = sections.indexOf(e.target.id);
-      if (i >= 0) {
-        navItems.forEach((n, j) => n.classList.toggle("active", j === i));
-      }
-    }
-  });
-}, { rootMargin: "-35% 0px -55% 0px" });
-
-sections.forEach(id => {
-  const el = document.getElementById(id);
-  if (el) scrollObs.observe(el);
-});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
+
+<!-- ══ 2D MAP GALLERY OVERLAY ══ -->
+<div class="gallery-overlay" id="gallery-overlay">
+  <div class="gl-topbar">
+    <div class="gl-title">// 2D Floor Maps</div>
+    <div class="gl-count" id="gl-count">1 / 5</div>
+    <button class="gl-close" onclick="closeGallery()">&#10005; CLOSE</button>
+  </div>
+  <div class="gl-body">
+    <button class="gl-arr prev" onclick="glNav(-1)">&#8592;</button>
+    <img id="gl-img" src="" alt="2D Map">
+    <button class="gl-arr next" onclick="glNav(1)">&#8594;</button>
+  </div>
+  <div class="gl-strip" id="gl-strip"></div>
+  <!-- click backdrop to close -->
+  <div onclick="closeGallery()" style="position:absolute;inset:0;z-index:-1;"></div>
+</div>
+
+<script>
+(function(){
+  const IMAGES = [
+    'Images/2DMapLegend.png',
+    'Images/2DMap_Floor1.png',
+    'Images/2DMap_Floor2.png',
+    'Images/2DMap_Floor3.png',
+    'Images/2DMap_Floor4.png'
+  ];
+  let cur = 0;
+
+  function render() {
+    const img   = document.getElementById('gl-img');
+    const count = document.getElementById('gl-count');
+    img.style.opacity = '0';
+    setTimeout(() => { img.src = IMAGES[cur]; img.style.opacity = '1'; }, 120);
+    count.textContent = (cur + 1) + ' / ' + IMAGES.length;
+    document.querySelectorAll('.gl-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === cur);
+    });
+    const active = document.querySelector('.gl-thumb.active');
+    if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  function buildStrip() {
+    const strip = document.getElementById('gl-strip');
+    strip.innerHTML = '';
+    IMAGES.forEach((src, i) => {
+      const t = document.createElement('img');
+      t.src = src; t.className = 'gl-thumb' + (i === 0 ? ' active' : '');
+      t.onclick = () => { cur = i; render(); };
+      strip.appendChild(t);
+    });
+  }
+
+  window.openGallery = function() {
+    cur = 0;
+    buildStrip();
+    render();
+    document.getElementById('gallery-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeGallery = function() {
+    document.getElementById('gallery-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  window.glNav = function(dir) {
+    cur = (cur + dir + IMAGES.length) % IMAGES.length;
+    render();
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('gallery-overlay').classList.contains('open')) return;
+    if (e.key === 'Escape')     closeGallery();
+    if (e.key === 'ArrowLeft')  glNav(-1);
+    if (e.key === 'ArrowRight') glNav(1);
+  });
+})();
+</script>
+
 </body>
 </html>
