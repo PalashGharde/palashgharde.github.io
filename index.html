@@ -384,7 +384,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
   border: 1px solid var(--border); padding: 0.1rem 0.5rem; font-weight: 400;
 }
 .card-fan-trigger {
-  position: relative; height: 200px; cursor: pointer;
+  position: relative; height: 240px; cursor: pointer;
   display: flex; align-items: flex-end; justify-content: center;
 }
 .card-fan-trigger:hover .cf-hint { color: var(--accent); }
@@ -405,7 +405,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
 .card-fan-trigger:hover .cf-card:nth-child(2){ transform: translateX(-50%) rotate(-5deg)  translateY(6px);  }
 .card-fan-trigger:hover .cf-card:nth-child(1){ transform: translateX(-50%) rotate(5deg); }
 .cf-hint {
-  position: absolute; bottom: 0; left: 0; right: 0;
+  position: absolute; bottom: -20px; left: 0; right: 0;
   font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--dim); text-align: center;
   transition: color 0.2s; pointer-events: none;
@@ -1083,12 +1083,12 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <div class="level-step-title">Final Version with Assets and Materials</div>
         <div class="level-step-body">Added relevent 3D assets, materials, lights, water and puzzle elements.</div>
         <div class="card-fan-section">
-          <div class="card-fan-label">// Final Version Screenshot <span class="cf-count">5 images<br><br><br></span></div>
+          <div class="card-fan-label">// Final Version Screenshot <span class="cf-count">5 images</span></div>
           <div class="card-fan-trigger" onclick="openGalleryFinal()">
             <div class="cf-card"><img src="Images/FinalLevel_1.png" alt="FinalLevel_1.png"></div>
             <div class="cf-card"><img src="Images/FinalLevel_3.png" alt="FinalLevel_3.png"></div>
             <div class="cf-card"><img src="Images/FinalLevel_5.png"  alt="FinalLevel_5.png"></div>
-            <div class="cf-hint"><br><br><br>click to browse all images &nbsp;&#8599;</div>
+            <div class="cf-hint">click to browse all images &nbsp;&#8599;</div>
           </div>
         </div>
       </div>
