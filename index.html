@@ -372,40 +372,91 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
 .fade.in { opacity: 1; transform: none; }
 
 /* ── RESPONSIVE ── */
-/* ── LIGHTBOX ── */
+/* ══ GALLERY LIGHTBOX ══ */
 .lightbox-overlay {
-  display: none;
-  position: fixed; inset: 0; z-index: 999;
-  background: rgba(0,0,0,0.92);
-  align-items: center; justify-content: center;
-  cursor: zoom-out;
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.96); flex-direction: column;
 }
 .lightbox-overlay.open { display: flex; }
-.lightbox-overlay img {
-  display: none;
-  max-width: 90vw;
-  max-height: 88vh;
-  object-fit: contain;
-  border: 1px solid rgba(255,255,255,0.12);
-  cursor: zoom-out;
+.lb-topbar {
+  flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background: rgba(0,0,0,0.7); border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.lightbox-overlay video {
-  display: none;
-  max-width: 90vw;
-  max-height: 88vh;
-  object-fit: contain;
-  border: 1px solid rgba(255,255,255,0.12);
-  cursor: default;
+.lb-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.lb-count { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); }
+.lb-close {
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); background: var(--surface2); border: 1px solid var(--border-md);
+  padding: 0.35rem 0.85rem; cursor: pointer; transition: all 0.2s;
 }
-.lightbox-close {
-  position: absolute; top: 1.25rem; right: 1.5rem;
-  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em;
-  color: var(--muted); background: var(--surface2);
-  border: 1px solid var(--border-md);
-  padding: 0.4rem 0.9rem; cursor: pointer; text-transform: uppercase;
-  transition: all 0.2s;
+.lb-close:hover { color: #fff; border-color: var(--accent); }
+.lb-body {
+  flex: 1; position: relative; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; padding: 1.5rem 4.5rem;
 }
-.lightbox-close:hover { color: var(--text); border-color: var(--accent); }
+.lb-body img, .lb-body video {
+  max-width: 100%; max-height: 100%; object-fit: contain; display: block;
+  border: 1px solid rgba(255,255,255,0.08); transition: opacity 0.18s;
+}
+.lb-arr {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px;
+  background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2; transition: all 0.2s; user-select: none;
+}
+.lb-arr:hover { background: rgba(212,245,60,0.18); border-color: var(--accent); color: var(--accent); }
+.lb-arr.prev { left: 0.6rem; }
+.lb-arr.next { right: 0.6rem; }
+.lb-strip {
+  flex-shrink: 0; display: flex; gap: 3px; padding: 6px 8px 8px;
+  background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.08);
+  overflow-x: auto; justify-content: center;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+.lb-strip::-webkit-scrollbar { height: 3px; }
+.lb-strip::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+.lb-thumb {
+  flex-shrink: 0; width: 80px; height: 54px; object-fit: cover; cursor: pointer;
+  opacity: 0.35; outline: 2px solid transparent; transition: opacity 0.2s, outline 0.15s;
+}
+.lb-thumb.active { opacity: 1; outline: 2px solid var(--accent); }
+.lb-thumb:hover  { opacity: 0.75; }
+
+/* ══ CARD FAN ══ */
+.card-fan-section { margin-top: 1.25rem; }
+.card-fan-label {
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--accent); font-weight: 700;
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
+}
+.cf-count { font-size: 0.58rem; color: var(--dim); border: 1px solid var(--border); padding: 0.1rem 0.5rem; font-weight: 400; }
+.card-fan-trigger {
+  position: relative; height: 200px; cursor: pointer;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.card-fan-trigger:hover .cf-hint { color: var(--accent); }
+.cf-card {
+  position: absolute; bottom: 28px; left: 50%;
+  width: 78%; max-width: 360px; aspect-ratio: 16/10;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 2px; overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.7); transform-origin: bottom center;
+  transition: transform 0.35s cubic-bezier(0.34,1.3,0.64,1);
+}
+.cf-card img { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; }
+.cf-card:nth-child(3){ transform: translateX(-50%) rotate(-9deg)  translateY(10px); z-index:1; }
+.cf-card:nth-child(2){ transform: translateX(-50%) rotate(-3deg)  translateY(4px);  z-index:2; }
+.cf-card:nth-child(1){ transform: translateX(-50%) rotate(0deg);                    z-index:3; }
+.card-fan-trigger:hover .cf-card:nth-child(3){ transform: translateX(-50%) rotate(-15deg) translateY(14px); }
+.card-fan-trigger:hover .cf-card:nth-child(2){ transform: translateX(-50%) rotate(-5deg)  translateY(5px);  }
+.card-fan-trigger:hover .cf-card:nth-child(1){ transform: translateX(-50%) rotate(5deg); }
+.cf-hint {
+  position: absolute; bottom: 0; left:0; right:0;
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dim); text-align: center; transition: color 0.2s;
+}
 
 /* ── CLICKABLE MEDIA ── */
 .media-clickable {
@@ -899,68 +950,40 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       <div class="breakdown-divider"></div>
     </div>
     <div class="level-steps">
-
-      <!-- Step 01 -->
       <div class="level-step">
         <div class="level-step-num">01</div>
         <div class="level-step-title">Concept &amp; GDD</div>
         <div class="level-step-body">Defined core puzzle concepts and all required gameplay elements — water systems, lifts, levers, containers — in the GDD before any level work began.</div>
+        <div class="level-step-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📄</div><div class="media-placeholder-label">GDD Screenshot</div></div></div>
       </div>
-
-      <!-- Step 02 — 2D Maps Gallery -->
       <div class="level-step">
         <div class="level-step-num">02</div>
         <div class="level-step-title">2D Layout Planning</div>
         <div class="level-step-body">Designed 4-floor vertical structure in 2D. Mapped player flow, puzzle sequencing, interaction placement, and readability checkpoints per floor before any 3D work.</div>
-        <div class="gallery-wrapper" id="gallery-2dmap">
-          <div class="gallery-label">
-            // 2D Floor Maps
-            <span id="gallery-2dmap-counter">1 / 5</span>
-          </div>
-          <div class="gallery-main" onclick="openGalleryLightbox('gallery-2dmap')">
-            <img id="gallery-2dmap-main" src="Images/2DMapLegend.png" alt="2D Map">
-            <button class="gallery-arrow prev" onclick="event.stopPropagation(); galleryNav('gallery-2dmap', -1)">&#8592;</button>
-            <button class="gallery-arrow next" onclick="event.stopPropagation(); galleryNav('gallery-2dmap',  1)">&#8594;</button>
-            <div class="gallery-counter" id="gallery-2dmap-badge">1 / 5</div>
-          </div>
-          <div class="gallery-thumbs" id="gallery-2dmap-thumbs">
-            <img class="gallery-thumb active" src="Images/2DMapLegend.png"    alt="Legend"  onclick="galleryGoto('gallery-2dmap', 0)">
-            <img class="gallery-thumb"        src="Images/2DMap_Floor1.png"   alt="Floor 1" onclick="galleryGoto('gallery-2dmap', 1)">
-            <img class="gallery-thumb"        src="Images/2DMap_Floor2.png"   alt="Floor 2" onclick="galleryGoto('gallery-2dmap', 2)">
-            <img class="gallery-thumb"        src="Images/2DMap_Floor3.png"   alt="Floor 3" onclick="galleryGoto('gallery-2dmap', 3)">
-            <img class="gallery-thumb"        src="Images/2DMap_Floor4.png"   alt="Floor 4" onclick="galleryGoto('gallery-2dmap', 4)">
+        <div class="card-fan-section">
+          <div class="card-fan-label">// 2D Floor Maps <span class="cf-count">5 images</span></div>
+          <div class="card-fan-trigger" onclick="openGalleryLightbox('gallery-2dmap')">
+            <div class="cf-card"><img src="Images/2DMap_Floor4.png" alt="Floor 4"></div>
+            <div class="cf-card"><img src="Images/2DMap_Floor1.png" alt="Floor 1"></div>
+            <div class="cf-card"><img src="Images/2DMapLegend.png"  alt="Legend"></div>
+            <div class="cf-hint">click to browse all 5 maps &nbsp;&#8599;</div>
           </div>
         </div>
       </div>
-
-      <!-- Step 03 — 3D Blockouts Gallery -->
       <div class="level-step">
         <div class="level-step-num">03</div>
         <div class="level-step-title">3D Blockout in UE5</div>
         <div class="level-step-body">Translated 2D layouts into playable 3D blockout. Iterated on spatial feel, adding ladders, shortcuts, and alternate paths based on playtesting feedback.</div>
-        <div class="gallery-wrapper" id="gallery-3d">
-          <div class="gallery-label">
-            // 3D Blockouts &amp; Final Level
-            <span id="gallery-3d-counter">1 / 7</span>
-          </div>
-          <div class="gallery-main" onclick="openGalleryLightbox('gallery-3d')">
-            <img id="gallery-3d-main" src="Images/3DBlockout_1.png" alt="3D Blockout">
-            <button class="gallery-arrow prev" onclick="event.stopPropagation(); galleryNav('gallery-3d', -1)">&#8592;</button>
-            <button class="gallery-arrow next" onclick="event.stopPropagation(); galleryNav('gallery-3d',  1)">&#8594;</button>
-            <div class="gallery-counter" id="gallery-3d-badge">1 / 7</div>
-          </div>
-          <div class="gallery-thumbs" id="gallery-3d-thumbs">
-            <img class="gallery-thumb active" src="Images/3DBlockout_1.png" alt="Blockout 1" onclick="galleryGoto('gallery-3d', 0)">
-            <img class="gallery-thumb"        src="Images/3DBlockout_2.png" alt="Blockout 2" onclick="galleryGoto('gallery-3d', 1)">
-            <img class="gallery-thumb"        src="Images/3DBlockout_3.png" alt="Blockout 3" onclick="galleryGoto('gallery-3d', 2)">
-            <img class="gallery-thumb"        src="Images/3DBlockout_4.png" alt="Blockout 4" onclick="galleryGoto('gallery-3d', 3)">
-            <img class="gallery-thumb"        src="Images/3DBlockout_5.png" alt="Blockout 5" onclick="galleryGoto('gallery-3d', 4)">
-            <img class="gallery-thumb"        src="Images/3DBlockout_6.png" alt="Final Level 1" onclick="galleryGoto('gallery-3d', 5)">
-            <img class="gallery-thumb"        src="Images/3DBlockout_7.png" alt="Final Level 2" onclick="galleryGoto('gallery-3d', 6)">
+        <div class="card-fan-section">
+          <div class="card-fan-label">// 3D Blockouts &amp; Final Level <span class="cf-count">7 images</span></div>
+          <div class="card-fan-trigger" onclick="openGalleryLightbox('gallery-3d')">
+            <div class="cf-card"><img src="Images/3DBlockout_3.png" alt="Blockout 3"></div>
+            <div class="cf-card"><img src="Images/3DBlockout_2.png" alt="Blockout 2"></div>
+            <div class="cf-card"><img src="Images/3DBlockout_1.png" alt="Blockout 1"></div>
+            <div class="cf-hint">click to browse all 7 screenshots &nbsp;&#8599;</div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -1626,147 +1649,143 @@ const scrollObs = new IntersectionObserver(entries => {
 }, { rootMargin: '-35% 0px -55% 0px' });
 sections.forEach(id => { const el = document.getElementById(id); if (el) scrollObs.observe(el); });
 </script>
-<!-- ── LIGHTBOX ── -->
-<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
-  <div class="lightbox-close" onclick="closeLightbox()">✕ Close</div>
-
-  <img id="lightbox-img" src="" alt="Expanded view">
-
-  <video id="lightbox-video" controls autoplay loop playsinline>
-    <source id="lightbox-video-source" src="" type="">
-  </video>
+<!-- ══ GALLERY LIGHTBOX ══ -->
+<div class="lightbox-overlay" id="lightbox">
+  <div class="lb-topbar">
+    <div class="lb-title" id="lb-title"></div>
+    <div class="lb-count" id="lb-count"></div>
+    <button class="lb-close" onclick="closeLightbox()">&#10005; CLOSE</button>
+  </div>
+  <div class="lb-body">
+    <button class="lb-arr prev" id="lb-prev" onclick="lbNav(-1)" style="display:none;">&#8592;</button>
+    <img   id="lb-img" src="" alt="" style="display:none;" onclick="event.stopPropagation()">
+    <video id="lb-vid" autoplay loop muted playsinline controls style="display:none;" onclick="event.stopPropagation()">
+      <source id="lb-vsrc" src="" type="video/mp4">
+    </video>
+    <button class="lb-arr next" id="lb-next" onclick="lbNav(1)"  style="display:none;">&#8594;</button>
+  </div>
+  <div class="lb-strip" id="lb-strip" style="display:none;"></div>
+  <div onclick="closeLightbox()" style="position:absolute;inset:0;z-index:-1;"></div>
 </div>
 
 <script>
-function openLightbox(src) {
-  const lightbox = document.getElementById('lightbox');
-  const img = document.getElementById('lightbox-img');
-  const video = document.getElementById('lightbox-video');
-  const videoSource = document.getElementById('lightbox-video-source');
+const _gals = {};
+function galleryInit(id, imgs){ _gals[id]={imgs,i:0}; }
+let _curGal = null;
 
-  const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
+function openLightbox(src){
+  _curGal=null;
+  _show(src);
+  document.getElementById('lb-title').textContent='';
+  document.getElementById('lb-count').textContent='';
+  document.getElementById('lb-prev').style.display='none';
+  document.getElementById('lb-next').style.display='none';
+  document.getElementById('lb-strip').style.display='none';
+  document.getElementById('lb-strip').innerHTML='';
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
 
-  img.style.display = 'none';
-  video.style.display = 'none';
-  img.src = '';
-  video.pause();
-  videoSource.src = '';
-  videoSource.type = '';
+function openGalleryLightbox(id){
+  const g=_gals[id]; if(!g) return;
+  _curGal=id; _lbRender(id);
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
 
-  if (isVideo) {
-    videoSource.src = src;
+function _lbRender(id){
+  const g=_gals[id], total=g.imgs.length;
+  _show(g.imgs[g.i]);
+  document.getElementById('lb-title').textContent='// '+id.replace('gallery-','').replace(/-/g,' ').toUpperCase();
+  document.getElementById('lb-count').textContent=(g.i+1)+' / '+total;
+  document.getElementById('lb-prev').style.display='flex';
+  document.getElementById('lb-next').style.display='flex';
+  const strip=document.getElementById('lb-strip');
+  strip.style.display='flex'; strip.innerHTML='';
+  g.imgs.forEach((src,n)=>{
+    const t=document.createElement('img');
+    t.src=src; t.className='lb-thumb'+(n===g.i?' active':'');
+    t.onclick=()=>{ g.i=n; _lbRender(id); };
+    strip.appendChild(t);
+  });
+  const active=strip.querySelector('.lb-thumb.active');
+  if(active) setTimeout(()=>active.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}),60);
+}
 
-    if (src.toLowerCase().endsWith('.mp4')) {
-      videoSource.type = 'video/mp4';
-    } else if (src.toLowerCase().endsWith('.webm')) {
-      videoSource.type = 'video/webm';
-    } else if (src.toLowerCase().endsWith('.ogg')) {
-      videoSource.type = 'video/ogg';
+function _show(src){
+  const isV=/\.(mp4|webm|ogg)$/i.test(src);
+  const img=document.getElementById('lb-img');
+  const vid=document.getElementById('lb-vid');
+  const vs=document.getElementById('lb-vsrc');
+  img.style.display='none'; img.src='';
+  vid.style.display='none'; vs.src=''; vid.load();
+  if(isV){ vs.src=src; vid.load(); vid.style.display='block'; vid.play().catch(()=>{}); }
+  else   { img.src=src; img.style.display='block'; }
+}
+
+function lbNav(dir){
+  if(!_curGal) return;
+  const g=_gals[_curGal];
+  g.i=(g.i+dir+g.imgs.length)%g.imgs.length;
+  _lbRender(_curGal);
+}
+
+function closeLightbox(){
+  _curGal=null;
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lb-img').src='';
+  document.getElementById('lb-vsrc').src='';
+  document.getElementById('lb-vid').load();
+  document.getElementById('lb-strip').innerHTML='';
+  document.body.style.overflow='';
+}
+
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lightbox').classList.contains('open')) return;
+  if(e.key==='Escape')     closeLightbox();
+  if(e.key==='ArrowLeft')  lbNav(-1);
+  if(e.key==='ArrowRight') lbNav(1);
+});
+
+document.addEventListener('DOMContentLoaded',()=>{
+  galleryInit('gallery-2dmap',[
+    'Images/2DMapLegend.png','Images/2DMap_Floor1.png','Images/2DMap_Floor2.png',
+    'Images/2DMap_Floor3.png','Images/2DMap_Floor4.png']);
+  galleryInit('gallery-3d',[
+    'Images/3DBlockout_1.png','Images/3DBlockout_2.png','Images/3DBlockout_3.png',
+    'Images/3DBlockout_4.png','Images/3DBlockout_5.png','Images/3DBlockout_6.png',
+    'Images/3DBlockout_7.png']);
+});
+
+/* Page JS */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
+},{threshold:0.08});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+function openAbout() { document.getElementById('aboutOverlay').classList.add('open');    document.body.style.overflow='hidden'; }
+function closeAbout(){ document.getElementById('aboutOverlay').classList.remove('open'); document.body.style.overflow=''; }
+function goHome()    { window.scrollTo({top:0,behavior:'smooth'}); }
+
+function jumpTo(id){
+  const el=document.getElementById(id); if(!el) return;
+  const navH=document.querySelector('nav').offsetHeight;
+  const pn=document.getElementById('projNav');
+  const pnH=pn?pn.offsetHeight:0;
+  window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-navH-pnH-8,behavior:'smooth'});
+}
+
+const sections=['kidnapped','elemental','hunting','wrongway','jetpack'];
+const navItems=document.querySelectorAll('.proj-nav-item');
+const scrollObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const i=sections.indexOf(e.target.id);
+      if(i>=0) navItems.forEach((n,j)=>n.classList.toggle('active',j===i));
     }
-
-    video.load();
-    video.style.display = 'block';
-    video.play();
-  } else {
-    img.src = src;
-    img.style.display = 'block';
-  }
-
-  lightbox.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-  const lightbox = document.getElementById('lightbox');
-  const img = document.getElementById('lightbox-img');
-  const video = document.getElementById('lightbox-video');
-  const videoSource = document.getElementById('lightbox-video-source');
-
-  lightbox.classList.remove('open');
-  img.src = '';
-  img.style.display = 'none';
-
-  video.pause();
-  videoSource.src = '';
-  videoSource.type = '';
-  video.load();
-  video.style.display = 'none';
-
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLightbox(); window._activeGallery = null; } });
-// ── GALLERY STATE
-const galleryState = {};
-
-function galleryInit(id, images) {
-  galleryState[id] = { images, index: 0 };
-}
-
-function galleryGoto(id, idx) {
-  const g = galleryState[id];
-  if (!g) return;
-  g.index = (idx + g.images.length) % g.images.length;
-  const total = g.images.length;
-  // Update main image
-  const mainImg = document.getElementById(id + '-main');
-  if (mainImg) { mainImg.style.opacity = '0'; setTimeout(() => { mainImg.src = g.images[g.index]; mainImg.style.opacity = '1'; }, 150); }
-  // Update counter
-  const badge = document.getElementById(id + '-badge');
-  if (badge) badge.textContent = (g.index + 1) + ' / ' + total;
-  const counter = document.getElementById(id + '-counter');
-  if (counter) counter.textContent = (g.index + 1) + ' / ' + total;
-  // Update thumbs
-  const thumbs = document.querySelectorAll('#' + id + '-thumbs .gallery-thumb');
-  thumbs.forEach((t, i) => t.classList.toggle('active', i === g.index));
-  // Scroll active thumb into view
-  if (thumbs[g.index]) thumbs[g.index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-}
-
-function galleryNav(id, dir) {
-  const g = galleryState[id];
-  if (!g) return;
-  galleryGoto(id, g.index + dir);
-}
-
-function openGalleryLightbox(id) {
-  const g = galleryState[id];
-  if (!g) return;
-  // Use existing lightbox, set up with gallery navigation
-  openLightbox(g.images[g.index]);
-  // Store which gallery is open for arrow key nav inside lightbox
-  window._activeGallery = id;
-}
-
-// Keyboard: left/right arrows navigate gallery when lightbox is open
-document.addEventListener('keydown', e => {
-  if (!document.getElementById('lightbox').classList.contains('open')) return;
-  if (window._activeGallery) {
-    if (e.key === 'ArrowLeft')  { galleryNav(window._activeGallery, -1); openLightbox(galleryState[window._activeGallery].images[galleryState[window._activeGallery].index]); }
-    if (e.key === 'ArrowRight') { galleryNav(window._activeGallery,  1); openLightbox(galleryState[window._activeGallery].images[galleryState[window._activeGallery].index]); }
-  }
-});
-
-// Initialise galleries on page load
-document.addEventListener('DOMContentLoaded', () => {
-  galleryInit('gallery-2dmap', [
-    'Images/2DMapLegend.png',
-    'Images/2DMap_Floor1.png',
-    'Images/2DMap_Floor2.png',
-    'Images/2DMap_Floor3.png',
-    'Images/2DMap_Floor4.png',
-  ]);
-  galleryInit('gallery-3d', [
-    'Images/3DBlockout_1.png',
-    'Images/3DBlockout_2.png',
-    'Images/3DBlockout_3.png',
-    'Images/3DBlockout_4.png',
-    'Images/3DBlockout_5.png',
-    'Images/3DBlockout_6.png',
-    'Images/3DBlockout_7.png',
-  ]);
-});
-
+  });
+},{rootMargin:'-35% 0px -55% 0px'});
+sections.forEach(id=>{ const el=document.getElementById(id); if(el) scrollObs.observe(el); });
 </script>
-
 </body>
 </html>
