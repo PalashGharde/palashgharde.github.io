@@ -1818,15 +1818,15 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 <div class="gallery-overlay" id="gallery-final">
   <div class="gl-topbar">
     <div class="gl-title">// Final Version</div>
-    <div class="gl-count" id="g3-count">1 / 5</div>
-    <button class="gl-close" onclick="closeGallery3D()">&#10005; CLOSE</button>
+    <div class="gl-count" id="gf-count">1 / 5</div>
+    <button class="gl-close" onclick="closeGalleryFinal()">&#10005; CLOSE</button>
   </div>
   <div class="gl-body">
-    <button class="gl-arr prev" onclick="g3Nav(-1)">&#8592;</button>
-    <img id="g3-img" src="" alt="Final Version">
-    <button class="gl-arr next" onclick="g3Nav(1)">&#8594;</button>
+    <button class="gl-arr prev" onclick="gfNav(-1)">&#8592;</button>
+    <img id="gf-img" src="" alt="Final Version">
+    <button class="gl-arr next" onclick="gfNav(1)">&#8594;</button>
   </div>
-  <div class="gl-strip" id="g3-strip"></div>
+  <div class="gl-strip" id="gf-strip"></div>
   <div onclick="closeGalleryFinal()" style="position:absolute;inset:0;z-index:-1;"></div>
 </div>
 
@@ -1963,24 +1963,24 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
   let cur = 0;
 
   function render() {
-    const img = document.getElementById('g3-img');
-    const count = document.getElementById('g3-count');
+    const img = document.getElementById('gf-img');
+    const count = document.getElementById('gf-count');
     img.style.opacity = '0';
     setTimeout(() => { img.src = IMAGES[cur]; img.style.opacity = '1'; }, 120);
     count.textContent = (cur + 1) + ' / ' + IMAGES.length;
-    document.querySelectorAll('#g3-strip .gl-thumb').forEach((t, i) => {
+    document.querySelectorAll('#gf-strip .gf-thumb').forEach((t, i) => {
       t.classList.toggle('active', i === cur);
     });
-    const active = document.querySelector('#g3-strip .gl-thumb.active');
+    const active = document.querySelector('#gf-strip .gf-thumb.active');
     if (active) active.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
   }
 
   function buildStrip() {
-    const strip = document.getElementById('g3-strip');
+    const strip = document.getElementById('gf-strip');
     strip.innerHTML = '';
     IMAGES.forEach((src, i) => {
       const t = document.createElement('img');
-      t.src = src; t.className = 'gl-thumb' + (i === 0 ? ' active' : '');
+      t.src = src; t.className = 'gf-thumb' + (i === 0 ? ' active' : '');
       t.onclick = () => { cur = i; render(); };
       strip.appendChild(t);
     });
@@ -1995,16 +1995,16 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
     document.getElementById('gallery-final').classList.remove('open');
     document.body.style.overflow = '';
   };
-  window.g3Nav = function(dir) {
+  window.gfNav = function(dir) {
     cur = (cur + dir + IMAGES.length) % IMAGES.length;
     render();
   };
 
   document.addEventListener('keydown', function(e) {
     if (!document.getElementById('gallery-final').classList.contains('open')) return;
-    if (e.key === 'Escape')     closeGallery3D();
-    if (e.key === 'ArrowLeft')  g3Nav(-1);
-    if (e.key === 'ArrowRight') g3Nav(1);
+    if (e.key === 'Escape')     closeGalleryFinal();
+    if (e.key === 'ArrowLeft')  gfNav(-1);
+    if (e.key === 'ArrowRight') gfNav(1);
   });
 })();
 </script>
