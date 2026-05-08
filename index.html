@@ -825,11 +825,10 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       </div>
     </div>
     <div class="proj-hero-right">
-      <div class="media-placeholder tall">
-        <div class="media-placeholder-icon">🌊</div>
-        <div class="media-placeholder-label">Gameplay GIF — Steam Lift or Freeze</div>
-        <div class="media-placeholder-sub">framerusercontent.com/images/GT6qrJmFUZ7fHiPvWmupAQfn8.gif</div>
-      </div>
+      <div class="media-placeholder tall" style="cursor:zoom-in;padding:0;overflow:hidden;position:relative;" onclick="openLightbox('Images/ElementalAscent_Thumbnail.png')">
+          <img src="Images/ElementalAscent_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s;" class="expand-hint">⤢ CLICK TO EXPAND</div>
+        </div>
     </div>
   </div>
 
@@ -910,8 +909,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <div class="level-step-num">02</div>
         <div class="level-step-title">2D Layout Planning</div>
         <div class="level-step-body">Designed 4-floor vertical structure in 2D. Mapped player flow, puzzle sequencing, interaction placement, and readability checkpoints per floor before any 3D work.</div>
-        
-        <div class="level-step-media"><div class="media-placeholder short">
+
             <div class="strip-thumb" onclick="openLightbox('Images/2DMapLegend.png')" style="cursor:zoom-in;">
               <img src="Images/2DMapLegend.png" style="width:100%;height:100%;object-fit:cover;display:block;">
             </div>
@@ -927,7 +925,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
             <div class="strip-thumb" onclick="openLightbox('Images/2DMap_Floor4.png')" style="cursor:zoom-in;">
               <img src="Images/2DMap_Floor4.png" style="width:100%;height:100%;object-fit:cover;display:block;">
             </div>
-        </div></div>
+
       </div>
       <div class="level-step">
         <div class="level-step-num">03</div>
