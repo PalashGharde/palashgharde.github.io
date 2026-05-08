@@ -899,40 +899,68 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       <div class="breakdown-divider"></div>
     </div>
     <div class="level-steps">
+
+      <!-- Step 01 -->
       <div class="level-step">
         <div class="level-step-num">01</div>
         <div class="level-step-title">Concept &amp; GDD</div>
         <div class="level-step-body">Defined core puzzle concepts and all required gameplay elements — water systems, lifts, levers, containers — in the GDD before any level work began.</div>
-        <div class="level-step-media"><div class="media-placeholder short"><div class="media-placeholder-icon">📄</div><div class="media-placeholder-label">GDD Screenshot</div></div></div>
       </div>
+
+      <!-- Step 02 — 2D Maps Gallery -->
       <div class="level-step">
         <div class="level-step-num">02</div>
         <div class="level-step-title">2D Layout Planning</div>
         <div class="level-step-body">Designed 4-floor vertical structure in 2D. Mapped player flow, puzzle sequencing, interaction placement, and readability checkpoints per floor before any 3D work.</div>
-
-            <div class="strip-thumb" onclick="openLightbox('Images/2DMapLegend.png')" style="cursor:zoom-in;">
-              <img src="Images/2DMapLegend.png" style="width:100%;height:100%;object-fit:cover;display:block;">
-            </div>
-            <div class="strip-thumb" onclick="openLightbox('Images/2DMap_Floor1.png')" style="cursor:zoom-in;">
-              <img src="Images/2DMap_Floor1.png" style="width:100%;height:100%;object-fit:cover;display:block;">
-            </div>
-            <div class="strip-thumb" onclick="openLightbox('Images/2DMap_Floor2.png')" style="cursor:zoom-in;">
-              <img src="Images/2DMap_Floor2.png" style="width:100%;height:100%;object-fit:cover;display:block;">
-            </div>
-            <div class="strip-thumb" onclick="openLightbox('Images/2DMap_Floor3.png')" style="cursor:zoom-in;">
-              <img src="Images/2DMap_Floor3.png" style="width:100%;height:100%;object-fit:cover;display:block;">
-            </div>
-            <div class="strip-thumb" onclick="openLightbox('Images/2DMap_Floor4.png')" style="cursor:zoom-in;">
-              <img src="Images/2DMap_Floor4.png" style="width:100%;height:100%;object-fit:cover;display:block;">
-            </div>
-
+        <div class="gallery-wrapper" id="gallery-2dmap">
+          <div class="gallery-label">
+            // 2D Floor Maps
+            <span id="gallery-2dmap-counter">1 / 5</span>
+          </div>
+          <div class="gallery-main" onclick="openGalleryLightbox('gallery-2dmap')">
+            <img id="gallery-2dmap-main" src="Images/2DMapLegend.png" alt="2D Map">
+            <button class="gallery-arrow prev" onclick="event.stopPropagation(); galleryNav('gallery-2dmap', -1)">&#8592;</button>
+            <button class="gallery-arrow next" onclick="event.stopPropagation(); galleryNav('gallery-2dmap',  1)">&#8594;</button>
+            <div class="gallery-counter" id="gallery-2dmap-badge">1 / 5</div>
+          </div>
+          <div class="gallery-thumbs" id="gallery-2dmap-thumbs">
+            <img class="gallery-thumb active" src="Images/2DMapLegend.png"    alt="Legend"  onclick="galleryGoto('gallery-2dmap', 0)">
+            <img class="gallery-thumb"        src="Images/2DMap_Floor1.png"   alt="Floor 1" onclick="galleryGoto('gallery-2dmap', 1)">
+            <img class="gallery-thumb"        src="Images/2DMap_Floor2.png"   alt="Floor 2" onclick="galleryGoto('gallery-2dmap', 2)">
+            <img class="gallery-thumb"        src="Images/2DMap_Floor3.png"   alt="Floor 3" onclick="galleryGoto('gallery-2dmap', 3)">
+            <img class="gallery-thumb"        src="Images/2DMap_Floor4.png"   alt="Floor 4" onclick="galleryGoto('gallery-2dmap', 4)">
+          </div>
+        </div>
       </div>
+
+      <!-- Step 03 — 3D Blockouts Gallery -->
       <div class="level-step">
         <div class="level-step-num">03</div>
         <div class="level-step-title">3D Blockout in UE5</div>
         <div class="level-step-body">Translated 2D layouts into playable 3D blockout. Iterated on spatial feel, adding ladders, shortcuts, and alternate paths based on playtesting feedback.</div>
-        <div class="level-step-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🧱</div><div class="media-placeholder-label">3D Blockout Screenshot</div><div class="media-placeholder-sub">framerusercontent.com/images/rlUylaOo5HCN8zw4JEgH9j0WuE.png</div></div></div>
+        <div class="gallery-wrapper" id="gallery-3d">
+          <div class="gallery-label">
+            // 3D Blockouts &amp; Final Level
+            <span id="gallery-3d-counter">1 / 7</span>
+          </div>
+          <div class="gallery-main" onclick="openGalleryLightbox('gallery-3d')">
+            <img id="gallery-3d-main" src="Images/3DBlockout_1.png" alt="3D Blockout">
+            <button class="gallery-arrow prev" onclick="event.stopPropagation(); galleryNav('gallery-3d', -1)">&#8592;</button>
+            <button class="gallery-arrow next" onclick="event.stopPropagation(); galleryNav('gallery-3d',  1)">&#8594;</button>
+            <div class="gallery-counter" id="gallery-3d-badge">1 / 7</div>
+          </div>
+          <div class="gallery-thumbs" id="gallery-3d-thumbs">
+            <img class="gallery-thumb active" src="Images/3DBlockout_1.png" alt="Blockout 1" onclick="galleryGoto('gallery-3d', 0)">
+            <img class="gallery-thumb"        src="Images/3DBlockout_2.png" alt="Blockout 2" onclick="galleryGoto('gallery-3d', 1)">
+            <img class="gallery-thumb"        src="Images/3DBlockout_3.png" alt="Blockout 3" onclick="galleryGoto('gallery-3d', 2)">
+            <img class="gallery-thumb"        src="Images/3DBlockout_4.png" alt="Blockout 4" onclick="galleryGoto('gallery-3d', 3)">
+            <img class="gallery-thumb"        src="Images/3DBlockout_5.png" alt="Blockout 5" onclick="galleryGoto('gallery-3d', 4)">
+            <img class="gallery-thumb"        src="Images/3DBlockout_6.png" alt="Final Level 1" onclick="galleryGoto('gallery-3d', 5)">
+            <img class="gallery-thumb"        src="Images/3DBlockout_7.png" alt="Final Level 2" onclick="galleryGoto('gallery-3d', 6)">
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -1666,7 +1694,78 @@ function closeLightbox() {
 
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLightbox(); window._activeGallery = null; } });
+// ── GALLERY STATE
+const galleryState = {};
+
+function galleryInit(id, images) {
+  galleryState[id] = { images, index: 0 };
+}
+
+function galleryGoto(id, idx) {
+  const g = galleryState[id];
+  if (!g) return;
+  g.index = (idx + g.images.length) % g.images.length;
+  const total = g.images.length;
+  // Update main image
+  const mainImg = document.getElementById(id + '-main');
+  if (mainImg) { mainImg.style.opacity = '0'; setTimeout(() => { mainImg.src = g.images[g.index]; mainImg.style.opacity = '1'; }, 150); }
+  // Update counter
+  const badge = document.getElementById(id + '-badge');
+  if (badge) badge.textContent = (g.index + 1) + ' / ' + total;
+  const counter = document.getElementById(id + '-counter');
+  if (counter) counter.textContent = (g.index + 1) + ' / ' + total;
+  // Update thumbs
+  const thumbs = document.querySelectorAll('#' + id + '-thumbs .gallery-thumb');
+  thumbs.forEach((t, i) => t.classList.toggle('active', i === g.index));
+  // Scroll active thumb into view
+  if (thumbs[g.index]) thumbs[g.index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+function galleryNav(id, dir) {
+  const g = galleryState[id];
+  if (!g) return;
+  galleryGoto(id, g.index + dir);
+}
+
+function openGalleryLightbox(id) {
+  const g = galleryState[id];
+  if (!g) return;
+  // Use existing lightbox, set up with gallery navigation
+  openLightbox(g.images[g.index]);
+  // Store which gallery is open for arrow key nav inside lightbox
+  window._activeGallery = id;
+}
+
+// Keyboard: left/right arrows navigate gallery when lightbox is open
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (window._activeGallery) {
+    if (e.key === 'ArrowLeft')  { galleryNav(window._activeGallery, -1); openLightbox(galleryState[window._activeGallery].images[galleryState[window._activeGallery].index]); }
+    if (e.key === 'ArrowRight') { galleryNav(window._activeGallery,  1); openLightbox(galleryState[window._activeGallery].images[galleryState[window._activeGallery].index]); }
+  }
+});
+
+// Initialise galleries on page load
+document.addEventListener('DOMContentLoaded', () => {
+  galleryInit('gallery-2dmap', [
+    'Images/2DMapLegend.png',
+    'Images/2DMap_Floor1.png',
+    'Images/2DMap_Floor2.png',
+    'Images/2DMap_Floor3.png',
+    'Images/2DMap_Floor4.png',
+  ]);
+  galleryInit('gallery-3d', [
+    'Images/3DBlockout_1.png',
+    'Images/3DBlockout_2.png',
+    'Images/3DBlockout_3.png',
+    'Images/3DBlockout_4.png',
+    'Images/3DBlockout_5.png',
+    'Images/3DBlockout_6.png',
+    'Images/3DBlockout_7.png',
+  ]);
+});
+
 </script>
 
 </body>
