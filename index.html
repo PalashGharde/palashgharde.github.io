@@ -1010,8 +1010,8 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <div class="card-fan-section">
           <div class="card-fan-label">// 2D Floor Maps <span class="cf-count">5 images</span></div>
           <div class="card-fan-trigger" onclick="openGallery()">
-            <div class="cf-card"><img src="Images/2DMap_Floor4.png" alt="Floor 4"></div>
             <div class="cf-card"><img src="Images/2DMap_Floor1.png" alt="Floor 1"></div>
+            <div class="cf-card"><img src="Images/2DMap_Floor4.png" alt="Floor 4"></div>
             <div class="cf-card"><img src="Images/2DMapLegend.png"  alt="Legend"></div>
             <div class="cf-hint">click to browse all 5 maps &nbsp;&#8599;</div>
           </div>
@@ -1022,6 +1022,15 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <div class="level-step-title">3D Blockout in UE5</div>
         <div class="level-step-body">Translated 2D layouts into playable 3D blockout. Iterated on spatial feel, adding ladders, shortcuts, and alternate paths based on playtesting feedback.</div>
         <div class="level-step-media"><div class="media-placeholder short"><div class="media-placeholder-icon">🧱</div><div class="media-placeholder-label">3D Blockout Screenshot</div><div class="media-placeholder-sub">framerusercontent.com/images/rlUylaOo5HCN8zw4JEgH9j0WuE.png</div></div></div>
+        <div class="card-fan-section">
+          <div class="card-fan-label">// 3D Blockout Screenshot <span class="cf-count">6 images</span></div>
+          <div class="card-fan-trigger" onclick="openGallery()">
+            <div class="cf-card"><img src="Images/3DBlockOut1.png" alt="Blockout 1"></div>
+            <div class="cf-card"><img src="Images/3DBlockOut3.png" alt="Blockout 3"></div>
+            <div class="cf-card"><img src="Images/Gym.png"  alt="Gym"></div>
+            <div class="cf-hint">click to browse all 6 maps &nbsp;&#8599;</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1776,6 +1785,21 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
   <div onclick="closeGallery()" style="position:absolute;inset:0;z-index:-1;"></div>
 </div>
 
+<div class="gallery-overlay" id="gallery-3d">
+  <div class="gl-topbar">
+    <div class="gl-title">// 3D Blockouts</div>
+    <div class="gl-count" id="g3-count">1 / 6</div>
+    <button class="gl-close" onclick="closeGallery3D()">&#10005; CLOSE</button>
+  </div>
+  <div class="gl-body">
+    <button class="gl-arr prev" onclick="g3Nav(-1)">&#8592;</button>
+    <img id="g3-img" src="" alt="3D Blockout">
+    <button class="gl-arr next" onclick="g3Nav(1)">&#8594;</button>
+  </div>
+  <div class="gl-strip" id="g3-strip"></div>
+  <div onclick="closeGallery3D()" style="position:absolute;inset:0;z-index:-1;"></div>
+</div>
+
 <script>
 (function(){
   const IMAGES = [
@@ -1834,6 +1858,65 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
     if (e.key === 'Escape')     closeGallery();
     if (e.key === 'ArrowLeft')  glNav(-1);
     if (e.key === 'ArrowRight') glNav(1);
+  });
+})();
+</script>
+
+<script>
+(function(){
+  const IMAGES = [
+    'Images/3DBlockOut1.png',
+    'Images/3DBlockOut2.png',
+    'Images/3DBlockOut3.png',
+    'Images/3DBlockOut4.png',
+    'Images/Gym.png',
+    'Images/Gym2.png',
+  ];
+  let cur = 0;
+
+  function render() {
+    const img = document.getElementById('g3-img');
+    const count = document.getElementById('g3-count');
+    img.style.opacity = '0';
+    setTimeout(() => { img.src = IMAGES[cur]; img.style.opacity = '1'; }, 120);
+    count.textContent = (cur + 1) + ' / ' + IMAGES.length;
+    document.querySelectorAll('#g3-strip .gl-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === cur);
+    });
+    const active = document.querySelector('#g3-strip .gl-thumb.active');
+    if (active) active.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+  }
+
+  function buildStrip() {
+    const strip = document.getElementById('g3-strip');
+    strip.innerHTML = '';
+    IMAGES.forEach((src, i) => {
+      const t = document.createElement('img');
+      t.src = src; t.className = 'gl-thumb' + (i === 0 ? ' active' : '');
+      t.onclick = () => { cur = i; render(); };
+      strip.appendChild(t);
+    });
+  }
+
+  window.openGallery3D = function() {
+    cur = 0; buildStrip(); render();
+    document.getElementById('gallery-3d').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeGallery3D = function() {
+    document.getElementById('gallery-3d').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.g3Nav = function(dir) {
+    cur = (cur + dir + IMAGES.length) % IMAGES.length;
+    render();
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('gallery-3d').classList.contains('open')) return;
+    if (e.key === 'Escape')     closeGallery3D();
+    if (e.key === 'ArrowLeft')  g3Nav(-1);
+    if (e.key === 'ArrowRight') g3Nav(1);
   });
 })();
 </script>
