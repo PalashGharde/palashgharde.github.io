@@ -374,7 +374,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
 /* ── RESPONSIVE ── */
 /* ══ GALLERY LIGHTBOX ══ */
 .lightbox-overlay {
-  display: none; position: fixed; inset: 0; z-index: 9999;
+  display: none; position: fixed; inset: 0; z-index: 99999;
   background: rgba(0,0,0,0.96); flex-direction: column;
 }
 .lightbox-overlay.open { display: flex; }
@@ -1673,6 +1673,15 @@ const _gals = {};
 function galleryInit(id, imgs){ _gals[id]={imgs,i:0}; }
 let _curGal = null;
 
+/* ── Register galleries immediately (no need to wait for DOM) ── */
+galleryInit('gallery-2dmap',[
+  'Images/2DMapLegend.png','Images/2DMap_Floor1.png','Images/2DMap_Floor2.png',
+  'Images/2DMap_Floor3.png','Images/2DMap_Floor4.png']);
+galleryInit('gallery-3d',[
+  'Images/3DBlockout_1.png','Images/3DBlockout_2.png','Images/3DBlockout_3.png',
+  'Images/3DBlockout_4.png','Images/3DBlockout_5.png','Images/3DBlockout_6.png',
+  'Images/3DBlockout_7.png']);
+
 function openLightbox(src){
   _curGal=null;
   _show(src);
@@ -1687,8 +1696,9 @@ function openLightbox(src){
 }
 
 function openGalleryLightbox(id){
-  const g=_gals[id]; if(!g) return;
-  _curGal=id; _lbRender(id);
+  const g=_gals[id];
+  if(!g){ console.error('Gallery not found:', id, 'Available:', Object.keys(_gals)); return; }
+  _curGal=id; g.i=0; _lbRender(id);
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -1748,13 +1758,6 @@ document.addEventListener('keydown',e=>{
 });
 
 document.addEventListener('DOMContentLoaded',()=>{
-  galleryInit('gallery-2dmap',[
-    'Images/2DMapLegend.png','Images/2DMap_Floor1.png','Images/2DMap_Floor2.png',
-    'Images/2DMap_Floor3.png','Images/2DMap_Floor4.png']);
-  galleryInit('gallery-3d',[
-    'Images/3DBlockout_1.png','Images/3DBlockout_2.png','Images/3DBlockout_3.png',
-    'Images/3DBlockout_4.png','Images/3DBlockout_5.png','Images/3DBlockout_6.png',
-    'Images/3DBlockout_7.png']);
 });
 
 /* Page JS */
