@@ -1031,6 +1031,20 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           </div>
         </div>
       </div>
+      <div class="level-step">
+        <div class="level-step-num">04</div>
+        <div class="level-step-title">Final Version with Assets and Materials</div>
+        <div class="level-step-body">Added relevent 3D assets, materials, lights, water and puzzle elements.</div>
+        <div class="card-fan-section">
+          <div class="card-fan-label">// Final Version Screenshot <span class="cf-count">5 images</span></div>
+          <div class="card-fan-trigger" onclick="openGalleryFinal()">
+            <div class="cf-card"><img src="Images/FinalLevel_1.png" alt="FinalLevel_1.png"></div>
+            <div class="cf-card"><img src="Images/FinalLevel_3.png" alt="FinalLevel_3.png"></div>
+            <div class="cf-card"><img src="Images/FinalLevel_5.png"  alt="FinalLevel_5.png"></div>
+            <div class="cf-hint">click to browse all images &nbsp;&#8599;</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1784,6 +1798,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
   <div onclick="closeGallery()" style="position:absolute;inset:0;z-index:-1;"></div>
 </div>
 
+<!-- ══ 3D Blockout GALLERY OVERLAY ══ -->
 <div class="gallery-overlay" id="gallery-3d">
   <div class="gl-topbar">
     <div class="gl-title">// 3D Blockouts</div>
@@ -1797,6 +1812,22 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
   </div>
   <div class="gl-strip" id="g3-strip"></div>
   <div onclick="closeGallery3D()" style="position:absolute;inset:0;z-index:-1;"></div>
+</div>
+
+<!-- ══ Final Version GALLERY OVERLAY ══ -->
+<div class="gallery-overlay" id="gallery-final">
+  <div class="gl-topbar">
+    <div class="gl-title">// Final Version</div>
+    <div class="gl-count" id="g3-count">1 / 5</div>
+    <button class="gl-close" onclick="closeGallery3D()">&#10005; CLOSE</button>
+  </div>
+  <div class="gl-body">
+    <button class="gl-arr prev" onclick="g3Nav(-1)">&#8592;</button>
+    <img id="g3-img" src="" alt="Final Version">
+    <button class="gl-arr next" onclick="g3Nav(1)">&#8594;</button>
+  </div>
+  <div class="gl-strip" id="g3-strip"></div>
+  <div onclick="closeGalleryFinal()" style="position:absolute;inset:0;z-index:-1;"></div>
 </div>
 
 <script>
@@ -1913,6 +1944,64 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 
   document.addEventListener('keydown', function(e) {
     if (!document.getElementById('gallery-3d').classList.contains('open')) return;
+    if (e.key === 'Escape')     closeGallery3D();
+    if (e.key === 'ArrowLeft')  g3Nav(-1);
+    if (e.key === 'ArrowRight') g3Nav(1);
+  });
+})();
+</script>
+
+<script>
+(function(){
+  const IMAGES = [
+    'Images/FinalLevel_1.png',
+    'Images/FinalLevel_2.png',
+    'Images/FinalLevel_3.png',
+    'Images/FinalLevel_4.png',
+    'Images/FinalLevel_5.png',
+  ];
+  let cur = 0;
+
+  function render() {
+    const img = document.getElementById('g3-img');
+    const count = document.getElementById('g3-count');
+    img.style.opacity = '0';
+    setTimeout(() => { img.src = IMAGES[cur]; img.style.opacity = '1'; }, 120);
+    count.textContent = (cur + 1) + ' / ' + IMAGES.length;
+    document.querySelectorAll('#g3-strip .gl-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === cur);
+    });
+    const active = document.querySelector('#g3-strip .gl-thumb.active');
+    if (active) active.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+  }
+
+  function buildStrip() {
+    const strip = document.getElementById('g3-strip');
+    strip.innerHTML = '';
+    IMAGES.forEach((src, i) => {
+      const t = document.createElement('img');
+      t.src = src; t.className = 'gl-thumb' + (i === 0 ? ' active' : '');
+      t.onclick = () => { cur = i; render(); };
+      strip.appendChild(t);
+    });
+  }
+
+  window.openGalleryFinal = function() {
+    cur = 0; buildStrip(); render();
+    document.getElementById('gallery-final').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeGallery3D = function() {
+    document.getElementById('gallery-final').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.g3Nav = function(dir) {
+    cur = (cur + dir + IMAGES.length) % IMAGES.length;
+    render();
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('gallery-final').classList.contains('open')) return;
     if (e.key === 'Escape')     closeGallery3D();
     if (e.key === 'ArrowLeft')  g3Nav(-1);
     if (e.key === 'ArrowRight') g3Nav(1);
