@@ -1760,121 +1760,224 @@ sections.forEach(id => { const el = document.getElementById(id); if (el) scrollO
     <div class="lb-count" id="lb-count"></div>
     <button class="lb-close" onclick="closeLightbox()">&#10005; CLOSE</button>
   </div>
+
   <div class="lb-body">
-    <button class="lb-arr prev" id="lb-prev" onclick="lbNav(-1)" style="display:none;">&#8592;</button>
-    <img   id="lb-img" src="" alt="" style="display:none;" onclick="event.stopPropagation()">
-    <video id="lb-vid" autoplay loop muted playsinline controls style="display:none;" onclick="event.stopPropagation()">
+    <button class="lb-arr prev" id="lb-prev" onclick="lbNav(-1)">&#8592;</button>
+
+    <img id="lb-img" src="" alt="Gallery image" style="display:none;" onclick="event.stopPropagation()">
+
+    <video id="lb-vid" autoplay loop playsinline controls style="display:none;" onclick="event.stopPropagation()">
       <source id="lb-vsrc" src="" type="video/mp4">
     </video>
-    <button class="lb-arr next" id="lb-next" onclick="lbNav(1)"  style="display:none;">&#8594;</button>
+
+    <button class="lb-arr next" id="lb-next" onclick="lbNav(1)">&#8594;</button>
   </div>
-  <div class="lb-strip" id="lb-strip" style="display:none;"></div>
-  <div onclick="closeLightbox()" style="position:absolute;inset:0;z-index:-1;"></div>
+
+  <div class="lb-strip" id="lb-strip"></div>
 </div>
 
 <script>
-const _gals = {};
-function galleryInit(id, imgs){ _gals[id]={imgs,i:0}; }
-let _curGal = null;
+/* Gallery + regular media lightbox */
+const galleries = {
+  "gallery-2dmap": {
+    title: "// 2D FLOOR MAPS",
+    images: [
+      "Images/2DMapLegend.png",
+      "Images/2DMap_Floor1.png",
+      "Images/2DMap_Floor2.png",
+      "Images/2DMap_Floor3.png",
+      "Images/2DMap_Floor4.png"
+    ],
+    index: 0
+  },
 
-/* ── Register galleries immediately (no need to wait for DOM) ── */
-galleryInit('gallery-2dmap',[
-  'Images/2DMapLegend.png','Images/2DMap_Floor1.png','Images/2DMap_Floor2.png',
-  'Images/2DMap_Floor3.png','Images/2DMap_Floor4.png']);
-galleryInit('gallery-3d',[
-  'Images/3DBlockout_1.png','Images/3DBlockout_2.png','Images/3DBlockout_3.png',
-  'Images/3DBlockout_4.png','Images/3DBlockout_5.png','Images/3DBlockout_6.png',
-  'Images/3DBlockout_7.png']);
+  "gallery-3d": {
+    title: "// 3D BLOCKOUTS & FINAL LEVEL",
+    images: [
+      "Images/3DBlockout_1.png",
+      "Images/3DBlockout_2.png",
+      "Images/3DBlockout_3.png",
+      "Images/3DBlockout_4.png",
+      "Images/3DBlockout_5.png",
+      "Images/3DBlockout_6.png",
+      "Images/3DBlockout_7.png"
+    ],
+    index: 0
+  }
+};
 
-function openLightbox(src){
-  _curGal=null;
-  _show(src);
-  document.getElementById('lb-title').textContent='';
-  document.getElementById('lb-count').textContent='';
-  document.getElementById('lb-prev').style.display='none';
-  document.getElementById('lb-next').style.display='none';
-  document.getElementById('lb-strip').style.display='none';
-  document.getElementById('lb-strip').innerHTML='';
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow='hidden';
+let currentGallery = null;
+
+function isVideoFile(src) {
+  return /\.(mp4|webm|ogg|gif)$/i.test(src);
 }
 
-function openGalleryLightbox(id){
-  const g=_gals[id];
-  if(!g){ console.error('Gallery not found:', id, 'Available:', Object.keys(_gals)); return; }
-  _curGal=id; g.i=0; _lbRender(id);
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow='hidden';
+function setLightboxMedia(src) {
+  const img = document.getElementById("lb-img");
+  const video = document.getElementById("lb-vid");
+  const videoSource = document.getElementById("lb-vsrc");
+
+  img.style.display = "none";
+  video.style.display = "none";
+
+  img.src = "";
+  video.pause();
+  videoSource.src = "";
+  videoSource.type = "";
+  video.load();
+
+  if (isVideoFile(src) && !src.toLowerCase().endsWith(".gif")) {
+    videoSource.src = src;
+
+    if (src.toLowerCase().endsWith(".mp4")) {
+      videoSource.type = "video/mp4";
+    } else if (src.toLowerCase().endsWith(".webm")) {
+      videoSource.type = "video/webm";
+    } else if (src.toLowerCase().endsWith(".ogg")) {
+      videoSource.type = "video/ogg";
+    }
+
+    video.muted = false;
+    video.volume = 1;
+    video.load();
+    video.style.display = "block";
+    video.play().catch(() => {});
+  } else {
+    img.src = src;
+    img.style.display = "block";
+  }
 }
 
-function _lbRender(id){
-  const g=_gals[id], total=g.imgs.length;
-  _show(g.imgs[g.i]);
-  const galleryTitles = {
-    'gallery-2dmap': '// 2D FLOOR MAPS',
-    'gallery-3d': '// 3D BLOCKOUTS & FINAL LEVEL'
-  };
-  document.getElementById('lb-title').textContent = galleryTitles[id] || ('// ' + id.replace('gallery-','').replace(/-/g,' ').toUpperCase());
-  document.getElementById('lb-count').textContent=(g.i+1)+' / '+total;
-  document.getElementById('lb-prev').style.display='flex';
-  document.getElementById('lb-next').style.display='flex';
-  const strip=document.getElementById('lb-strip');
-  strip.style.display='flex'; strip.innerHTML='';
-  g.imgs.forEach((src,n)=>{
-    const t=document.createElement('img');
-    t.src=src; t.className='lb-thumb'+(n===g.i?' active':'');
-    t.onclick=()=>{ g.i=n; _lbRender(id); };
-    strip.appendChild(t);
+function openLightbox(src) {
+  currentGallery = null;
+
+  document.getElementById("lightbox").classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  document.getElementById("lb-title").textContent = "";
+  document.getElementById("lb-count").textContent = "";
+  document.getElementById("lb-prev").style.display = "none";
+  document.getElementById("lb-next").style.display = "none";
+  document.getElementById("lb-strip").style.display = "none";
+  document.getElementById("lb-strip").innerHTML = "";
+
+  setLightboxMedia(src);
+}
+
+function openGalleryLightbox(galleryId) {
+  const gallery = galleries[galleryId];
+
+  if (!gallery) {
+    console.error("Gallery not found:", galleryId);
+    return;
+  }
+
+  currentGallery = galleryId;
+  gallery.index = 0;
+
+  document.getElementById("lightbox").classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  document.getElementById("lb-prev").style.display = "flex";
+  document.getElementById("lb-next").style.display = "flex";
+  document.getElementById("lb-strip").style.display = "flex";
+
+  renderGallery();
+}
+
+function renderGallery() {
+  if (!currentGallery) return;
+
+  const gallery = galleries[currentGallery];
+  const currentImage = gallery.images[gallery.index];
+  const strip = document.getElementById("lb-strip");
+
+  setLightboxMedia(currentImage);
+
+  document.getElementById("lb-title").textContent = gallery.title;
+  document.getElementById("lb-count").textContent =
+    `${gallery.index + 1} / ${gallery.images.length}`;
+
+  strip.innerHTML = "";
+
+  gallery.images.forEach((src, i) => {
+    const thumb = document.createElement("img");
+    thumb.src = src;
+    thumb.className = "lb-thumb" + (i === gallery.index ? " active" : "");
+    thumb.alt = `Thumbnail ${i + 1}`;
+    thumb.onclick = () => {
+      gallery.index = i;
+      renderGallery();
+    };
+    strip.appendChild(thumb);
   });
-  const active=strip.querySelector('.lb-thumb.active');
-  if(active) setTimeout(()=>active.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}),60);
+
+  const activeThumb = strip.querySelector(".lb-thumb.active");
+  if (activeThumb) {
+    setTimeout(() => {
+      activeThumb.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center"
+      });
+    }, 40);
+  }
 }
 
-function _show(src){
-  const isV=/\.(mp4|webm|ogg)$/i.test(src);
-  const img=document.getElementById('lb-img');
-  const vid=document.getElementById('lb-vid');
-  const vs=document.getElementById('lb-vsrc');
-  img.style.display='none'; img.src='';
-  vid.style.display='none'; vs.src=''; vid.load();
-  if(isV){ vs.src=src; vid.muted=false; vid.volume=1; vid.load(); vid.style.display='block'; vid.play().catch(()=>{}); }
-  else   { img.src=src; img.style.display='block'; }
+function lbNav(direction) {
+  if (!currentGallery) return;
+
+  const gallery = galleries[currentGallery];
+  gallery.index =
+    (gallery.index + direction + gallery.images.length) % gallery.images.length;
+
+  renderGallery();
 }
 
-function lbNav(dir){
-  if(!_curGal) return;
-  const g=_gals[_curGal];
-  g.i=(g.i+dir+g.imgs.length)%g.imgs.length;
-  _lbRender(_curGal);
+function closeLightbox() {
+  const lightbox = document.getElementById("lightbox");
+  const img = document.getElementById("lb-img");
+  const video = document.getElementById("lb-vid");
+  const videoSource = document.getElementById("lb-vsrc");
+
+  lightbox.classList.remove("open");
+  document.body.style.overflow = "";
+
+  img.src = "";
+  img.style.display = "none";
+
+  video.pause();
+  video.muted = true;
+  videoSource.src = "";
+  videoSource.type = "";
+  video.load();
+  video.style.display = "none";
+
+  document.getElementById("lb-strip").innerHTML = "";
+  currentGallery = null;
 }
 
-function closeLightbox(){
-  _curGal=null;
-  document.getElementById('lightbox').classList.remove('open');
-  document.getElementById('lb-img').src='';
+document.addEventListener("keydown", function(e) {
+  const lightbox = document.getElementById("lightbox");
+  if (!lightbox || !lightbox.classList.contains("open")) return;
 
-  const lbVid = document.getElementById('lb-vid');
-  const lbVsrc = document.getElementById('lb-vsrc');
-  lbVid.pause();
-  lbVid.muted = true;
-  lbVsrc.src='';
-  lbVid.load();
+  if (e.key === "Escape") {
+    closeLightbox();
+  }
 
-  document.getElementById('lb-strip').innerHTML='';
-  document.body.style.overflow='';
-}
+  if (e.key === "ArrowLeft") {
+    lbNav(-1);
+  }
 
-document.addEventListener('keydown',e=>{
-  if(!document.getElementById('lightbox').classList.contains('open')) return;
-  if(e.key==='Escape')     closeLightbox();
-  if(e.key==='ArrowLeft')  lbNav(-1);
-  if(e.key==='ArrowRight') lbNav(1);
+  if (e.key === "ArrowRight") {
+    lbNav(1);
+  }
 });
 
-document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('.card-fan-trigger').forEach(el => {
-    el.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".card-fan-trigger").forEach(el => {
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         el.click();
       }
@@ -1882,35 +1985,75 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 });
 
+/* Make functions available to inline onclick handlers */
+window.openLightbox = openLightbox;
+window.openGalleryLightbox = openGalleryLightbox;
+window.lbNav = lbNav;
+window.closeLightbox = closeLightbox;
+
 /* Page JS */
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
-},{threshold:0.08});
-document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
-
-function openAbout() { document.getElementById('aboutOverlay').classList.add('open');    document.body.style.overflow='hidden'; }
-function closeAbout(){ document.getElementById('aboutOverlay').classList.remove('open'); document.body.style.overflow=''; }
-function goHome()    { window.scrollTo({top:0,behavior:'smooth'}); }
-
-function jumpTo(id){
-  const el=document.getElementById(id); if(!el) return;
-  const navH=document.querySelector('nav').offsetHeight;
-  const pn=document.getElementById('projNav');
-  const pnH=pn?pn.offsetHeight:0;
-  window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-navH-pnH-8,behavior:'smooth'});
-}
-
-const sections=['kidnapped','elemental','hunting','wrongway','jetpack'];
-const navItems=document.querySelectorAll('.proj-nav-item');
-const scrollObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const i=sections.indexOf(e.target.id);
-      if(i>=0) navItems.forEach((n,j)=>n.classList.toggle('active',j===i));
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add("in");
+      obs.unobserve(e.target);
     }
   });
-},{rootMargin:'-35% 0px -55% 0px'});
-sections.forEach(id=>{ const el=document.getElementById(id); if(el) scrollObs.observe(el); });
+}, { threshold: 0.08 });
+
+document.querySelectorAll(".fade").forEach(el => obs.observe(el));
+
+function openAbout() {
+  document.getElementById("aboutOverlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeAbout() {
+  document.getElementById("aboutOverlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function goHome() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function jumpTo(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const navH = document.querySelector("nav").offsetHeight;
+  const pn = document.getElementById("projNav");
+  const pnH = pn ? pn.offsetHeight : 0;
+
+  window.scrollTo({
+    top: el.getBoundingClientRect().top + window.scrollY - navH - pnH - 8,
+    behavior: "smooth"
+  });
+}
+
+window.openAbout = openAbout;
+window.closeAbout = closeAbout;
+window.goHome = goHome;
+window.jumpTo = jumpTo;
+
+const sections = ["kidnapped", "elemental", "hunting", "wrongway", "jetpack"];
+const navItems = document.querySelectorAll(".proj-nav-item");
+
+const scrollObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = sections.indexOf(e.target.id);
+      if (i >= 0) {
+        navItems.forEach((n, j) => n.classList.toggle("active", j === i));
+      }
+    }
+  });
+}, { rootMargin: "-35% 0px -55% 0px" });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) scrollObs.observe(el);
+});
 </script>
 </body>
 </html>
