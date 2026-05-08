@@ -426,39 +426,121 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
 .lb-thumb:hover  { opacity: 0.75; }
 
 /* ══ CARD FAN ══ */
-.card-fan-section { margin-top: 1.25rem; }
+.card-fan-section {
+  margin-top: 1.25rem;
+}
+
 .card-fan-label {
-  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--accent); font-weight: 700;
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
-.cf-count { font-size: 0.58rem; color: var(--dim); border: 1px solid var(--border); padding: 0.1rem 0.5rem; font-weight: 400; }
+
+.cf-count {
+  font-size: 0.58rem;
+  color: var(--dim);
+  border: 1px solid var(--border);
+  padding: 0.1rem 0.5rem;
+  font-weight: 400;
+}
+
 .card-fan-trigger {
-  position: relative; height: 200px; cursor: pointer;
-  display: flex; align-items: flex-end; justify-content: center;
+  position: relative;
+  height: 230px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
-.card-fan-trigger:hover .cf-hint { color: var(--accent); }
+
 .cf-card {
-  position: absolute; bottom: 28px; left: 50%;
-  width: 78%; max-width: 360px; aspect-ratio: 16/10;
-  border: 1px solid rgba(255,255,255,0.18); border-radius: 2px; overflow: hidden;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.7); transform-origin: bottom center;
-  transition: transform 0.35s cubic-bezier(0.34,1.3,0.64,1);
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  width: 78%;
+  max-width: 360px;
+  aspect-ratio: 16 / 10;
+  border: 1px solid rgba(255,255,255,0.18);
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.65);
+  transition: transform 0.35s cubic-bezier(0.34,1.3,0.64,1),
+              box-shadow 0.25s ease;
   pointer-events: none;
 }
-.cf-card img { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; }
-.cf-card:nth-child(3){ transform: translateX(-50%) rotate(-9deg)  translateY(10px); z-index:1; }
-.cf-card:nth-child(2){ transform: translateX(-50%) rotate(-3deg)  translateY(4px);  z-index:2; }
-.cf-card:nth-child(1){ transform: translateX(-50%) rotate(0deg);                    z-index:3; }
-.card-fan-trigger:hover .cf-card:nth-child(3){ transform: translateX(-50%) rotate(-15deg) translateY(14px); }
-.card-fan-trigger:hover .cf-card:nth-child(2){ transform: translateX(-50%) rotate(-5deg)  translateY(5px);  }
-.card-fan-trigger:hover .cf-card:nth-child(1){ transform: translateX(-50%) rotate(5deg); }
+
+.cf-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* collapsed view */
+.cf-card.back-left {
+  transform: translateX(-62%) rotate(-10deg) translateY(10px);
+  z-index: 1;
+}
+
+.cf-card.back-right {
+  transform: translateX(-38%) rotate(10deg) translateY(10px);
+  z-index: 2;
+}
+
+.cf-card.front {
+  transform: translateX(-50%) rotate(0deg) translateY(0);
+  z-index: 3;
+}
+
+/* hover fan-out */
+.card-fan-trigger:hover .cf-card.back-left,
+.card-fan-trigger:focus-visible .cf-card.back-left {
+  transform: translateX(-78%) rotate(-18deg) translateY(2px);
+}
+
+.card-fan-trigger:hover .cf-card.back-right,
+.card-fan-trigger:focus-visible .cf-card.back-right {
+  transform: translateX(-22%) rotate(18deg) translateY(2px);
+}
+
+.card-fan-trigger:hover .cf-card.front,
+.card-fan-trigger:focus-visible .cf-card.front {
+  transform: translateX(-50%) rotate(0deg) translateY(-6px) scale(1.02);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.78);
+}
+
+.card-fan-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
 .cf-hint {
-  position: absolute; bottom: 0; left:0; right:0;
-  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--dim); text-align: center; transition: color 0.2s;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-align: center;
+  transition: color 0.2s ease;
   pointer-events: none;
 }
+
+.card-fan-trigger:hover .cf-hint,
+.card-fan-trigger:focus-visible .cf-hint {
+  color: var(--accent);
+}
+
 
 /* ── CLICKABLE MEDIA ── */
 .media-clickable {
@@ -964,11 +1046,21 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <div class="level-step-body">Designed 4-floor vertical structure in 2D. Mapped player flow, puzzle sequencing, interaction placement, and readability checkpoints per floor before any 3D work.</div>
         <div class="card-fan-section">
           <div class="card-fan-label">// 2D Floor Maps <span class="cf-count">5 images</span></div>
-          <div class="card-fan-trigger" onclick="openGalleryLightbox('gallery-2dmap')">
-            <div class="cf-card"><img src="Images/2DMap_Floor4.png" alt="Floor 4"></div>
-            <div class="cf-card"><img src="Images/2DMap_Floor1.png" alt="Floor 1"></div>
-            <div class="cf-card"><img src="Images/2DMapLegend.png"  alt="Legend"></div>
-            <div class="cf-hint">click to browse all 5 maps &nbsp;&#8599;</div>
+
+          <div class="card-fan-trigger" onclick="openGalleryLightbox('gallery-2dmap')" tabindex="0" role="button" aria-label="Open 2D Floor Maps gallery">
+            <div class="cf-card back-left">
+              <img src="Images/2DMap_Floor1.png" alt="2D Map Floor 1">
+            </div>
+
+            <div class="cf-card back-right">
+              <img src="Images/2DMap_Floor4.png" alt="2D Map Floor 4">
+            </div>
+
+            <div class="cf-card front">
+              <img src="Images/2DMapLegend.png" alt="2D Map Legend">
+            </div>
+
+            <div class="cf-hint">click to browse all 5 maps ↗</div>
           </div>
         </div>
       </div>
@@ -978,11 +1070,21 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <div class="level-step-body">Translated 2D layouts into playable 3D blockout. Iterated on spatial feel, adding ladders, shortcuts, and alternate paths based on playtesting feedback.</div>
         <div class="card-fan-section">
           <div class="card-fan-label">// 3D Blockouts &amp; Final Level <span class="cf-count">7 images</span></div>
-          <div class="card-fan-trigger" onclick="openGalleryLightbox('gallery-3d')">
-            <div class="cf-card"><img src="Images/3DBlockout_3.png" alt="Blockout 3"></div>
-            <div class="cf-card"><img src="Images/3DBlockout_2.png" alt="Blockout 2"></div>
-            <div class="cf-card"><img src="Images/3DBlockout_1.png" alt="Blockout 1"></div>
-            <div class="cf-hint">click to browse all 7 screenshots &nbsp;&#8599;</div>
+
+          <div class="card-fan-trigger" onclick="openGalleryLightbox('gallery-3d')" tabindex="0" role="button" aria-label="Open 3D Blockout gallery">
+            <div class="cf-card back-left">
+              <img src="Images/3DBlockout_1.png" alt="3D Blockout 1">
+            </div>
+
+            <div class="cf-card back-right">
+              <img src="Images/3DBlockout_2.png" alt="3D Blockout 2">
+            </div>
+
+            <div class="cf-card front">
+              <img src="Images/3DBlockout_3.png" alt="3D Blockout 3">
+            </div>
+
+            <div class="cf-hint">click to browse all 7 screenshots ↗</div>
           </div>
         </div>
       </div>
@@ -1708,7 +1810,11 @@ function openGalleryLightbox(id){
 function _lbRender(id){
   const g=_gals[id], total=g.imgs.length;
   _show(g.imgs[g.i]);
-  document.getElementById('lb-title').textContent='// '+id.replace('gallery-','').replace(/-/g,' ').toUpperCase();
+  const galleryTitles = {
+    'gallery-2dmap': '// 2D FLOOR MAPS',
+    'gallery-3d': '// 3D BLOCKOUTS & FINAL LEVEL'
+  };
+  document.getElementById('lb-title').textContent = galleryTitles[id] || ('// ' + id.replace('gallery-','').replace(/-/g,' ').toUpperCase());
   document.getElementById('lb-count').textContent=(g.i+1)+' / '+total;
   document.getElementById('lb-prev').style.display='flex';
   document.getElementById('lb-next').style.display='flex';
@@ -1731,7 +1837,7 @@ function _show(src){
   const vs=document.getElementById('lb-vsrc');
   img.style.display='none'; img.src='';
   vid.style.display='none'; vs.src=''; vid.load();
-  if(isV){ vs.src=src; vid.load(); vid.style.display='block'; vid.play().catch(()=>{}); }
+  if(isV){ vs.src=src; vid.muted=false; vid.volume=1; vid.load(); vid.style.display='block'; vid.play().catch(()=>{}); }
   else   { img.src=src; img.style.display='block'; }
 }
 
@@ -1746,8 +1852,14 @@ function closeLightbox(){
   _curGal=null;
   document.getElementById('lightbox').classList.remove('open');
   document.getElementById('lb-img').src='';
-  document.getElementById('lb-vsrc').src='';
-  document.getElementById('lb-vid').load();
+
+  const lbVid = document.getElementById('lb-vid');
+  const lbVsrc = document.getElementById('lb-vsrc');
+  lbVid.pause();
+  lbVid.muted = true;
+  lbVsrc.src='';
+  lbVid.load();
+
   document.getElementById('lb-strip').innerHTML='';
   document.body.style.overflow='';
 }
@@ -1760,6 +1872,14 @@ document.addEventListener('keydown',e=>{
 });
 
 document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.card-fan-trigger').forEach(el => {
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        el.click();
+      }
+    });
+  });
 });
 
 /* Page JS */
