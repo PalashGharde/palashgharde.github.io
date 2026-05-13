@@ -34,56 +34,136 @@ a { color: inherit; text-decoration: none; }
 /* ── ABOUT ME PANEL ── */
 .about-overlay {
   position: fixed; inset: 0; z-index: 500;
-  display: flex; justify-content: flex-end;
+  display: flex; align-items: center; justify-content: center;
   pointer-events: none;
+  padding: 2rem;
 }
 .about-overlay.open { pointer-events: all; }
 .about-backdrop {
   position: absolute; inset: 0;
   background: rgba(0,0,0,0);
   transition: background 0.35s;
+  backdrop-filter: blur(0px);
+  transition: background 0.35s, backdrop-filter 0.35s;
 }
-.about-overlay.open .about-backdrop { background: rgba(0,0,0,0.6); }
+.about-overlay.open .about-backdrop {
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+}
 .about-panel {
   position: relative; z-index: 1;
-  width: min(520px, 95vw);
+  width: min(1100px, 95vw);
+  max-height: 90vh;
   background: #0f0f18;
-  border-left: 1px solid var(--border-md);
-  height: 100vh; overflow-y: auto;
-  padding: 3rem 2.5rem;
-  transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  border: 1px solid var(--border-md);
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  overflow: hidden;
+  transform: translateY(24px) scale(0.97);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s;
 }
-.about-overlay.open .about-panel { transform: translateX(0); }
+.about-overlay.open .about-panel {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+/* Left column — photo + quick stats */
+.about-panel-left {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.about-panel-photo {
+  width: 100%; aspect-ratio: 3/4; overflow: hidden; flex-shrink: 0;
+}
+.about-panel-photo img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;
+}
+.about-panel-quickinfo {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border);
+  flex: 1;
+}
+.about-panel-name {
+  font-family: var(--display); font-size: 2rem; letter-spacing: 0.03em;
+  margin-bottom: 0.2rem; color: #fff; line-height: 1;
+}
+.about-panel-role {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem;
+}
+.about-quick-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--border); border: 1px solid var(--border); margin-bottom: 1rem;
+}
+.about-quick-stat {
+  background: var(--surface2); padding: 0.75rem;
+}
+.about-quick-stat-n {
+  font-family: var(--display); font-size: 1.6rem; color: var(--accent); line-height: 1;
+}
+.about-quick-stat-l {
+  font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--dim); margin-top: 0.2rem;
+}
+.about-links { display: flex; flex-direction: column; gap: 0.4rem; }
+.about-link {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted); padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border); transition: all 0.2s; text-decoration: none;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.about-link:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Right column — text content */
+.about-panel-right {
+  padding: 2.5rem 3rem;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+.about-panel-right::-webkit-scrollbar { width: 4px; }
+.about-panel-right::-webkit-scrollbar-thumb { background: var(--border-md); }
+.about-section-label {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem;
+  font-weight: 700;
+}
+.about-heading {
+  font-family: var(--display); font-size: 2.2rem; letter-spacing: 0.04em;
+  color: #fff; margin-bottom: 1.5rem; line-height: 1;
+}
+.about-panel-right p {
+  font-size: 0.92rem; color: var(--muted); line-height: 1.85;
+  margin-bottom: 1.25rem; font-weight: 400;
+}
+.about-panel-right p em { color: #fff; font-style: normal; font-weight: 600; }
+.about-divider {
+  height: 1px; background: var(--border); margin: 1.5rem 0;
+}
+.about-skill-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+.about-skill-chip {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.07em;
+  text-transform: uppercase; padding: 0.25rem 0.65rem;
+  border: 1px solid var(--border-md); color: var(--dim);
+}
+.about-skill-chip.hl { border-color: rgba(212,245,60,0.3); color: var(--accent); }
+
 .about-close {
-  position: absolute; top: 1.5rem; right: 1.5rem;
-  width: 36px; height: 36px;
+  position: absolute; top: 1.25rem; right: 1.25rem; z-index: 10;
+  width: 34px; height: 34px;
   background: var(--surface2); border: 1px solid var(--border-md);
-  color: var(--muted); font-size: 1rem; cursor: pointer;
+  color: var(--muted); font-size: 0.85rem; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.2s;
 }
-.about-close:hover { color: var(--text); border-color: var(--accent); }
-.about-img-placeholder {
-  width: 100%; aspect-ratio: 4/3;
-  background: var(--surface2); border: 1px dashed var(--border-md);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 0.5rem; margin-bottom: 2rem; position: relative; overflow: hidden;
-}
-.about-img-placeholder::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,0.015) 20px,rgba(255,255,255,0.015) 21px);
-}
-.about-img-placeholder span { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; color: var(--dim); text-transform: uppercase; position: relative; }
-.about-panel-name { font-family: var(--display); font-size: 2.5rem; letter-spacing: 0.03em; margin-bottom: 0.25rem; }
-.about-panel-role { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; }
-.about-panel p { font-size: 0.9rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.25rem; }
-.about-panel p em { color: var(--text); font-style: normal; font-weight: 600; }
-.about-placeholder-note {
-  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--dim); border: 1px dashed rgba(255,255,255,0.1); padding: 0.75rem 1rem;
-  margin-top: 1rem;
+.about-close:hover { color: #fff; border-color: var(--accent); }
+
+/* Responsive — stack on mobile */
+@media (max-width: 720px) {
+  .about-panel { grid-template-columns: 1fr; }
+  .about-panel-left { border-right: none; border-bottom: 1px solid var(--border); }
+  .about-panel-photo { aspect-ratio: 16/9; }
 }
 
 
@@ -572,26 +652,69 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
 <div class="about-overlay" id="aboutOverlay">
   <div class="about-backdrop" onclick="closeAbout()"></div>
   <div class="about-panel">
-    <button class="about-close" onclick="closeAbout()">✕</button>
-    <div class="about-img-placeholder">
-      <img src="Images/fcace5.jpg" style="width:100%;height:100%;object-fit:cover;">
+    <button class="about-close" onclick="closeAbout()">&#10005;</button>
+
+    <!-- LEFT column -->
+    <div class="about-panel-left">
+      <div class="about-panel-photo">
+        <img src="Images/fcace5.jpg" alt="Palash Gharde">
+      </div>
+      <div class="about-panel-quickinfo">
+        <div class="about-panel-name">PALASH GHARDE</div>
+        <div class="about-panel-role">// Technical Game Designer &middot; Software Engineer</div>
+        <div class="about-quick-stats">
+          <div class="about-quick-stat"><div class="about-quick-stat-n">5</div><div class="about-quick-stat-l">Shipped Titles</div></div>
+          <div class="about-quick-stat"><div class="about-quick-stat-n">4+</div><div class="about-quick-stat-l">Yrs Engineering</div></div>
+          <div class="about-quick-stat"><div class="about-quick-stat-n">3.9</div><div class="about-quick-stat-l">MS GPA / 4.0</div></div>
+          <div class="about-quick-stat"><div class="about-quick-stat-n">2</div><div class="about-quick-stat-l">Engines</div></div>
+        </div>
+        <div class="about-links">
+          <a href="https://linkedin.com/in/palashgharde/" target="_blank" class="about-link">LinkedIn &#8599;</a>
+          <a href="https://newbgamedev.itch.io/" target="_blank" class="about-link">Itch.io &#8599;</a>
+          <a href="https://github.com/PalashGharde" target="_blank" class="about-link">GitHub &#8599;</a>
+          <a href="mailto:palash.gharde047@gmail.com" class="about-link">palash.gharde047@gmail.com &#8599;</a>
+        </div>
+      </div>
     </div>
-    <div class="about-panel-name">PALASH GHARDE</div>
-    <div class="about-panel-role">// Technical Game Designer · Software Engineer</div>
-    <p>
-      Hey there, I’m Palash! I’m a Game Developer and Technical Game Designer focused on building gameplay systems, rapid prototypes, and interactive level experiences in Unreal Engine and Unity. 
-      My work combines design thinking with a strong software engineering foundation, and I have built multiple game projects with a focus on modular gameplay systems, AI behavior, interaction systems, procedural systems, and player-centered mechanics.
-    </p>
-    <p>
-      I started my game development journey while working full-time as a Software Developer at Veritas, where I realized I wanted to combine my love for games with my interest in coding. 
-      I began learning Unity and Blender in my free time, then later picked up Unreal Engine during my master’s degree and became drawn to Blueprint scripting for rapid prototyping. 
-      Since then, I have built games in Unreal Engine and Unity, focusing on gameplay mechanics, interactive systems, and NPC AI using Behavior Trees, Blackboards, and AI Perception. 
-      My software development background helps me build systems that are logical, robust, and scalable.
-    </p>
-    <p>
-      I’m now looking to join the game industry full-time as a Game Developer or Technical Game Designer, where I can contribute to meaningful gameplay experiences as part of a collaborative team. 
-      Whether it’s prototyping a new mechanic, scripting interactive systems, building NPC behavior, improving level flow, or supporting designers with technical implementation, I’m excited to help bring creative ideas to life.
-    </p>
+
+    <!-- RIGHT column -->
+    <div class="about-panel-right">
+      <div class="about-section-label">// Who I Am</div>
+      <div class="about-heading">ABOUT ME</div>
+
+      <p>Hey there, I'm Palash! I'm a <em>Game Developer and Technical Game Designer</em> focused on building gameplay systems, rapid prototypes, and interactive level experiences in Unreal Engine and Unity. My work combines design thinking with a strong software engineering foundation, and I have built multiple game projects with a focus on modular gameplay systems, AI behavior, interaction systems, procedural systems, and player-centered mechanics.</p>
+
+      <p>I started my game development journey while working full-time as a Software Developer at Veritas, where I realized I wanted to combine my love for games with my interest in coding. I began learning Unity and Blender in my free time, then later picked up Unreal Engine during my master's degree and became drawn to <em>Blueprint scripting for rapid prototyping</em>. Since then, I have built games in Unreal Engine and Unity, focusing on gameplay mechanics, interactive systems, and NPC AI using Behavior Trees, Blackboards, and AI Perception. My software development background helps me build systems that are logical, robust, and scalable.</p>
+
+      <p>I'm now looking to join the game industry full-time as a <em>Game Developer or Technical Game Designer</em>, where I can contribute to meaningful gameplay experiences as part of a collaborative team. Whether it's prototyping a new mechanic, scripting interactive systems, building NPC behavior, improving level flow, or supporting designers with technical implementation, I'm excited to help bring creative ideas to life.</p>
+
+      <div class="about-divider"></div>
+
+      <div class="about-section-label">// What I Work With</div>
+      <div class="about-skill-chips">
+        <span class="about-skill-chip hl">Unreal Engine 5</span>
+        <span class="about-skill-chip hl">Unity</span>
+        <span class="about-skill-chip hl">Blueprint</span>
+        <span class="about-skill-chip hl">Behavior Trees</span>
+        <span class="about-skill-chip hl">AI Perception</span>
+        <span class="about-skill-chip">C++</span>
+        <span class="about-skill-chip">C#</span>
+        <span class="about-skill-chip">Python</span>
+        <span class="about-skill-chip">Blender</span>
+        <span class="about-skill-chip">Level Design</span>
+        <span class="about-skill-chip">GDD Writing</span>
+        <span class="about-skill-chip">Procedural Systems</span>
+        <span class="about-skill-chip">Git</span>
+        <span class="about-skill-chip">HacknPlan</span>
+      </div>
+
+      <div class="about-divider"></div>
+
+      <div class="about-section-label">// Education</div>
+      <p style="margin-bottom:0.5rem;"><em>MS Computer Science</em> &mdash; Arizona State University, Tempe AZ &nbsp;&middot;&nbsp; GPA 3.9 / 4.0 &nbsp;&middot;&nbsp; 2023&ndash;2025</p>
+      <p><em>BTech Computer Engineering</em> &mdash; Vishwakarma Institute of Technology, Pune &nbsp;&middot;&nbsp; 2016&ndash;2020</p>
+    </div>
+
   </div>
 </div>
 
