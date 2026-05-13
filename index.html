@@ -1131,23 +1131,163 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           </div>
         </div>
       </div>
-      <div class="feat-block fade">
-        <div class="feat-tag">// Input</div>
-        <div class="feat-title">Enhanced Input — Dual Scheme</div>
-        <div class="feat-body">Consistent feel across keyboard &amp; mouse and gamepad using UE5's Enhanced Input System. Remappable context-sensitive bindings.</div>
-        <ul class="feat-points">
-          <li>Action mappings for elemental ability switching</li>
-          <li>Analog stick support for platformer precision</li>
-        </ul>
+      <!-- Blueprint Implementation — full width -->
+      <div class="feat-block fade" style="grid-column: 1 / -1;">
+        <div class="feat-tag">// Blueprint Implementation</div>
+        <div class="feat-title">Pickup, Interact &amp; Elemental Systems — Blueprint Code</div>
+        <div class="feat-body">All core mechanics are implemented in Blueprint. Three interconnected systems handle everything from object interaction to elemental chain reactions.</div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;margin-top:1.25rem;">
+
+          <!-- Pickup & Place -->
+          <div style="background:var(--surface2);border:1px solid var(--border);padding:1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent3);margin-bottom:0.5rem;font-weight:700;">Pickup &amp; Place — BP_ThirdPersonCharacter</div>
+            <ul class="feat-points">
+              <li><strong>Tap F</strong> — pick up object (Started action)</li>
+              <li><strong>Hold F</strong> — show placement preview mesh</li>
+              <li><strong>Release F</strong> — place if location valid</li>
+              <li>Green material = valid surface / Red = invalid</li>
+              <li><code style="font-family:var(--mono);font-size:0.75rem;color:var(--accent);">BPI_PickableObjects</code> interface on all pickable actors</li>
+              <li><code style="font-family:var(--mono);font-size:0.75rem;color:var(--accent);">BPC_CheckPlacingSurface</code> component on BP_IceCube &amp; BP_WoodStack</li>
+            </ul>
+          </div>
+
+          <!-- Interact -->
+          <div style="background:var(--surface2);border:1px solid var(--border);padding:1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent3);margin-bottom:0.5rem;font-weight:700;">Interact — BP_RotatingLever</div>
+            <ul class="feat-points">
+              <li><strong>E key</strong> — enter / exit lever interaction mode</li>
+              <li><strong>W / S</strong> — rotate lever while in interaction mode</li>
+              <li>Sphere trace in <code style="font-family:var(--mono);font-size:0.75rem;color:var(--accent);">BP_ThirdPersonCharacter</code> detects interactables in front of player</li>
+              <li>Same E key used for door interaction and ladder mount</li>
+            </ul>
+          </div>
+
+          <!-- Elemental Chain -->
+          <div style="background:var(--surface2);border:1px solid var(--border);padding:1.25rem;">
+            <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent3);margin-bottom:0.5rem;font-weight:700;">Elemental Chain — Interface-Driven</div>
+            <ul class="feat-points">
+              <li><code style="font-family:var(--mono);font-size:0.75rem;color:var(--accent);">BP_Fireball</code> hits WoodStack → triggers <code style="font-family:var(--mono);font-size:0.75rem;color:var(--accent);">BPI_BurnableObjects</code></li>
+              <li>Burning wood propagates heat → <code style="font-family:var(--mono);font-size:0.75rem;color:var(--accent);">BPI_HeatableObjects</code> on BP_WaterContainer</li>
+              <li>BP_WaterContainer detects BP_IceCube above and melt it → fills container with water -> after ice completely melts, the water starts boiling.</li>
+              <li>Boiling water generates steam → pushes lift's counterweight up -> lift comes down</li>
+              <li>Water evaporation timer → lift's counterweight descends automatically after water evaporates completely -> lift goes up</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Blueprint code gallery -->
+        <div style="margin-top:1.5rem;">
+          <div class="card-fan-section">
+            <div class="card-fan-label">// Blueprint Screenshots for Pick and Place <span class="cf-count">7 images</span></div>
+            <div class="card-fan-trigger" onclick="openGalleryBlueprint()">
+              <div class="cf-card"><img src="Images/BP1.png" alt="Blueprint 1"></div>
+              <div class="cf-card"><img src="Images/BP2_pickup1.png" alt="Blueprint 2"></div>
+              <div class="cf-card"><img src="Images/BP4_place1.png" alt="Blueprint 3"></div>
+              <div class="cf-hint">click to browse Blueprint code screenshots &nbsp;&#8599;</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="feat-block fade">
-        <div class="feat-tag">// Production</div>
-        <div class="feat-title">Sprint-Based Pipeline</div>
-        <div class="feat-body">Full GDD authored pre-production. Full pipeline managed in HacknPlan with sprint-based task prioritization and structured playtesting.</div>
-        <ul class="feat-points">
-          <li>GDD: elemental rules, puzzle progression, system interactions</li>
-          <li>Feature backlog → sprint → playtest → iterate</li>
-        </ul>
+      
+      <!-- Puzzle Walkthrough — full width -->
+      <div class="feat-block fade" style="grid-column: 1 / -1;">
+        <div class="feat-tag">// Initial Prototype — Initial level blockout and game mechanics (After 2 weeks of development)</div>
+        <div class="feat-title">Step-by-Step Gameplay Walkthrough</div>
+
+        <!-- Controls row -->
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.75rem 0 1.25rem;">
+          <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">F &nbsp;<span style="color:var(--dim);">Pick / Place</span></span>
+          <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">E &nbsp;<span style="color:var(--dim);">Interact</span></span>
+          <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">WASD &nbsp;<span style="color:var(--dim);">Move</span></span>
+          <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">W/S &nbsp;<span style="color:var(--dim);">Lever / Ladder</span></span>
+          <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">RMB &nbsp;<span style="color:var(--dim);">Aim</span></span>
+          <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">LMB &nbsp;<span style="color:var(--dim);">Shoot Fireball</span></span>
+        </div>
+
+        <!-- Step flow -->
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent);">
+            <div style="font-family:var(--display);font-size:1.6rem;color:rgba(212,245,60,0.25);line-height:1;flex-shrink:0;width:2rem;text-align:center;">1</div>
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Place Wood Stack</div>
+              <div style="font-size:0.8rem;color:var(--muted);">Walk near Wood Stack → <strong>Tap F</strong> to pick up. <strong>Hold F</strong> to see preview, walk to Yellow Plate, <strong>Release F</strong> to place.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent);">
+            <div style="font-family:var(--display);font-size:1.6rem;color:rgba(212,245,60,0.25);line-height:1;flex-shrink:0;width:2rem;text-align:center;">2</div>
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Place Ice Cube in Container</div>
+              <div style="font-size:0.8rem;color:var(--muted);">Pick up Ice Cube → go to the top floor → place ice inside the green water container using Hold &amp; Release F.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent3);">
+            <div style="font-family:var(--display);font-size:1.6rem;color:rgba(71,184,255,0.25);line-height:1;flex-shrink:0;width:2rem;text-align:center;">3</div>
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Move Container with Lever</div>
+              <div style="font-size:0.8rem;color:var(--muted);">Approach first lever → <strong>E</strong> to enter lever mode → <strong>W/S</strong> to rotate → position the green container below the lift's counterweight (orange box) → <strong>E</strong> to exit.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent3);">
+            <div style="font-family:var(--display);font-size:1.6rem;color:rgba(71,184,255,0.25);line-height:1;flex-shrink:0;width:2rem;text-align:center;">4</div>
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Move Log Plate with Second Lever</div>
+              <div style="font-size:0.8rem;color:var(--muted);">Use the second lever the same way — rotate to slide the log plate directly below the green container so the fire can heat it.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent2);">
+            <div style="font-family:var(--display);font-size:1.6rem;color:rgba(255,107,53,0.25);line-height:1;flex-shrink:0;width:2rem;text-align:center;">5</div>
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Shoot Fireball — Start the Chain</div>
+              <div style="font-size:0.8rem;color:var(--muted);"><strong>Right click</strong> to aim → <strong>Left click</strong> to shoot fireball at the Wood Stack. Fire burns wood → heats container → melts ice → water boils → generates steam (~45 sec chain).</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent2);">
+            <div style="font-family:var(--display);font-size:1.6rem;color:rgba(255,107,53,0.25);line-height:1;flex-shrink:0;width:2rem;text-align:center;">6</div>
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Ride the Steam Lift</div>
+              <div style="font-size:0.8rem;color:var(--muted);">While wood burns and ice melts, go to the lift entrance. Wait for the counterweight to rise and the lift to come down. Enter and wait — lift rises automatically once steam is fully active, then descends when water evaporates.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent);">
+            <div style="font-family:var(--display);font-size:1.6rem;color:rgba(212,245,60,0.25);line-height:1;flex-shrink:0;width:2rem;text-align:center;">7</div>
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Open the Door &amp; Climb Ladder</div>
+              <div style="font-size:0.8rem;color:var(--muted);">Find the door blocking the stairs on the right → <strong>E</strong> to open. Interact with ladder → <strong>W</strong> to climb up, <strong>S</strong> to climb down to reach the next stage.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--dim);opacity:0.7;">
+            <div style="font-family:var(--display);font-size:1.6rem;color:rgba(255,255,255,0.1);line-height:1;flex-shrink:0;width:2rem;text-align:center;">8</div>
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--dim);margin-bottom:0.2rem;">Exit — Cutscene Trigger <span style="font-family:var(--mono);font-size:0.58rem;color:var(--dim);border:1px solid var(--border);padding:0.1rem 0.4rem;margin-left:0.4rem;">PROTOTYPE</span></div>
+              <div style="font-size:0.8rem;color:var(--muted);">Used a temporary teleport box as a lift to reach the exit as lift system not implemeted yet. </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Puzzle screenshots gallery -->
+        <div style="margin-top:1.5rem;">
+          <div class="card-fan-section">
+            <div class="card-fan-label">// Puzzle Screenshots <span class="cf-count">6 images</span></div>
+            <div class="card-fan-trigger" onclick="openGalleryPuzzle()">
+              <div class="cf-card"><img src="Images/Prototype1.png" alt="Puzzle step 1"></div>
+              <div class="cf-card"><img src="Images/Prototype2.png" alt="Puzzle step 2"></div>
+              <div class="cf-card"><img src="Images/Prototype3.png" alt="Puzzle step 3"></div>
+              <div class="cf-hint">click to browse puzzle solution screenshots &nbsp;&#8599;</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -2212,6 +2352,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
   <div onclick="closeGalleryConcept()" style="position:absolute;inset:0;z-index:-1;"></div>
 </div>
 
+
 <script>
 (function(){
   const IMAGES = [
@@ -2265,6 +2406,143 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
     if (e.key === 'Escape')     closeGalleryConcept();
     if (e.key === 'ArrowLeft')  gcNav(-1);
     if (e.key === 'ArrowRight') gcNav(1);
+  });
+})();
+</script>
+
+  <!-- ══ BLUEPRINT GALLERY OVERLAY ══ -->
+<div class="gallery-overlay" id="gallery-blueprint">
+  <div class="gl-topbar">
+    <div class="gl-title">// Blueprint Code Screenshots</div>
+    <div class="gl-count" id="gbp-count">1 / 5</div>
+    <button class="gl-close" onclick="closeGalleryBlueprint()">&#10005; CLOSE</button>
+  </div>
+  <div class="gl-body">
+    <button class="gl-arr prev" onclick="gbpNav(-1)">&#8592;</button>
+    <img id="gbp-img" src="" alt="Blueprint">
+    <button class="gl-arr next" onclick="gbpNav(1)">&#8594;</button>
+  </div>
+  <div class="gl-strip" id="gbp-strip"></div>
+  <div onclick="closeGalleryBlueprint()" style="position:absolute;inset:0;z-index:-1;"></div>
+</div>
+
+<script>
+(function(){
+  const IMAGES = [
+    'Images/BP1.png',
+    'Images/BP2_pickup1.png',
+    'Images/BP2_pickup2.png',
+    'Images/BP2_pickup3.png',
+    'Images/BP3_preview1.png',
+    'Images/BP4_place1.png',
+    'Images/BP4_place2.png',
+  ];
+  let cur = 0;
+  function render() {
+    const img = document.getElementById('gbp-img');
+    const count = document.getElementById('gbp-count');
+    img.style.opacity = '0';
+    setTimeout(() => { img.src = IMAGES[cur]; img.style.opacity = '1'; }, 120);
+    count.textContent = (cur + 1) + ' / ' + IMAGES.length;
+    document.querySelectorAll('#gbp-strip .gl-thumb').forEach((t, i) => t.classList.toggle('active', i === cur));
+    const active = document.querySelector('#gbp-strip .gl-thumb.active');
+    if (active) active.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+  }
+  function buildStrip() {
+    const strip = document.getElementById('gbp-strip');
+    strip.innerHTML = '';
+    IMAGES.forEach((src, i) => {
+      const t = document.createElement('img');
+      t.src = src; t.className = 'gl-thumb' + (i === 0 ? ' active' : '');
+      t.onclick = () => { cur = i; render(); };
+      strip.appendChild(t);
+    });
+  }
+  window.openGalleryBlueprint = function() {
+    cur = 0; buildStrip(); render();
+    document.getElementById('gallery-blueprint').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeGalleryBlueprint = function() {
+    document.getElementById('gallery-blueprint').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.gbpNav = function(dir) {
+    cur = (cur + dir + IMAGES.length) % IMAGES.length; render();
+  };
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('gallery-blueprint').classList.contains('open')) return;
+    if (e.key === 'Escape')     closeGalleryBlueprint();
+    if (e.key === 'ArrowLeft')  gbpNav(-1);
+    if (e.key === 'ArrowRight') gbpNav(1);
+  });
+})();
+</script>
+
+  <!-- ══ PUZZLE GALLERY OVERLAY ══ -->
+<div class="gallery-overlay" id="gallery-puzzle">
+  <div class="gl-topbar">
+    <div class="gl-title">// Puzzle Solution Screenshots</div>
+    <div class="gl-count" id="gpz-count">1 / 6</div>
+    <button class="gl-close" onclick="closeGalleryPuzzle()">&#10005; CLOSE</button>
+  </div>
+  <div class="gl-body">
+    <button class="gl-arr prev" onclick="gpzNav(-1)">&#8592;</button>
+    <img id="gpz-img" src="" alt="Puzzle">
+    <button class="gl-arr next" onclick="gpzNav(1)">&#8594;</button>
+  </div>
+  <div class="gl-strip" id="gpz-strip"></div>
+  <div onclick="closeGalleryPuzzle()" style="position:absolute;inset:0;z-index:-1;"></div>
+</div>
+  
+<script>
+(function(){
+  const IMAGES = [
+    'Images/Prototype1.png',
+    'Images/Prototype2.png',
+    'Images/Prototype3.png',
+    'Images/Prototype4.png',
+    'Images/Prototype5.png',
+    'Images/Prototype6.png',
+  ];
+  let cur = 0;
+  function render() {
+    const img = document.getElementById('gpz-img');
+    const count = document.getElementById('gpz-count');
+    img.style.opacity = '0';
+    setTimeout(() => { img.src = IMAGES[cur]; img.style.opacity = '1'; }, 120);
+    count.textContent = (cur + 1) + ' / ' + IMAGES.length;
+    document.querySelectorAll('#gpz-strip .gl-thumb').forEach((t, i) => t.classList.toggle('active', i === cur));
+    const active = document.querySelector('#gpz-strip .gl-thumb.active');
+    if (active) active.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+  }
+  function buildStrip() {
+    const strip = document.getElementById('gpz-strip');
+    strip.innerHTML = '';
+    IMAGES.forEach((src, i) => {
+      const t = document.createElement('img');
+      t.src = src; t.className = 'gl-thumb' + (i === 0 ? ' active' : '');
+      t.onclick = () => { cur = i; render(); };
+      strip.appendChild(t);
+    });
+  }
+  window.openGalleryPuzzle = function() {
+    cur = 0; buildStrip(); render();
+    document.getElementById('gallery-puzzle').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeGalleryPuzzle = function() {
+    document.getElementById('gallery-puzzle').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.gpzNav = function(dir) {
+    cur = (cur + dir + IMAGES.length) % IMAGES.length; render();
+  };
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('gallery-puzzle').classList.contains('open')) return;
+    if (e.key === 'Escape')     closeGalleryPuzzle();
+    if (e.key === 'ArrowLeft')  gpzNav(-1);
+    if (e.key === 'ArrowRight') gpzNav(1);
   });
 })();
 </script>
