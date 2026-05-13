@@ -934,7 +934,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
         <ul class="feat-points">
           <li>Single parent class handles pickup, inspect &amp; use logic</li>
           <li>Child classes override only unique behaviors</li>
-          <li>Doors, keys, chests, food, weapons — one unified system</li>
+          <li>Doors, keys, chests, food — one unified pickup & drop system</li>
         </ul>
         <div class="feat-media">
           <div class="media-clickable" onclick="openLightbox('Videos/KidnappedPuzzle.mp4')"
@@ -980,6 +980,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <span class="ai-state attack">Attack</span>
         </div>
         <div class="ai-transitions">
+          <span>Default</span> Roam - Chooses 1 out of 3 Spline Paths randomly, to roam around house <br>
           <span>Sound events</span> (running, doors) → Investigate<br>
           <span>Line-of-sight</span> → Chase → Attack
         </div>
@@ -997,8 +998,8 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       </div>
       <div class="feat-block fade">
         <div class="feat-tag">// Narrative</div>
-        <div class="feat-title">Story-Driven Cutscenes</div>
-        <div class="feat-body">Cinematic cutscenes via UE5 Level Sequencer, triggered at puzzle completion checkpoints — delivers narrative without breaking flow.</div>
+        <div class="feat-title">Story-Driven Cutscenes and Dailogs</div>
+        <div class="feat-body">Cinematic cutscenes via <em>UE5 Level Sequencer</em>, triggered at puzzle completion checkpoints — delivers narrative without breaking flow.</div>
         <ul class="feat-points">
           <li>Trigger-based activation on puzzle completion</li>
           <li>Character dialogue &amp; environmental storytelling</li>
@@ -1047,12 +1048,12 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       <div class="proj-num">02</div>
       <div class="proj-title">THE ELEMENTAL ASCENT</div>
       <div class="proj-genre">Puzzle · Platformer · Physics · Adventure</div>
-      <p class="proj-desc">Third-person puzzle-platformer where players harness fire, ice, water, and steam to navigate a mysterious machine-driven environment. Physics-based chain reactions power every puzzle — all built from a full GDD before a single line of code.</p>
+      <p class="proj-desc">Third-person puzzle-platformer where players harness fire and ice to navigate a mysterious machine-driven environment. Physics-based chain reactions power every puzzle.</p>
       <div class="proj-meta">
         <div class="proj-meta-row"><span class="proj-meta-key">Engine</span><span class="proj-meta-val">Unreal Engine 5</span></div>
-        <div class="proj-meta-row"><span class="proj-meta-key">Tools</span><span class="proj-meta-val">Blueprint, Enhanced Input, HacknPlan</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Tools</span><span class="proj-meta-val">Blueprint, Gameplay Animation Sample</span></div>
         <div class="proj-meta-row"><span class="proj-meta-key">Year</span><span class="proj-meta-val">2026</span></div>
-        <div class="proj-meta-row"><span class="proj-meta-key">Platform</span><span class="proj-meta-val">PC / Controller</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Platform</span><span class="proj-meta-val">PC</span></div>
       </div>
       <div class="proj-role-tags">
         <span class="proj-role-tag">Level Designer</span>
@@ -1092,7 +1093,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       <div class="feat-block fade">
         <div class="feat-tag">// Element: Ice</div>
         <div class="feat-title">Freeze Water → Ice Blocks</div>
-        <div class="feat-body">Time-based cooling with visual state progression. Spawns placeable ice blocks the player picks up for traversal and puzzle solving.</div>
+        <div class="feat-body">Cooling with visual state progression. Spawns placeable ice blocks the player picks up for traversal and puzzle solving.</div>
         <ul class="feat-points">
           <li>Visual feedback shows freeze progression</li>
           <li>Integrated into interaction system — pick &amp; place</li>
@@ -1112,11 +1113,11 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       </div>
       <div class="feat-block fade">
         <div class="feat-tag">// Element: Fire</div>
-        <div class="feat-title">Fire — Burn &amp; Heat Chain</div>
-        <div class="feat-body">Projectiles trigger Blueprint Interface responses on impact. Burning objects propagate heat via proximity scan, enabling system-driven chain-reaction puzzle solutions.</div>
+        <div class="feat-title">Fire — Burn &amp; Heating mechanics</div>
+        <div class="feat-body">Fireball projectiles trigger Burnable Interface responses on impact. Burning objects propagate heat via <em>Raycast</em>, Heating the objects with Heatable Interface causing a chain-reaction for puzzle solutions.</div>
         <ul class="feat-points">
           <li>Fire projectile → burning state → heat propagation</li>
-          <li>Heatable Interface detected by proximity</li>
+          <li>Heatable Interface detected by Raycast</li>
           <li>Chain: burn wood → heat container → melt ice → steam</li>
         </ul>
         <div class="feat-media">
@@ -1208,7 +1209,6 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
           <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">F &nbsp;<span style="color:var(--dim);">Pick / Place</span></span>
           <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">E &nbsp;<span style="color:var(--dim);">Interact</span></span>
           <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">WASD &nbsp;<span style="color:var(--dim);">Move</span></span>
-          <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">W/S &nbsp;<span style="color:var(--dim);">Lever / Ladder</span></span>
           <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">RMB &nbsp;<span style="color:var(--dim);">Aim</span></span>
           <span style="font-family:var(--mono);font-size:0.65rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border-md);color:#fff;">LMB &nbsp;<span style="color:var(--dim);">Shoot Fireball</span></span>
         </div>
