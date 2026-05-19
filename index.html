@@ -2055,6 +2055,22 @@ const scrollObs = new IntersectionObserver(entries => {
   });
 }, { rootMargin: '-35% 0px -55% 0px' });
 sections.forEach(id => { const el = document.getElementById(id); if (el) scrollObs.observe(el); });
+
+// ── Deep link: scroll to hash section on page load (accounts for sticky navbars)
+window.addEventListener('load', function() {
+  const hash = window.location.hash.replace('#', '');
+  if (!hash) return;
+  const el = document.getElementById(hash);
+  if (!el) return;
+  // Small delay ensures nav bars are rendered and heights are correct
+  setTimeout(function() {
+    const navH = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 0;
+    const projNav = document.getElementById('projNav');
+    const projNavH = projNav ? projNav.offsetHeight : 0;
+    const top = el.getBoundingClientRect().top + window.scrollY - navH - projNavH - 16;
+    window.scrollTo({ top: top, behavior: 'smooth' });
+  }, 120);
+});
 </script>
 <!-- ── LIGHTBOX ── -->
 <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
