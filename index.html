@@ -2642,7 +2642,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
     <div class="resume-topbar">
       <div class="resume-topbar-title">// Palash Gharde — Resume</div>
       <div class="resume-topbar-actions">
-        <a href="Palash_Gharde_Resume.pdf" download="Palash_Gharde_Resume.pdf" class="resume-download-btn">
+        <a href="Resume/Palash_Gharde_Resume.pdf" download="Resume/Palash_Gharde_Resume.pdf" class="resume-download-btn">
           &#8595; Download PDF
         </a>
         <button class="resume-close" onclick="closeResume()">&#10005;</button>
@@ -2656,7 +2656,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 function openResume() {
   const frame = document.getElementById('resumeFrame');
   if (!frame.src || frame.src === window.location.href) {
-    frame.src = 'Images/Palash_Gharde_Resume.pdf';
+    frame.src = 'Resume/Palash_Gharde_Resume.pdf';
   }
   document.getElementById('resumeOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
