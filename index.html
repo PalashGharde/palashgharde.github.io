@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Palash Gharde — Technical Game Designer</title>
+<link rel="icon" type="image/png" href="Images/favicon.png">
+<link rel="shortcut icon" type="image/png" href="Images/favicon.png">
 <meta property="og:title" content="Palash Gharde | Technical Game Designer Portfolio">
 <meta property="og:description" content="Game development portfolio showcasing Unreal Engine, Unity, gameplay systems, AI behavior, level design, and interactive prototypes.">
 <meta property="og:image" content="https://palashgharde.github.io/Images/PortfolioPreview2.png">
@@ -41,7 +43,74 @@ html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 22px; line-height: 1.65; overflow-x: hidden; }
 a { color: inherit; text-decoration: none; }
 
-/* ── ABOUT ME PANEL ── */
+/* ── RESUME PANEL ── */
+.resume-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none; padding: 2rem;
+}
+.resume-overlay.open { pointer-events: all; }
+.resume-backdrop {
+  position: absolute; inset: 0; background: rgba(0,0,0,0);
+  backdrop-filter: blur(0px);
+  transition: background 0.35s, backdrop-filter 0.35s;
+}
+.resume-overlay.open .resume-backdrop {
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(6px);
+}
+.resume-panel {
+  position: relative; z-index: 1;
+  width: min(900px, 95vw); height: min(92vh, 1100px);
+  background: #0f0f18; border: 1px solid var(--border-md);
+  display: flex; flex-direction: column;
+  transform: translateY(24px) scale(0.97); opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s;
+  overflow: hidden;
+}
+.resume-overlay.open .resume-panel { transform: translateY(0) scale(1); opacity: 1; }
+.resume-topbar {
+  flex-shrink: 0; display: flex; align-items: center;
+  justify-content: space-between; padding: 0.85rem 1.25rem;
+  background: var(--surface); border-bottom: 1px solid var(--border-md);
+}
+.resume-topbar-title {
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--accent); font-weight: 700;
+}
+.resume-topbar-actions { display: flex; gap: 0.6rem; align-items: center; }
+.resume-download-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em;
+  text-transform: uppercase; font-weight: 700;
+  background: var(--accent); color: #08080b;
+  border: none; padding: 0.45rem 1rem; cursor: pointer;
+  text-decoration: none; transition: background 0.2s;
+}
+.resume-download-btn:hover { background: #e8ff6a; }
+.resume-close {
+  width: 32px; height: 32px;
+  background: var(--surface2); border: 1px solid var(--border-md);
+  color: var(--muted); font-size: 0.85rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.resume-close:hover { color: #fff; border-color: var(--accent); }
+.resume-frame {
+  flex: 1; width: 100%; border: none; background: #fff;
+}
+/* Resume nav button highlight */
+.nav-resume-btn {
+  background: rgba(212,245,60,0.1) !important;
+  border: 1px solid rgba(212,245,60,0.3) !important;
+  color: var(--accent) !important;
+  padding: 0.3rem 0.8rem;
+  transition: all 0.2s !important;
+}
+.nav-resume-btn:hover {
+  background: rgba(212,245,60,0.2) !important;
+  color: var(--accent) !important;
+}
 .about-overlay {
   position: fixed; inset: 0; z-index: 500;
   display: flex; align-items: center; justify-content: center;
@@ -740,6 +809,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
     <li><a href="#skills">Skills</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><button class="nav-resume-btn" onclick="openResume()">Resume ↗</button></li>
   </ul>
 </nav>
 
@@ -2055,22 +2125,6 @@ const scrollObs = new IntersectionObserver(entries => {
   });
 }, { rootMargin: '-35% 0px -55% 0px' });
 sections.forEach(id => { const el = document.getElementById(id); if (el) scrollObs.observe(el); });
-
-// ── Deep link: scroll to hash section on page load (accounts for sticky navbars)
-window.addEventListener('load', function() {
-  const hash = window.location.hash.replace('#', '');
-  if (!hash) return;
-  const el = document.getElementById(hash);
-  if (!el) return;
-  // Small delay ensures nav bars are rendered and heights are correct
-  setTimeout(function() {
-    const navH = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 0;
-    const projNav = document.getElementById('projNav');
-    const projNavH = projNav ? projNav.offsetHeight : 0;
-    const top = el.getBoundingClientRect().top + window.scrollY - navH - projNavH - 16;
-    window.scrollTo({ top: top, behavior: 'smooth' });
-  }, 120);
-});
 </script>
 <!-- ── LIGHTBOX ── -->
 <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
@@ -2579,6 +2633,43 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
     if (e.key === 'ArrowRight') gpzNav(1);
   });
 })();
+</script>
+
+<!-- ══ RESUME PANEL ══ -->
+<div class="resume-overlay" id="resumeOverlay">
+  <div class="resume-backdrop" onclick="closeResume()"></div>
+  <div class="resume-panel">
+    <div class="resume-topbar">
+      <div class="resume-topbar-title">// Palash Gharde — Resume</div>
+      <div class="resume-topbar-actions">
+        <a href="Images/Palash_Gharde_Resume.pdf" download="Palash_Gharde_Resume.pdf" class="resume-download-btn">
+          &#8595; Download PDF
+        </a>
+        <button class="resume-close" onclick="closeResume()">&#10005;</button>
+      </div>
+    </div>
+    <iframe class="resume-frame" id="resumeFrame" src="" title="Resume"></iframe>
+  </div>
+</div>
+
+<script>
+function openResume() {
+  const frame = document.getElementById('resumeFrame');
+  if (!frame.src || frame.src === window.location.href) {
+    frame.src = 'Images/Palash_Gharde_Resume.pdf';
+  }
+  document.getElementById('resumeOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeResume() {
+  document.getElementById('resumeOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeResume();
+  }
+});
 </script>
 
 </body>
