@@ -830,7 +830,7 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       </div>
       <div class="hero-right">
         <div class="hero-stats">
-          <div class="stat"><div class="stat-n">5</div><div class="stat-l">Shipped Titles</div></div>
+          <div class="stat"><div class="stat-n">6</div><div class="stat-l">Shipped Titles</div></div>
           <div class="stat"><div class="stat-n">3</div><div class="stat-l">Engines (UE5, Unity, Godot)</div></div>
           <div class="stat"><div class="stat-n">3.9</div><div class="stat-l">MS GPA / 4.0</div></div>
           <div class="stat"><div class="stat-n">4+</div><div class="stat-l">Yrs as Software Engineer</div></div>
@@ -895,6 +895,21 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       </div>
     </div>
 
+    <div class="proj-card-thumb" onclick="jumpTo('burgershop')">
+      <div class="proj-card-img">
+        <div class="proj-card-img-placeholder">
+          <img src="Images/BurgerShop_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;">
+          <div class="proj-card-img-icon">🍔</div>
+          <div class="proj-card-img-label">Add thumbnail</div>
+        </div>
+      </div>
+      <div class="proj-card-info">
+        <div class="proj-card-name">BURGER SHOP</div>
+        <div class="proj-card-meta">Unity · 2026</div>
+        <div class="proj-card-role">Systems Extension + Mini-Game Design</div>
+      </div>
+    </div>
+
     <div class="proj-card-thumb" onclick="jumpTo('hunting')">
       <div class="proj-card-img">
         <div class="proj-card-img-placeholder">
@@ -951,9 +966,10 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
 <div class="proj-nav" id="projNav">
   <div class="proj-nav-item active" onclick="jumpTo('kidnapped')">01 — Kidnapped</div>
   <div class="proj-nav-item" onclick="jumpTo('elemental')">02 — Elemental Ascent</div>
-  <div class="proj-nav-item" onclick="jumpTo('hunting')">03 — Hunting Simulator</div>
-  <div class="proj-nav-item" onclick="jumpTo('wrongway')">04 — Wrong Way</div>
-  <div class="proj-nav-item" onclick="jumpTo('jetpack')">05 — Jetpackman</div>
+  <div class="proj-nav-item" onclick="jumpTo('burgershop')">03 — Burger Shop</div>
+  <div class="proj-nav-item" onclick="jumpTo('hunting')">04 — Hunting Simulator</div>
+  <div class="proj-nav-item" onclick="jumpTo('wrongway')">05 — Wrong Way</div>
+  <div class="proj-nav-item" onclick="jumpTo('jetpack')">06 — Jetpackman</div>
 </div>
 
 <!-- ═══════════════════════════ PROJECT 01 — KIDNAPPED ═══════════════════════════ -->
@@ -1475,11 +1491,157 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
   <div style="height:2rem;"></div>
 </div>
 
-<!-- ═══════════════════════════ PROJECT 03 — HUNTING SIMULATOR ═══════════════════════════ -->
-<div class="project-section" id="hunting">
+<!-- ═══════════════════════════ PROJECT 03 — BURGER SHOP ═══════════════════════════ -->
+<div class="project-section" id="burgershop">
   <div class="proj-hero">
     <div class="proj-hero-left fade">
       <div class="proj-num">03</div>
+      <div class="proj-title">BURGER SHOP</div>
+      <div class="proj-genre">Cooking Sim · Time Management · Restaurant</div>
+      <p class="proj-desc">Fast-paced 3D cooking sim built on the modular counter/kitchen-object architecture from Code Monkey's Kitchen Chaos course. Extended independently with four original systems — a deep-fry mechanic, a UI-driven soda mini-game, an expanded plate/tray system, and layered character animation — to explore state machines, mini-game UI, and animation layering beyond the course scope.</p>
+      <div class="proj-meta">
+        <div class="proj-meta-row"><span class="proj-meta-key">Engine</span><span class="proj-meta-val">Unity</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Language</span><span class="proj-meta-val">C#</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Year</span><span class="proj-meta-val">2026</span></div>
+        <div class="proj-meta-row"><span class="proj-meta-key">Platform</span><span class="proj-meta-val">WebGL · Windows</span></div>
+      </div>
+      <div class="proj-role-tags">
+        <span class="proj-role-tag">Gameplay Programmer</span>
+        <span class="proj-role-tag">Systems Extension</span>
+        <span class="proj-role-tag">UI / Mini-Game Design</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://newbgamedev.itch.io/burgershop" target="_blank" class="proj-link primary">Play on Itch.io ↗</a>
+        <!-- VERIFY: confirm this itch.io slug is correct before publishing -->
+        <a href="https://github.com/PalashGharde/BurgerShop" target="_blank" class="proj-link">View Source ↗</a>
+      </div>
+    </div>
+    <div class="proj-hero-right">
+      <!-- Hero thumbnail — click to expand. Replace with a real screenshot when available. -->
+      <div class="media-placeholder tall" style="cursor:zoom-in;padding:0;overflow:hidden;position:relative;" onclick="openLightbox('Images/BurgerShop_Thumbnail.png')">
+        <img src="Images/BurgerShop_Thumbnail.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.4rem;opacity:0;transition:opacity 0.2s;" class="expand-hint">⤢ CLICK TO EXPAND</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-breakdown">
+    <div class="breakdown-header fade">
+      <div class="sec-label">// Mechanics</div>
+      <h3>GAME SYSTEMS</h3>
+      <div class="breakdown-divider"></div>
+    </div>
+    <div class="mechanics-flow fade">
+      <div class="flow-title">// Core Gameplay Loop</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div><div class="flow-step-label">Read Order</div><div class="flow-step-desc">Customer recipe appears</div></div>
+        <div class="flow-step"><div class="flow-step-n">2</div><div class="flow-step-label">Prep</div><div class="flow-step-desc">Cut, cook, or fry ingredients</div></div>
+        <div class="flow-step"><div class="flow-step-n">3</div><div class="flow-step-label">Plate</div><div class="flow-step-desc">Assemble on the serving tray</div></div>
+        <div class="flow-step"><div class="flow-step-n">4</div><div class="flow-step-label">Mix Drink</div><div class="flow-step-desc">Soda machine mini-game</div></div>
+        <div class="flow-step"><div class="flow-step-n">5</div><div class="flow-step-label">Deliver</div><div class="flow-step-desc">Score before time runs out</div></div>
+      </div>
+    </div>
+    <div class="breakdown-grid">
+      <div class="feat-block fade">
+        <div class="feat-tag">// Cooking Systems</div>
+        <div class="feat-title">Deep-Fry State Machine</div>
+        <div class="feat-body">New DeepFryCounter reusing the stove counter's burn-timing pattern — Idle → Frying → Burning → Burned — extended for fries instead of writing a one-off timer from scratch.</div>
+        <ul class="feat-points">
+          <li>State machine reused and adapted from the existing stove-cooking counter</li>
+          <li>ScriptableObject-driven recipes define fry time and burn threshold per ingredient</li>
+          <li>Burnt fries spawn a distinct "packed" pickup instead of just failing silently</li>
+        </ul>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Images/BurgerShop_Fries.png')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <img src="Images/BurgerShop_Fries.png" alt="Deep-fry counter">
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Mini-Game</div>
+        <div class="feat-title">Soda Machine Mixing Mini-Game</div>
+        <div class="feat-body">UI-driven mini-game triggered from a soda counter — grab a cup, fill it with one of four drinks, cap it with a lid. Modeled after real fast-food soda stations.</div>
+        <ul class="feat-points">
+          <li>Two-flag state (cup-in-hand, cup-filled) drives the flow — simpler than a full state machine since the sequence is linear</li>
+          <li>Trash-can button added after playtesting as a recovery path for wrong drink selections</li>
+          <li>Timed coroutines fake cup/lid animation by sequencing static sprite swaps</li>
+        </ul>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Images/BurgerShop_Soda.png')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <img src="Images/BurgerShop_Soda.png" alt="Soda machine mini-game">
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Data-Driven Design</div>
+        <div class="feat-title">Extended Plate &amp; Tray System</div>
+        <div class="feat-body">Swapped the single-item plate prefab for a full serving tray, adding drink cups and fries as valid plate ingredients on top of the existing burger-stacking logic.</div>
+        <ul class="feat-points">
+          <li>New ingredient types plugged into the existing show/hide visual-mapping pattern with no new code</li>
+          <li>Added a one-drink-per-plate cap so trays can't visually overlap multiple cups</li>
+          <li>Fully data-driven — new valid ingredients configured via ScriptableObject, not hardcoded</li>
+        </ul>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Images/BurgerShop_Tray.png')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <img src="Images/BurgerShop_Tray.png" alt="Serving tray system">
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-block fade">
+        <div class="feat-tag">// Animation</div>
+        <div class="feat-title">Layered Character Animation</div>
+        <div class="feat-body">Replaced the default character with a Synty asset and built two-layer, avatar-masked animation blending so the player can hold a tray steady while still running.</div>
+        <ul class="feat-points">
+          <li>Avatar-masked lower-body layer adds run-cycle leg motion on top of a locked upper-body holding pose</li>
+          <li>Base layer covers 5 states (idle, single-item, plate variants); the masked layer mirrors 3 of them for sync</li>
+          <li>Both layers driven off the same 3 animator bools instead of Unity's built-in layer sync</li>
+        </ul>
+        <div class="feat-media">
+          <div class="media-clickable" onclick="openLightbox('Images/BurgerShop_Animation.png')"
+               onmouseenter="this.querySelector('.expand-hint').style.opacity=1"
+               onmouseleave="this.querySelector('.expand-hint').style.opacity=0">
+            <img src="Images/BurgerShop_Animation.png" alt="Layered character animation">
+            <div class="expand-hint" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--accent);text-align:center;padding:0.35rem;opacity:0;transition:opacity 0.2s;">⤢ CLICK TO EXPAND</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screenshots-strip fade">
+    <div class="strip-label">// Screenshots — click any to expand</div>
+    <div class="strip-grid">
+      <div class="strip-thumb" onclick="openLightbox('Images/BurgerShop_Image1.png')" style="cursor:zoom-in;">
+        <img src="Images/BurgerShop_Image1.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/BurgerShop_Image2.png')" style="cursor:zoom-in;">
+        <img src="Images/BurgerShop_Image2.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/BurgerShop_Image3.png')" style="cursor:zoom-in;">
+        <img src="Images/BurgerShop_Image3.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="strip-thumb" onclick="openLightbox('Images/BurgerShop_Image4.png')" style="cursor:zoom-in;">
+        <img src="Images/BurgerShop_Image4.png" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+    </div>
+  </div>
+  <div style="height:2rem;"></div>
+</div>
+
+<!-- ═══════════════════════════ PROJECT 04 — HUNTING SIMULATOR ═══════════════════════════ -->
+<div class="project-section" id="hunting">
+  <div class="proj-hero">
+    <div class="proj-hero-left fade">
+      <div class="proj-num">04</div>
       <div class="proj-title">HUNTING SIMULATOR</div>
       <div class="proj-genre">Forest · Hunting · Shooter · Strategy · Survival</div>
       <p class="proj-desc">First-person hunting sim with 2 distinct animal AIs, a full persistent economy loop, and randomized animal placement for replayability — built across a dense forest environment.</p>
@@ -1693,11 +1855,11 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
   <div style="height:2rem;"></div>
 </div>
 
-<!-- ═══════════════════════════ PROJECT 04 — WRONG WAY ═══════════════════════════ -->
+<!-- ═══════════════════════════ PROJECT 05 — WRONG WAY ═══════════════════════════ -->
 <div class="project-section" id="wrongway">
   <div class="proj-hero">
     <div class="proj-hero-left fade">
-      <div class="proj-num">04</div>
+      <div class="proj-num">05</div>
       <div class="proj-title">WRONG WAY</div>
       <div class="proj-genre">Casual · Mobile · Endless Runner · Driving</div>
       <p class="proj-desc">Mobile endless runner — ride against traffic, dodge oncoming vehicles, collect coins, and outrun cops. Fully procedural track generation optimized for short-session mobile engagement and escalating difficulty.</p>
@@ -1849,11 +2011,11 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
   <div style="height:2rem;"></div>
 </div>
 
-<!-- ═══════════════════════════ PROJECT 05 — JETPACKMAN ═══════════════════════════ -->
+<!-- ═══════════════════════════ PROJECT 06 — JETPACKMAN ═══════════════════════════ -->
 <div class="project-section" id="jetpack">
   <div class="proj-hero">
     <div class="proj-hero-left fade">
-      <div class="proj-num">05</div>
+      <div class="proj-num">06</div>
       <div class="proj-title">JETPACKMAN ADVENTURES</div>
       <div class="proj-genre">2D · Flying · Procedural · Cross-Platform</div>
       <p class="proj-desc">2D flying game with procedural obstacle generation, a dual-projectile weapon system, and interactive door hacking minigames — shipped cross-platform on Android and PC/WebGL.</p>
@@ -2013,39 +2175,41 @@ footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--dim); lett
       <h2 style="margin-bottom:2.5rem;">EXPERIENCE</h2>
 
       <div class="exp-item fade">
-        <div class="exp-role">Software Development Engineer</div>
-        <div class="exp-company">ServiceNow · Tempe, AZ</div>
-        <div class="exp-dates">June 2025 – Present</div>
+        <div class="exp-role">AI / ML Engineer</div>
+        <div class="exp-company">JPMorgan Chase &amp; Co. · AZ</div>
+        <div class="exp-dates">Jun 2025 – Present</div>
         <ul class="exp-points">
-          <li>Designed scalable backend services for ML inference using FastAPI &amp; AWS — reduced response latency by 32% via async processing</li>
-          <li>Built production-grade ML pipelines: feature engineering, cross-validation, automated retraining — improved model accuracy by 18%</li>
-          <li>Architected distributed data processing with PySpark + AWS, reducing batch execution time by 40%</li>
-          <li>Containerized services via Docker/Kubernetes; infrastructure automation with Terraform</li>
+          <li>Engineered secure RESTful and GraphQL APIs with FastAPI and Flask for trading dashboards and external integrations, reducing frontend payload size by 37% through field-level selection</li>
+          <li>Built a Retrieval-Augmented Generation (RAG) system using LangChain and Pinecone for semantic search over legal and compliance documents, cutting query response time by 40% for internal audit teams</li>
+          <li>Developed an agentic orchestration framework with open-weight LLMs for trade reconciliation and document summarization, reducing manual operations review time by 54%</li>
+          <li>Deployed Apache Kafka streaming pipelines to ingest transaction and trade data, enabling real-time feature computation for fraud detection and credit risk models</li>
+          <li>Containerized scikit-learn and XGBoost models as FastAPI microservices with a feature store, ensuring consistent batch and real-time inference for underwriting decisions</li>
+          <li>Refactored OAuth2 and JWT authentication with centralized policy enforcement, reducing unauthorized access incidents by 92% and meeting FINRA compliance standards</li>
         </ul>
       </div>
 
       <div class="exp-item fade">
-        <div class="exp-role">Software Development Engineer</div>
+        <div class="exp-role">Machine Learning Engineer</div>
         <div class="exp-company">Infinite Infolab · India</div>
         <div class="exp-dates">May 2022 – Jul 2023</div>
         <ul class="exp-points">
-          <li>Built RESTful microservices with Flask &amp; FastAPI, supporting secure high-traffic enterprise applications</li>
-          <li>Engineered ETL pipelines with Python &amp; Kafka for real-time data ingestion — improved data availability by 35%</li>
-          <li>Implemented ML model deployment on AWS SageMaker with model monitoring &amp; A/B testing</li>
-          <li>Designed event-driven architecture with Kafka for fault-tolerant distributed systems</li>
+          <li>Designed and deployed production-grade Python APIs (Flask, Django REST) serving LLM and supervised learning models for enterprise document workflows, supporting sub-200ms latency across 1,000+ daily inference requests</li>
+          <li>Architected an end-to-end RLHF data pipeline integrating human preference labeling with automated quality gates, reducing reward model training time by 40%</li>
+          <li>Created a RAG system for internal retrieval, implementing chunking strategies and vector search logic that improved relevance scores by 28%</li>
+          <li>Streamlined distributed ML training pipelines on AWS (EC2, S3) to orchestrate parallel hyperparameter sweeps, cutting large-scale retraining cycles from 8 hours to under 3 hours</li>
+          <li>Implemented automated model validation tooling, including A/B testing frameworks and drift-detection monitors, ensuring fine-tuned models met stability criteria before production rollout</li>
         </ul>
       </div>
 
       <div class="exp-item fade">
         <div class="exp-role">Software Engineer</div>
-        <div class="exp-company">Veritas Technologies · India</div>
+        <div class="exp-company">VERITAS Technologies · India</div>
         <div class="exp-dates">Jan 2020 – Apr 2022</div>
         <ul class="exp-points">
-          <li>Automated Linux-based file-system testing pipelines (Django/Flask), cutting manual QA effort by 70%</li>
-          <li>Designed and deployed 60+ RESTful APIs handling 100K+ requests/day</li>
-          <li>Optimized AWS EC2 &amp; DynamoDB utilization, achieving 15% infrastructure cost reduction</li>
-          <li>Built React.js dashboard for test reports, reducing debugging time by 20%</li>
-          <li>Implemented CI/CD with Jenkins &amp; Git, reducing production bugs by 30%</li>
+          <li>Automated Python-based orchestration pipelines (Django) to validate data backup and recovery workflows across distributed Linux environments, reducing manual validation effort by 70%</li>
+          <li>Maintained 60+ RESTful APIs handling 20K daily requests between core backup services and external monitoring agents, ensuring stable on-premise and cloud data exchange</li>
+          <li>Enhanced application response times by 30% through ORM query refactoring, PostgreSQL schema optimization, and MongoDB indexing for high-volume telemetry data</li>
+          <li>Launched a React-based administrative dashboard for pipeline health and job-status visualization, cutting diagnostic time for failed backup jobs by 20%</li>
         </ul>
       </div>
 
@@ -2114,7 +2278,7 @@ function jumpTo(id) {
 }
 
 // ── Active project nav highlight on scroll
-const sections = ['kidnapped','elemental','hunting','wrongway','jetpack'];
+const sections = ['kidnapped','elemental','burgershop','hunting','wrongway','jetpack'];
 const navItems = document.querySelectorAll('.proj-nav-item');
 const scrollObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
